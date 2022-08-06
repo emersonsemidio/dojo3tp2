@@ -82,11 +82,15 @@ public class Conta {
         }
     }
 
+
+
     /**
      * O sistema deve permitir pagar boletos (digitando o código de barras de 48 dígitos, valor e data de vencimento);
      * * Caso esteja em atraso, o sistema deve aplicar multa de 0,1% ao dia;
      * */
-    private void pagarBoleto() { }
+    private void pagarBoleto() {
+
+    }
 
 
     protected void log(Extrato extrato) {
