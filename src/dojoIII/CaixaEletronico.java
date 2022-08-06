@@ -168,14 +168,34 @@ public class CaixaEletronico {
 
     }
 
+    public int lerValorDeposito() {
+        int valor;
+        int minimo = 1;
+        int maximo = 100000000;
+
+        do{
+            System.out.println("Valor do deposótio");
+            valor = scanner.nextInt();
+            if(!estaNoIntervalo(minimo, valor, maximo )){
+                System.out.println("Valora fora do intervalo 1 e 100.000.000");
+            }
+        }while (!estaNoIntervalo(minimo, valor, maximo ));
+
+
+        return valor;
+    }
+
     public void depositar() {
-        int valorDeposito;
-
-        Cliente cliente = buscarcontaPorCpf();
-
-        if (cliente == null) {
+        Conta conta = buscarContaPeloNumero();
+        if (conta == null) {
             System.out.println("Voce ainda nao possui conta");
+            return;
         }
+        int valorDeposito = this.lerValorDeposito();
+        int[] data = this.lerData();
+        conta.depositar(valorDeposito, data);
+
+        /*
             if (cliente.isTemContaCorrente() == true && cliente.isTemContaPoupanca() == true) {
                 System.out.println("Em qual conta voce deseja depositar?");
                 System.out.println("[1] Conta corrente");
@@ -214,7 +234,7 @@ public class CaixaEletronico {
                 int data[] = lerData();
 
                 contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() + valorDeposito);
-            }
+            }*/
 
     }
     public void sacar(){
