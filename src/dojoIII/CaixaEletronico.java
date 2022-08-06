@@ -13,7 +13,6 @@ public class CaixaEletronico {
 
 
     Cliente cliente = new Cliente();
-    Conta conta = new Conta();
 
     ContaCorrente contaCorrente = new ContaCorrente();
     ContaPoupanca contaPoupanca = new ContaPoupanca(1,1);
@@ -28,52 +27,97 @@ public class CaixaEletronico {
         AbrirConta(tipoConta);
     }
 
-    public void extrato() {}
+    public void extrato() {
+        Conta conta = buscarContaPeloNumero();
+        if (conta == null) {
+            System.out.println("Conta não encontrada");
+            return;
+        }
+        conta.emitirExtrato();
+    }
+
+    public boolean isClienteNovo() {
+        return true;
+    }
+
+
 
     public void AbrirConta(int tipoConta){
         Cliente clienteNovo = new Cliente();
+        Cliente clienteExistente = buscarcontaPorCpf();
+        // int senhaConta = 0;
+        //int numeroConta = 0;
 
-        System.out.println("Qual seu CPF?");
-        clienteNovo.setCpf(scanner.nextLine());
+        if (clienteExistente == null) {
+            System.out.println("Qual seu CPF?");
+            clienteNovo.setCpf(scanner.nextLine());
 
-        System.out.println("Qual seu nome?");
-        clienteNovo.setNome(scanner.nextLine());
+            System.out.println("Qual seu nome?");
+            clienteNovo.setNome(scanner.nextLine());
 
 
-        System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
+            /*System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
 
-        c.set(Calendar.YEAR, dia = scanner.nextInt());
-        c.set(Calendar.MONTH, mes = scanner.nextInt());
-        c.set(Calendar.DAY_OF_MONTH, scanner.nextInt());
+            c.set(Calendar.YEAR, dia = scanner.nextInt());
+            c.set(Calendar.MONTH, mes = scanner.nextInt());
+            c.set(Calendar.DAY_OF_MONTH, scanner.nextInt());*/
 
-        System.out.println("Qual seu e-mail?");
-        cliente.setEmail(scanner.nextLine());
+            System.out.println("Qual seu e-mail?");
+            clienteNovo.setEmail(scanner.nextLine());
 
-        clienteNovo.setEmail(scanner.nextLine());
-        System.out.println("Qual seu telefone?");
+            clienteNovo.setEmail(scanner.nextLine());
+            System.out.println("Qual seu telefone?");
 
-        clienteNovo.setTelefone(scanner.nextLine());
+            clienteNovo.setTelefone(scanner.nextLine());
+
+        } else {
+            if (!clienteExistente.podeAbrirConta()) {
+                System.out.println("Cliente já cadastrado com o CPF e possui contas Corrente e Poupança. Veja abaixo os dados da suas contas");
+                clienteExistente.mostrarDetalhesContaCorrente();
+                clienteExistente.mostrarDetalhesContaPoupanca();
+                return;
+            }
+            System.out.println("Cliente já cadastrado com o CPF");
+
+            if (clienteExistente.isTemContaCorrente()) {
+                System.out.println("Cliente já possui conta Corrente. Será continuado com conta Poupança");
+                tipoConta = 2;
+                clienteExistente.mostrarDetalhesContaCorrente();
+            }
+            if (clienteExistente.isTemContaPoupanca()) {
+                System.out.println("Cliente já possui conta Poupança. Será continuado com conta Corrente");
+                tipoConta = 1;
+                clienteExistente.mostrarDetalhesContaPoupanca();
+            }
+            clienteNovo = clienteExistente;
+        }
 
         System.out.println("Qual sua senha?");
-
         int senhaConta = scanner.nextInt();
         int numeroConta = rand.nextInt(10000);
 
-        clientes.put(cliente.getCpf(), clienteNovo);
+        clientes.put(clienteNovo.getCpf(), clienteNovo);
 
         if(tipoConta == 1){
-            ContaCorrente contaCorrente = new ContaCorrente(senhaConta, numeroConta);
-            contas.put(contaCorrente.getNumeroDaConta(), contaCorrente);
-            clienteNovo.setContaCorrente(contaCorrente);
-            contaCorrente.setCliente(clienteNovo);
-
+            this.abrirContaCorrente(senhaConta, numeroConta, clienteNovo);
         }else{
-            ContaPoupanca contaPoupanca = new ContaPoupanca(senhaConta, numeroConta);
-            contas.put(contaPoupanca.getNumeroDaConta(), contaPoupanca);
-            clienteNovo.setContaPoupanca(contaPoupanca);
-            contaPoupanca.setCliente(clienteNovo);
+            this.abrirContaPoupanca(senhaConta, numeroConta, clienteNovo);
         }
         System.out.println("Conta criada com sucesso " + numeroConta);
+    }
+
+    private void abrirContaCorrente(int senhaConta, int numeroConta, Cliente clienteNovo) {
+        ContaCorrente contaCorrente = new ContaCorrente(senhaConta, numeroConta);
+        contas.put(contaCorrente.getNumeroDaConta(), contaCorrente);
+        clienteNovo.setContaCorrente(contaCorrente);
+        contaCorrente.setCliente(clienteNovo);
+    }
+
+    private void abrirContaPoupanca(int senhaConta, int numeroConta, Cliente clienteNovo) {
+        ContaPoupanca contaPoupanca = new ContaPoupanca(senhaConta, numeroConta);
+        contas.put(contaPoupanca.getNumeroDaConta(), contaPoupanca);
+        clienteNovo.setContaPoupanca(contaPoupanca);
+        contaPoupanca.setCliente(clienteNovo);
     }
 
     public int tipoDeConta(){

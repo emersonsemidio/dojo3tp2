@@ -29,6 +29,15 @@ public class ContaPoupanca extends Conta{
             this.saldo -= valorSaque;
             Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data[0], data[1], data[2], "saque - poupança");
             this.extrato.add(extratoSaquePoupanca);
+            this.log(extratoSaquePoupanca);
+            this.logSaldo();
         }
+    }
+
+
+    @Override
+    public String toString() {
+        String s = super.toString() + "(" + this.getClass().getName() + ")";
+        return s;
     }
 }

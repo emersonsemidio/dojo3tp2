@@ -35,6 +35,18 @@ public class Cliente {
 
     }
 
+    public void mostrarDetalhesContaCorrente() {
+        System.out.println(this.contaCorrente);
+    }
+
+    public void mostrarDetalhesContaPoupanca() {
+        System.out.println(this.contaPoupanca);
+    }
+
+    public boolean podeAbrirConta() {
+        return this.temContaCorrente || this.temContaPoupanca;
+    }
+
     public void vincularContaSalario() {
 
     }
@@ -45,6 +57,7 @@ public class Cliente {
 
     public void setContaCorrente(ContaCorrente contaCorrente) {
         this.contaCorrente = contaCorrente;
+        this.temContaCorrente = true;
     }
 
     public ContaPoupanca getContaPoupanca() {
@@ -53,6 +66,7 @@ public class Cliente {
 
     public void setContaPoupanca(ContaPoupanca contaPoupanca) {
         this.contaPoupanca = contaPoupanca;
+        this.temContaPoupanca = true;
     }
 
     public String getNome() {

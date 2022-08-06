@@ -53,7 +53,15 @@ public class ContaCorrente extends Conta{
             }
             Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data[0], data[1], data[2], "saque - conta corrente");
             this.extrato.add(extratoSaquePoupanca);
+            this.log(extratoSaquePoupanca);
+            this.logSaldo();
         }
+    }
+
+    @Override
+    public String toString() {
+        String s = super.toString() + "(" + this.getClass().getName() + ")";
+        return s;
     }
 
 }

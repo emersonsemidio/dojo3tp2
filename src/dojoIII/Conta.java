@@ -46,11 +46,21 @@ public class Conta {
         this.saldo += valorDeposito;
         Extrato extratoDeposito = new Extrato(valorDeposito, data[0], data[1], data[2], "depósito");
         this.extrato.add(extratoDeposito);
+        this.log(extratoDeposito);
+        this.logSaldo();
     }
 
     public void sacar(double valorSaque, int[] data){
         Extrato extratoSaque = new Extrato(1, 1, 1, 1, "saque");
         this.extrato.add(extratoSaque);
+        this.log(extratoSaque);
+        this.logSaldo();
+    }
+
+    @Override
+    public String toString() {
+        String s = "Número Conta: " + this.numeroDaConta + " || " + "Saldo: " + this.saldo;
+        return s;
     }
 
     /**
@@ -60,6 +70,8 @@ public class Conta {
     public void transferir(){
         Extrato extratoTransferencia = new Extrato(1, 1, 1, 1, "transferência");
         this.extrato.add(extratoTransferencia);
+        this.log(extratoTransferencia);
+        this.logSaldo();
     }
     // Para cada linha do extrato a data, o tipo de operação, descrição e o valor devem ser exibidos;
     // O sistema deve permitir selecionar um item do extrato para mostrar todos os detalhes. Exemplo: caso o item do extrato seja
@@ -75,6 +87,14 @@ public class Conta {
      * * Caso esteja em atraso, o sistema deve aplicar multa de 0,1% ao dia;
      * */
     private void pagarBoleto() { }
+
+
+    protected void log(Extrato extrato) {
+        System.out.println(extrato);
+    }
+    protected void logSaldo() {
+        System.out.println("Novo saldo: " + this.saldo);
+    }
 
 
     /**
