@@ -24,35 +24,21 @@ public class CaixaEletronico {
 
 
     public void iniciarAbrirConta(){
-
-        if(verificarExistenciaConta()){
-            System.out.println("Já existente");
-            return;
-        }
-
         int tipoConta = tipoDeConta();
-
-        if (tipoConta == 1) {
-            AbrirConta(tipoConta);
-        } else if (tipoConta == 2) {
-            AbrirConta(tipoConta);
-        } else {
-            System.out.println("Opcao Invalida");
-        }
+        AbrirConta(tipoConta);
     }
 
     public void extrato() {}
 
     public void AbrirConta(int tipoConta){
         Cliente clienteNovo = new Cliente();
-        Conta contaNova = new Conta();
 
+        System.out.println("Qual seu CPF?");
+        clienteNovo.setCpf(scanner.nextLine());
 
         System.out.println("Qual seu nome?");
         clienteNovo.setNome(scanner.nextLine());
 
-        System.out.println("Qual seu CPF?");
-        clienteNovo.setCpf(scanner.nextLine());
 
         System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
 
@@ -69,26 +55,25 @@ public class CaixaEletronico {
         clienteNovo.setTelefone(scanner.nextLine());
 
         System.out.println("Qual sua senha?");
-        contaNova.setSenhaDaConta(scanner.nextInt());
 
-        contaNova.setNumeroDaConta(rand.nextInt(10000));
+        int senhaConta = scanner.nextInt();
+        int numeroConta = rand.nextInt(10000);
 
         clientes.put(cliente.getCpf(), clienteNovo);
 
         if(tipoConta == 1){
-            ContaCorrente contaCorrente = new ContaCorrente(contaNova.getNumeroDaConta(), contaNova.getSenhaDaConta());
-            contas.put(conta.getNumeroDaConta(), contaCorrente);
+            ContaCorrente contaCorrente = new ContaCorrente(senhaConta, numeroConta);
+            contas.put(contaCorrente.getNumeroDaConta(), contaCorrente);
             clienteNovo.setContaCorrente(contaCorrente);
             contaCorrente.setCliente(clienteNovo);
 
         }else{
-            ContaPoupanca contaPoupanca = new ContaPoupanca(contaNova.getNumeroDaConta(), contaNova.getSenhaDaConta());
-            contas.put(conta.getNumeroDaConta(), contaPoupanca);
+            ContaPoupanca contaPoupanca = new ContaPoupanca(senhaConta, numeroConta);
+            contas.put(contaPoupanca.getNumeroDaConta(), contaPoupanca);
             clienteNovo.setContaPoupanca(contaPoupanca);
             contaPoupanca.setCliente(clienteNovo);
         }
-        System.out.println("Conta criada com sucesso");
-
+        System.out.println("Conta criada com sucesso " + numeroConta);
     }
 
     public int tipoDeConta(){
@@ -104,6 +89,7 @@ public class CaixaEletronico {
                 System.out.println("tipo de conta inexistente");
             }
         }while(tipoConta<1 || tipoConta>2);
+        scanner.nextLine();
 
         return tipoConta;
     }
@@ -114,10 +100,7 @@ public class CaixaEletronico {
       System.out.println("Digite seu cpf");
       cpf = scanner.nextLine();
 
-      if(clientes.containsKey(cpf)){
-          return false;
-      }
-      return true;
+      return clientes.containsKey(cpf);
     }
 
     public Cliente buscarcontaPorCpf(){

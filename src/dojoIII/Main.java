@@ -6,9 +6,12 @@ public class Main {
     public static void main(String[] args) {
 
         CaixaEletronico conta = new CaixaEletronico();
-        int opcaoEscolhida = menuConta();
+        int opcaoEscolhida = 1;
 
-        escolhaOpcaoDoMenu(opcaoEscolhida, conta);
+        while (1 <= opcaoEscolhida && opcaoEscolhida <= 8) {
+            opcaoEscolhida = menuConta();
+            escolhaOpcaoDoMenu(opcaoEscolhida, conta);
+        }
 
     }
 
