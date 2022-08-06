@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.text.*;
 
-public class Extrato {
+public class Extrato implements TransacaoEmConta{
 
     public int dia, mes, ano;
     private String tipoPagamento;
@@ -36,6 +36,21 @@ public class Extrato {
 
     public double getValor() {
         return valor;
+    }
+
+    @Override
+    public String getDescricao() {
+        return null;
+    }
+
+    @Override
+    public String getTipoOperacao() {
+        return null;
+    }
+
+    @Override
+    public int[] getData() {
+        return new int[0];
     }
 
     public void setValor(double valor) {

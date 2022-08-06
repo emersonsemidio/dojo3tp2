@@ -59,6 +59,11 @@ public class ContaCorrente extends Conta{
     }
 
     @Override
+    public double getSaldoTotal(){
+        return this.saldo + chequeEspecial;
+    }
+
+    @Override
     public String toString() {
         String s = super.toString() + "(" + this.getClass().getName() + ")";
         return s;

@@ -3,7 +3,7 @@ package dojoIII;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Conta {
+public class Conta{
     protected List<Extrato> extrato = new ArrayList<>();
 
     protected int senhaDaConta;
@@ -50,6 +50,10 @@ public class Conta {
         this.logSaldo();
     }
 
+    public double getSaldoTotal(){
+        return this.saldo;
+    }
+
     public void sacar(double valorSaque, int[] data){
         Extrato extratoSaque = new Extrato(1, 1, 1, 1, "saque");
         this.extrato.add(extratoSaque);
@@ -67,12 +71,33 @@ public class Conta {
      * O sistema deve permitir configurar o PIX, definindo qual informação será utilizada para transferência (cpf, e-mail e
      * telefone ou criando uma chave nova);
      * */
-    public void transferir(){
+
+    protected void incrementarSaldo(double valorTransferencia){
+        this.saldo += valorTransferencia;
+    }
+
+    protected void decrementarSaldo(double valorTransferencia){
+        this.saldo -= valorTransferencia;
+    }
+
+    public void transferir(Conta contaDestino, double valorTransferencia){
+
+        if(getSaldoTotal() < valorTransferencia){
+            System.out.println("Valor da transferência maior do que o saldo em conta");
+            System.out.println(this.getSaldoTotal());
+            return;
+        }
+
+        contaDestino.incrementarSaldo(valorTransferencia);
+        this.decrementarSaldo(valorTransferencia);
+
         Extrato extratoTransferencia = new Extrato(1, 1, 1, 1, "transferência");
         this.extrato.add(extratoTransferencia);
         this.log(extratoTransferencia);
         this.logSaldo();
     }
+
+
     // Para cada linha do extrato a data, o tipo de operação, descrição e o valor devem ser exibidos;
     // O sistema deve permitir selecionar um item do extrato para mostrar todos os detalhes. Exemplo: caso o item do extrato seja
     // um pagamento de boleto, sistema deve mostrar todas as suas informações (código de barras, valor, data e multa);

@@ -22,16 +22,16 @@ public class ContaPoupanca extends Conta{
     public void sacar(double valorSaque, int[]data){
         if(valorSaque > saldo){
             System.out.println("Valor maior que o saque possivel");
+            return;
         }
-        else{
-            System.out.println("Valor sacado com sucesso");
-            System.out.println("Saldo atualizado: " + this.getSaldoContaPoupanca());
-            this.saldo -= valorSaque;
-            Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data[0], data[1], data[2], "saque - poupança");
-            this.extrato.add(extratoSaquePoupanca);
-            this.log(extratoSaquePoupanca);
-            this.logSaldo();
-        }
+        System.out.println("Valor sacado com sucesso");
+        System.out.println("Saldo atualizado: " + this.getSaldoContaPoupanca());
+        this.saldo -= valorSaque;
+        Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data[0], data[1], data[2], "saque - poupança");
+        this.extrato.add(extratoSaquePoupanca);
+        this.log(extratoSaquePoupanca);
+        this.logSaldo();
+
     }
 
 

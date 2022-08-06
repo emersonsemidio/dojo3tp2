@@ -9,7 +9,7 @@ public class CaixaEletronico {
     Random rand = new Random();
 
     HashMap<String, Cliente> clientes = new HashMap<>();
-    List<Conta> contas = new ArrayList<>()List<>();
+    List<Conta> contas = new ArrayList<>();
 
 
     Cliente clienteA = new Cliente();
@@ -272,9 +272,6 @@ public class CaixaEletronico {
         }
     }
 
-
-
-
     public void avancatempo(){
         double novoSaldo = 0;
         System.out.println("Quantos dias voce deseja avancar?");
@@ -339,9 +336,6 @@ public class CaixaEletronico {
         System.out.println("[4] - Aleatoria");
     }
 
-    public int escolherChavePix(int chave){
-
-    }
 
     public void transferirPix(){
         Pix pix = new Pix();
@@ -350,129 +344,61 @@ public class CaixaEletronico {
             return;
         }
 
+        Conta contaOrigem = buscarContaPeloNumero();
+
         System.out.println("Escolha por qual chave voce quer fazer a transferencia: ");
         opcoesParaChavePix();
 
-        int tipoChave = scanner.nextInt();
+        int tipoChave = 0;
         int chaveDestino = 0;
-        double valortransferencia = 0;
+
+        System.out.println("Para qual chave a transferencia sera feita");
+        opcoesParaChavePix();
+
+        tipoChave = scanner.nextInt();
+
         if (tipoChave == 1) {
-            System.out.println("Para qual chave a transferencia sera feita");
-            opcoesParaChavePix();
+            Cliente clientePorCpf = buscarcontaPorCpf();
 
-            chaveDestino = scanner.nextInt();
-            escolherChavePix(chaveDestino)
-            if (chaveDestino == 1) {
+            if(clientePorCpf == null){
+                System.out.println("Cliente não encontrado nesse cpf");
+                return;
+            }
+            int tipoConta = tipoDeConta();
 
-                Cliente clientePorCpf = buscarcontaPorCpf();
-
-                if(clientePorCpf == null){
-                    System.out.println("Cliente não encontrado nesse cpf");
+            if(tipoConta == 1){
+                if(!clientePorCpf.isTemContaCorrente()){
                     return;
                 }
 
-            } else if (chaveDestino == 2) {
-                System.out.println("Digite a chave telefone");
-                scanner.nextLine();
-                String chaveTelefone = scanner.nextLine();
-                pix.setTelefone(chaveTelefone);
-            } else if (chaveDestino == 3) {
-                System.out.println("Digite a chave e-mail");
-                scanner.nextLine();
-                String chaveemail = scanner.nextLine();
-                pix.setEmail(chaveemail);
-            } else if (chaveDestino == 4) {
-                System.out.println("Digite a chave aleatoria");
-                pix.setRandom(scanner.nextInt());
-            }
-            System.out.println("Qual o valor a pagar?");
-            valortransferencia = scanner.nextDouble();
-            if (contaCorrente.getSaldoCorrente() + contaCorrente.getChequeEspecial() < valortransferencia) {
-                System.out.println("Valor na conta insuficiente");
-            } else if (contaCorrente.getSaldoCorrente() < valortransferencia) {
-                valortransferencia -= contaCorrente.getSaldoCorrente();
-                contaCorrente.setSaldoCorrente(0);
-                contaCorrente.setChequeEspecial(contaCorrente.getChequeEspecial() - valortransferencia);
-            } else if (contaCorrente.getSaldoCorrente() > valortransferencia) {
-                contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() - valortransferencia);
-            }
-        } else if (tipoChave == 2) {
-            System.out.println("Para qual chave a transferencia sera feita");
-            opcoesParaChavePix();
+                double valorTransferencia = scanner.nextDouble();
+                System.out.println("Digite o valor a ser transferido");
 
-            chaveDestino = scanner.nextInt();
-            if (chaveDestino == 1) {
-                System.out.println("Digite a chave CPF");
-                scanner.nextLine();
-                String chaveCPF = scanner.nextLine();
-                pix.setCpf(chaveCPF);
-            } else if (chaveDestino == 2) {
-                System.out.println("Digite a chave telefone");
-                scanner.nextLine();
-                String chaveTelefone = scanner.nextLine();
-                pix.setTelefone(chaveTelefone);
-            } else if (chaveDestino == 3) {
-                System.out.println("Digite a chave e-mail");
-                scanner.nextLine();
-                String chaveemail = scanner.nextLine();
-                pix.setEmail(chaveemail);
-            } else if (chaveDestino == 4) {
-                System.out.println("Digite a chave aleatoria");
-                pix.setRandom(scanner.nextInt());
+                contaOrigem.transferir(clientePorCpf.getContaCorrente(), valorTransferencia);
+
+            }else{
+                if(!clientePorCpf.isTemContaPoupanca()){
+                    return;
+                }
             }
-            System.out.println("Qual o valor a pagar?");
-            valortransferencia = scanner.nextDouble();
-            if (contaCorrente.getSaldoCorrente() + contaCorrente.getChequeEspecial() < valortransferencia) {
-                System.out.println("Valor na conta insuficiente");
-            } else if (contaCorrente.getSaldoCorrente() < valortransferencia) {
-                valortransferencia -= contaCorrente.getSaldoCorrente();
-                contaCorrente.setSaldoCorrente(0);
-                contaCorrente.setChequeEspecial(contaCorrente.getChequeEspecial() - valortransferencia);
-                Extrato extrato = new Extrato(valortransferencia, listaExtratos.get(0).dia, listaExtratos.get(0).mes, listaExtratos.get(0).ano, "Pagamento por pix - Telefone");
-                listaExtratos.add(extrato);
-            } else if (contaCorrente.getSaldoCorrente() > valortransferencia) {
-                contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() - valortransferencia);
-                Extrato extrato = new Extrato(valortransferencia, listaExtratos.get(0).dia, listaExtratos.get(0).mes, listaExtratos.get(0).ano, "Pagamento por pix - Telefone");
-                listaExtratos.add(extrato);
+
+        } else if (tipoChave == 2) {
+            Cliente clientePorTelefone = buscarPorTelefone();
+
+            if(clientePorTelefone == null){
+                System.out.println("Cliente não encontrado nesse telefone");
+                return;
             }
+
         } else if (tipoChave == 3) {
-            System.out.println("Para qual chave a transferencia sera feita");
-            opcoesParaChavePix();
-            chaveDestino = scanner.nextInt();
-            if (chaveDestino == 1) {
-                System.out.println("Digite a chave CPF");
-                scanner.nextLine();
-                String chaveCPF = scanner.nextLine();
-                pix.setCpf(chaveCPF);
-            } else if (chaveDestino == 2) {
-                System.out.println("Digite a chave telefone");
-                scanner.nextLine();
-                String chaveTelefone = scanner.nextLine();
-                pix.setTelefone(chaveTelefone);
-            } else if (chaveDestino == 3) {
-                System.out.println("Digite a chave e-mail");
-                scanner.nextLine();
-                String chaveemail = scanner.nextLine();
-                pix.setEmail(chaveemail);
-            } else if (chaveDestino == 4) {
-                System.out.println("Digite a chave aleatoria");
-                pix.setRandom(scanner.nextInt());
+            Cliente clientePorEmail = buscarPorEmail();
+
+            if(clientePorEmail == null){
+                System.out.println("Cliente não encontrado nesse telefone");
+                return;
             }
-            System.out.println("Qual o valor a pagar?");
-            valortransferencia = scanner.nextDouble();
-            if (contaCorrente.getSaldoCorrente() + contaCorrente.getChequeEspecial() < valortransferencia) {
-                System.out.println("Valor na conta insuficiente");
-            } else if (contaCorrente.getSaldoCorrente() < valortransferencia) {
-                valortransferencia -= contaCorrente.getSaldoCorrente();
-                contaCorrente.setSaldoCorrente(0);
-                contaCorrente.setChequeEspecial(contaCorrente.getChequeEspecial() - valortransferencia);
-                Extrato extrato = new Extrato(valortransferencia, listaExtratos.get(0).dia, listaExtratos.get(0).mes, listaExtratos.get(0).ano, "Pagamento por pix - E-mail");
-                listaExtratos.add(extrato);
-            } else if (contaCorrente.getSaldoCorrente() > valortransferencia) {
-                contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() - valortransferencia);
-                Extrato extrato = new Extrato(valortransferencia, listaExtratos.get(0).dia, listaExtratos.get(0).mes, listaExtratos.get(0).ano, "Pagamento por pix - E-mail");
-                listaExtratos.add(extrato);
-            }
+
+
         } else if (tipoChave == 4) {
             System.out.println("Para qual chave a transferencia sera feita");
             opcoesParaChavePix();
@@ -497,7 +423,7 @@ public class CaixaEletronico {
                 System.out.println("Digite a chave aleatoria");
                 pix.setRandom(scanner.nextInt());
             }
-            System.out.println("Qual o valor a pagar?");
+           /* System.out.println("Qual o valor a pagar?");
             valortransferencia = scanner.nextDouble();
             if (contaCorrente.getSaldoCorrente() + contaCorrente.getChequeEspecial() < valortransferencia) {
                 System.out.println("Valor na conta insuficiente");
@@ -505,13 +431,12 @@ public class CaixaEletronico {
                 valortransferencia -= contaCorrente.getSaldoCorrente();
                 contaCorrente.setSaldoCorrente(0);
                 contaCorrente.setChequeEspecial(contaCorrente.getChequeEspecial() - valortransferencia);
-                Extrato extrato = new Extrato(valortransferencia, listaExtratos.get(0).dia, listaExtratos.get(0).mes, listaExtratos.get(0).ano, "Pagamento por pix - Aleatorio");
-                listaExtratos.add(extrato);
             } else if (contaCorrente.getSaldoCorrente() > valortransferencia) {
                 contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() - valortransferencia);
-                Extrato extrato = new Extrato(valortransferencia, listaExtratos.get(0).dia, listaExtratos.get(0).mes, listaExtratos.get(0).ano, "Pagamento por pix - Aleatorio");
-                listaExtratos.add(extrato);
+
             }
+
+            */
         }
 
     }

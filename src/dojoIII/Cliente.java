@@ -30,11 +30,6 @@ public class Cliente {
         this.telefone = this.telefone;
     }
 
-
-    public void extrato() {
-
-    }
-
     public void mostrarDetalhesContaCorrente() {
         System.out.println(this.contaCorrente);
     }
