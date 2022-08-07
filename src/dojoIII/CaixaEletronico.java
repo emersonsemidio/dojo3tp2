@@ -313,10 +313,32 @@ public class CaixaEletronico {
         }
     }
 
-    public Boleto gerarBoleto(double valor){
-        String codigoBarras = rand.nextInt(10000) + "";
+    public String padLeftZeros(String inputString, int length) {
+        if (inputString.length() >= length) {
+            return inputString;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < length - inputString.length()) {
+            sb.append('0');
+        }
+        sb.append(inputString);
 
-        Boleto boleto = new Boleto(codigoBarras, valor);
+        return sb.toString();
+    }
+
+    public Boleto gerarBoleto(double valor){
+        int maximo = 99999999;
+
+        String codigoBarras = padLeftZeros(rand.nextInt(maximo) + "", 8);
+        String codigoBarras2 = padLeftZeros(rand.nextInt(maximo) + "", 8);
+        String codigoBarras3 = padLeftZeros(rand.nextInt(maximo) + "", 8);
+        String codigoBarras4 = padLeftZeros(rand.nextInt(maximo) + "", 8);
+        String codigoBarras5 = padLeftZeros(rand.nextInt(maximo) + "", 8);
+        String codigoBarras6 = padLeftZeros(rand.nextInt(maximo) + "", 8);
+
+        String codigoBarrasCompleto = codigoBarras + codigoBarras2 + codigoBarras3 + codigoBarras4 + codigoBarras5 + codigoBarras6;
+
+        Boleto boleto = new Boleto(codigoBarrasCompleto, valor);
         boletos.add(boleto);
         System.out.println(boleto);
         return boleto;
@@ -331,7 +353,7 @@ public class CaixaEletronico {
         return null;
     }
 
-    public void criarTresBoletos(){
+    public void criarTresBoletos(){ // Criar depois
         gerarBoleto(51);
         gerarBoleto(787);
         gerarBoleto(987);
