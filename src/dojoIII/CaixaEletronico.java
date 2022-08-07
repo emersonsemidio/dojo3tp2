@@ -312,28 +312,17 @@ public class CaixaEletronico {
         }
     }
 
+    public Boleto gerarBoleto(int valor){
+        String codigoBarras = rand.nextInt(10000) + "";
+        return new Boleto(codigoBarras, valor);
+    }
+
+    public void pegarBoletoGerado(String codigoDeBarras){
+
+    }
+
     public void pagarBoleto() {
-        Boleto boleto = new Boleto();
-        if (clienteA.isTemContaCorrente() == false) {
-            System.out.println("Voce nao tem conta corrente");
-        } else {
-            System.out.println("Digite o codigo do boleto: ");
-            String codigoBoleto = scanner.nextLine();
-            boleto.setCodigo(codigoBoleto);
-            scanner.nextLine();
-            System.out.println("Digite o valor do boleto: ");
-            double valorBoleto = scanner.nextInt();
-            boleto.setPreco(valorBoleto);
-            if (contaCorrente.getSaldoCorrente() + contaCorrente.getChequeEspecial() < valorBoleto) {
-                System.out.println("Saldo insuficiente");
-            } else if (contaCorrente.getSaldoCorrente() < valorBoleto) {
-                valorBoleto -= contaCorrente.getSaldoCorrente();
-                contaCorrente.setSaldoCorrente(0);
-                contaCorrente.setChequeEspecial(contaCorrente.getChequeEspecial() - valorBoleto);
-            } else if (contaCorrente.getSaldoCorrente() > valorBoleto) {
-                contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() - valorBoleto);
-            }
-        }
+        
     }
 
     public void opcoesParaChavePix() {

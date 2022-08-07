@@ -20,9 +20,9 @@ public class Boleto {
     public void setPreco(double preco) {
         this.preco = preco;
     }
+
     public Boleto() {
-        this.codigo = codigo;
-        this.preco = preco;
+
     }
     public Boleto(String codigo, double preco) {
         this.codigo = codigo;
