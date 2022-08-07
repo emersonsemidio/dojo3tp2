@@ -11,6 +11,8 @@ public class CaixaEletronico {
     List<Cliente> clientes = new ArrayList<>();
     List<Conta> contas = new ArrayList<>();
     List<Boleto> boletos = new ArrayList<>();
+    LocalDate localDate = LocalDate.now();
+
 
     Cliente clienteA = new Cliente();
 
@@ -277,12 +279,12 @@ public class CaixaEletronico {
             conta.sacar(valorSaque, data);
         }
     }
-
-    LocalDate localDate = LocalDate.now();
-
+    
     public void avancartempo() {
+        int quantosDiasDesejaPassar = scanner.nextInt();
+
+        this.localDate = localDate.plusDays(quantosDiasDesejaPassar);
         System.out.println(localDate);
-        System.out.println("Dia da semana: " + localDate.getDayOfWeek().name());
         System.out.println("Dia da semana: " + localDate.getDayOfWeek().ordinal());
         System.out.println("Mes: " + localDate.getMonthValue());
         System.out.println("Mes: " + localDate.getMonth().name());
