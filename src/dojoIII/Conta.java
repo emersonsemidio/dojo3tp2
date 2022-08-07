@@ -91,8 +91,12 @@ public class Conta{
         contaDestino.incrementarSaldo(valorTransferencia);
         this.decrementarSaldo(valorTransferencia);
 
-        Extrato extratoTransferencia = new Extrato(valorTransferencia, data[0], data[1], data[2], "transferência");
+        Extrato extratoTransferencia = new Extrato(-valorTransferencia, data[0], data[1], data[2], "Envio de transferência via PIX");
         this.extrato.add(extratoTransferencia);
+
+        Extrato extratoRecebimento = new Extrato(valorTransferencia, data[0], data[1], data[2], "transferência recebida");
+        contaDestino.extrato.add(extratoRecebimento);
+
         this.log(extratoTransferencia);
         this.logSaldo();
     }

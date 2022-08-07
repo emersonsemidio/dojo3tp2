@@ -15,15 +15,15 @@ public class CaixaEletronico {
     Cliente clienteA = new Cliente();
 
     ContaCorrente contaCorrente = new ContaCorrente();
-    ContaPoupanca contaPoupanca = new ContaPoupanca(1,1);
+    ContaPoupanca contaPoupanca = new ContaPoupanca(1, 1);
     Calendar c = Calendar.getInstance();
     int tempo = 0;
     int dia, mes, ano;
     ArrayList<Extrato> listaExtratos = new ArrayList<>();
 
 
-    public void iniciarAbrirConta(){
-        int tipoConta = tipoDeConta();
+    public void iniciarAbrirConta() {
+        int tipoConta = tipoDeConta("Qual tipo de conta você quer abrir");
         AbrirConta(tipoConta);
     }
 
@@ -41,8 +41,7 @@ public class CaixaEletronico {
     }
 
 
-
-    public void AbrirConta(int tipoConta){
+    public void AbrirConta(int tipoConta) {
         Cliente clienteNovo = new Cliente();
         Cliente clienteExistente = buscarcontaPorCpf();
         // int senhaConta = 0;
@@ -94,11 +93,11 @@ public class CaixaEletronico {
         int senhaConta = scanner.nextInt();
         int numeroConta = rand.nextInt(10000);
 
-        clientes.add( clienteNovo);
+        clientes.add(clienteNovo);
 
-        if(tipoConta == 1){
+        if (tipoConta == 1) {
             this.abrirContaCorrente(senhaConta, numeroConta, clienteNovo);
-        }else{
+        } else {
             this.abrirContaPoupanca(senhaConta, numeroConta, clienteNovo);
         }
         System.out.println("Conta criada com sucesso " + numeroConta);
@@ -118,119 +117,119 @@ public class CaixaEletronico {
         contaPoupanca.setCliente(clienteNovo);
     }
 
-    public int tipoDeConta(){
+    public int tipoDeConta(String texto) {
         int tipoConta;
-        System.out.println("Qual tipo de conta");
+        System.out.println(texto);
         System.out.println("[1] Criar conta corrente");
         System.out.println("[2] Criar conta poupanca");
 
-        do{
+        do {
             System.out.println("Informe o tipo de conta");
             tipoConta = scanner.nextInt();
-            if(tipoConta<1 && tipoConta>2){
+            if (tipoConta < 1 && tipoConta > 2) {
                 System.out.println("tipo de conta inexistente");
             }
-        }while(tipoConta<1 || tipoConta>2);
+        } while (tipoConta < 1 || tipoConta > 2);
         scanner.nextLine();
 
         return tipoConta;
     }
 
-    public boolean verificarExistenciaConta(){
-      String cpf;
+    public boolean verificarExistenciaConta() {
+        String cpf;
 
-      System.out.println("Digite seu cpf");
-      cpf = scanner.nextLine();
+        System.out.println("Digite seu cpf");
+        cpf = scanner.nextLine();
 
 
-        for(int i=0; i<clientes.size(); i++){
-            if(clientes.get(i).getCpf().equalsIgnoreCase(cpf)){
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getCpf().equalsIgnoreCase(cpf)) {
                 return true;
             }
         }
-      return false;
+        return false;
     }
 
-    public Cliente buscarcontaPorCpf(){
+    public Cliente buscarcontaPorCpf() {
         String cpf;
 
         System.out.println("Digite o cpf");
         cpf = scanner.nextLine();
 
-        for(int i=0; i<clientes.size(); i++){
-            if(clientes.get(i).getCpf().equalsIgnoreCase(cpf)){
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getCpf().equalsIgnoreCase(cpf)) {
                 return clientes.get(i);
             }
         }
         return null;
     }
 
-    public Cliente buscarPorTelefone(){
+    public Cliente buscarPorTelefone() {
         String telefone;
 
 
         System.out.println("Digite o telefone");
         telefone = scanner.nextLine();
 
-        for(int i=0; i<clientes.size(); i++){
-            if(clientes.get(i).getTelefone().equalsIgnoreCase(telefone)){
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getTelefone().equalsIgnoreCase(telefone)) {
                 return clientes.get(i);
             }
         }
         return null;
     }
 
-    public Cliente buscarPorEmail(){
+    public Cliente buscarPorEmail() {
         String email;
 
         System.out.println("Digite o email");
         email = scanner.nextLine();
 
-        for(int i=0; i<clientes.size(); i++){
-            if(clientes.get(i).getEmail().equalsIgnoreCase(email)){
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getEmail().equalsIgnoreCase(email)) {
                 return clientes.get(i);
             }
         }
         return null;
     }
 
-    public Conta buscarContaPeloNumero(){
+    public Conta buscarContaPeloNumero() {
         int numeroConta;
 
         System.out.println("Digite o número da conta");
         numeroConta = scanner.nextInt();
 
-        for(int i=0; i < contas.size(); i++){
-            if(contas.get(i).getNumeroDaConta() == numeroConta){
+        for (int i = 0; i < contas.size(); i++) {
+            if (contas.get(i).getNumeroDaConta() == numeroConta) {
                 return contas.get(i);
             }
         }
         return null;
     }
 
-    public boolean estaNoIntervalo(int valorMenor, int valor, int valorMaior){
+    public boolean estaNoIntervalo(int valorMenor, int valor, int valorMaior) {
 
         return (valorMenor <= valor) && (valor <= valorMaior);
     }
 
-    public int[] lerData(){
+    public int[] lerData() {
         int[] data = new int[3];
 
-        do{
+        do {
             System.out.println("Dia");
             data[0] = scanner.nextInt();
-            if(!estaNoIntervalo(1, data[0], 30 )){
+            if (!estaNoIntervalo(1, data[0], 30)) {
                 System.out.println("Dia inválido");
             }
-        }while (!estaNoIntervalo(1, data[0], 30 ));
+        } while (!estaNoIntervalo(1, data[0], 30));
 
-        do{
+        do {
             System.out.println("mes");
             data[1] = scanner.nextInt();
-            if(!estaNoIntervalo(1, data[1], 12)){
+            if (!estaNoIntervalo(1, data[1], 12)) {
                 System.out.println("Mês inválido");
             }
-        }while (!estaNoIntervalo(1, data[1], 12));
+        } while (!estaNoIntervalo(1, data[1], 12));
 
         System.out.println("ano");
         data[2] = scanner.nextInt();
@@ -244,13 +243,13 @@ public class CaixaEletronico {
         int minimo = 1;
         int maximo = 100000000;
 
-        do{
+        do {
             System.out.println("Valor do deposótio");
             valor = scanner.nextInt();
-            if(!estaNoIntervalo(minimo, valor, maximo )){
+            if (!estaNoIntervalo(minimo, valor, maximo)) {
                 System.out.println("Valora fora do intervalo 1 e 100.000.000");
             }
-        }while (!estaNoIntervalo(minimo, valor, maximo ));
+        } while (!estaNoIntervalo(minimo, valor, maximo));
 
 
         return valor;
@@ -266,14 +265,15 @@ public class CaixaEletronico {
         int[] data = this.lerData();
         conta.depositar(valorDeposito, data);
     }
-    public void sacar(){
+
+    public void sacar() {
 
         Conta conta = buscarContaPeloNumero();
 
         double valorSaque = 0;
         if (conta == null) {
             System.out.println("Voce ainda nao possui conta");
-        } else{
+        } else {
             System.out.println("Digite o valor do saque");
             valorSaque = scanner.nextInt();
 
@@ -282,12 +282,12 @@ public class CaixaEletronico {
         }
     }
 
-    public void avancatempo(){
+    public void avancatempo() {
         double novoSaldo = 0;
         System.out.println("Quantos dias voce deseja avancar?");
         tempo = scanner.nextInt() / 30;
         int mes = listaExtratos.get(0).mes;
-        for(int i=0; i<tempo; i++) {
+        for (int i = 0; i < tempo; i++) {
             mes++;
             if (clienteA.isVinculoContaSalario() == true) {
                 contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() + clienteA.getValorSalario());
@@ -297,27 +297,26 @@ public class CaixaEletronico {
             novoSaldo = contaPoupanca.getSaldoContaPoupanca() + contaPoupanca.getSaldoContaPoupanca() * 0.03;
         }
     }
-    public void vincularContaSalario(){
-        if(clienteA.isTemContaCorrente() == false){
+
+    public void vincularContaSalario() {
+        if (clienteA.isTemContaCorrente() == false) {
             System.out.println("Voce nao tem conta corrente");
-        }
-        else {
+        } else {
             if (clienteA.isVinculoContaSalario() == true) {
                 System.out.println("Voce ja possui sua conta-salario vinculada");
-            }
-            else {
+            } else {
                 System.out.println("Qual o valor do seu salario?");
                 clienteA.setValorSalario(scanner.nextInt());
                 clienteA.setVinculoContaSalario(true);
             }
         }
     }
-    public void pagarBoleto(){
+
+    public void pagarBoleto() {
         Boleto boleto = new Boleto();
-        if(clienteA.isTemContaCorrente() == false){
+        if (clienteA.isTemContaCorrente() == false) {
             System.out.println("Voce nao tem conta corrente");
-        }
-        else {
+        } else {
             System.out.println("Digite o codigo do boleto: ");
             String codigoBoleto = scanner.nextLine();
             boleto.setCodigo(codigoBoleto);
@@ -327,31 +326,36 @@ public class CaixaEletronico {
             boleto.setPreco(valorBoleto);
             if (contaCorrente.getSaldoCorrente() + contaCorrente.getChequeEspecial() < valorBoleto) {
                 System.out.println("Saldo insuficiente");
-            }
-            else if (contaCorrente.getSaldoCorrente() < valorBoleto) {
+            } else if (contaCorrente.getSaldoCorrente() < valorBoleto) {
                 valorBoleto -= contaCorrente.getSaldoCorrente();
                 contaCorrente.setSaldoCorrente(0);
                 contaCorrente.setChequeEspecial(contaCorrente.getChequeEspecial() - valorBoleto);
-            }
-            else if (contaCorrente.getSaldoCorrente() > valorBoleto) {
+            } else if (contaCorrente.getSaldoCorrente() > valorBoleto) {
                 contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() - valorBoleto);
             }
         }
     }
 
-    public void opcoesParaChavePix(){
+    public void opcoesParaChavePix() {
         System.out.println("[1] - CPF");
         System.out.println("[2] - Telefone");
         System.out.println("[3] - E-mail");
         System.out.println("[4] - Aleatoria");
     }
 
+    public void transferirPorCliente(Conta contaOrigem, Conta contaDestino) {
+        System.out.println("Digite o valor a ser transferido");
+        double valorTransferencia = scanner.nextDouble();
+        int[] data = lerData();
+        contaOrigem.transferir(contaDestino, valorTransferencia, data);
+    }
 
-    public void transferirPix(){
+
+    public void transferirPix() {
         Pix pix = new Pix();
         Conta contaOrigem = buscarContaPeloNumero();
 
-        if(contaOrigem == null){
+        if (contaOrigem == null) {
             System.out.println("Voce ainda nao possui conta corrente");
             return;
         }
@@ -368,11 +372,11 @@ public class CaixaEletronico {
         if (tipoChave == 1) {
             Cliente clientePorCpf = buscarcontaPorCpf();
 
-            if(clientePorCpf == null){
+            if (clientePorCpf == null) {
                 System.out.println("Cliente não encontrado nesse cpf");
                 return;
             }
-            int tipoConta = tipoDeConta();
+            int tipoConta = tipoDeConta("Digite o tipo de conta");
 
             if(tipoConta == 1){
                 if(!clientePorCpf.isTemContaCorrente()){
@@ -392,65 +396,55 @@ public class CaixaEletronico {
                 }
             }
 
+
         } else if (tipoChave == 2) {
             Cliente clientePorTelefone = buscarPorTelefone();
 
-            if(clientePorTelefone == null){
+            if (clientePorTelefone == null) {
                 System.out.println("Cliente não encontrado nesse telefone");
                 return;
             }
 
-        } else if (tipoChave == 3) {
+            int tipoConta = tipoDeConta("Digite o tipo de conta");
+
+            if (tipoConta == 1) {
+                if (!clientePorTelefone.isTemContaCorrente()) {
+                    System.out.println("Cliente não possui Conta Corrente");
+                    return;
+                }
+
+                System.out.println("Digite o valor a ser transferido");
+                double valorTransferencia = scanner.nextDouble();
+
+                int[] data = lerData();
+                contaOrigem.transferir(clientePorTelefone.getContaCorrente(), valorTransferencia, data);
+            }
+        } else if(tipoChave == 3){
             Cliente clientePorEmail = buscarPorEmail();
 
-            if(clientePorEmail == null){
-                System.out.println("Cliente não encontrado nesse telefone");
+            if (clientePorEmail == null) {
+                System.out.println("Cliente não encontrado nesse email");
                 return;
             }
 
+            int tipoConta = tipoDeConta("Digite o tipo de conta");
 
-        } else if (tipoChave == 4) {
-            System.out.println("Para qual chave a transferencia sera feita");
-            opcoesParaChavePix();
-            chaveDestino = scanner.nextInt();
-            scanner.nextLine();
-            if (chaveDestino == 1) {
-                System.out.println("Digite a chave CPF");
-                scanner.nextLine();
-                String chaveCPF = scanner.nextLine();
-                pix.setCpf(chaveCPF);
-            } else if (chaveDestino == 2) {
-                System.out.println("Digite a chave telefone");
-                scanner.nextLine();
-                String chaveTelefone = scanner.nextLine();
-                pix.setTelefone(chaveTelefone);
-            } else if (chaveDestino == 3) {
-                System.out.println("Digite a chave e-mail");
-                scanner.nextLine();
-                String chaveemail = scanner.nextLine();
-                pix.setEmail(chaveemail);;
-            } else if (chaveDestino == 4) {
-                System.out.println("Digite a chave aleatoria");
-                pix.setRandom(scanner.nextInt());
+            if (tipoConta == 1) {
+                if (!clientePorEmail.isTemContaCorrente()) {
+                    System.out.println("Cliente não possui Conta Corrente");
+                    return;
+                }
+
+                System.out.println("Digite o valor a ser transferido");
+                double valorTransferencia = scanner.nextDouble();
+
+                int[] data = lerData();
+                contaOrigem.transferir(clientePorEmail.getContaCorrente(), valorTransferencia, data);
             }
-           /* System.out.println("Qual o valor a pagar?");
-            valortransferencia = scanner.nextDouble();
-            if (contaCorrente.getSaldoCorrente() + contaCorrente.getChequeEspecial() < valortransferencia) {
-                System.out.println("Valor na conta insuficiente");
-            } else if (contaCorrente.getSaldoCorrente() < valortransferencia) {
-                valortransferencia -= contaCorrente.getSaldoCorrente();
-                contaCorrente.setSaldoCorrente(0);
-                contaCorrente.setChequeEspecial(contaCorrente.getChequeEspecial() - valortransferencia);
-            } else if (contaCorrente.getSaldoCorrente() > valortransferencia) {
-                contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() - valortransferencia);
-
-            }
-
-            */
         }
-
     }
 }
+
 
 
 
