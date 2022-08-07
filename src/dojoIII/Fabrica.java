@@ -17,15 +17,15 @@ public class Fabrica {
     }
 
     public void fabricarContasCorrente() {
-        this.caixaEletronico.contas.add(new ContaCorrente(100, 1234));
-        this.caixaEletronico.contas.add(new ContaCorrente(101, 1234));
-        this.caixaEletronico.contas.add(new ContaCorrente(102, 1234));
+        this.caixaEletronico.contas.add(new ContaCorrente("100", "1234"));
+        this.caixaEletronico.contas.add(new ContaCorrente("101", "1234"));
+        this.caixaEletronico.contas.add(new ContaCorrente("102", "1234"));
     }
     
     public void fabricarContasPoupanca() {
-        this.caixaEletronico.contas.add(new ContaPoupanca(200, 1234));
-        this.caixaEletronico.contas.add(new ContaPoupanca(201, 1234));
-        this.caixaEletronico.contas.add(new ContaPoupanca(202, 1234));
+        this.caixaEletronico.contas.add(new ContaPoupanca("200", "1234"));
+        this.caixaEletronico.contas.add(new ContaPoupanca("201", "1234"));
+        this.caixaEletronico.contas.add(new ContaPoupanca("202", "1234"));
     }
     
     

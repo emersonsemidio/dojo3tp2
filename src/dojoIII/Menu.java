@@ -11,7 +11,7 @@ public class Menu {
             int op = sc.nextInt();
             try {
                 switch (op){
-                    case 1: caixaEletronico.acessarConta();
+                    case 1: Menu.acessarConta(caixaEletronico);
                         break;
                     case 2: caixaEletronico.iniciarAbrirConta();
                         break;
@@ -25,7 +25,7 @@ public class Menu {
         }
     }
 
-    private static void acessarConta(CaixaEletronico caixaEletronico) {
+    public static void acessarConta(CaixaEletronico caixaEletronico) {
         Scanner sc = new Scanner(System.in);
         System.out.println("---- Acessar Conta ----");
         System.out.println("Digite o número da conta:");
@@ -33,11 +33,10 @@ public class Menu {
         System.out.println("Digite sua senha de 4 digítos:");
         String senha = sc.nextLine();
 
-        Conta conta = caixaEletronico.buscarContaPeloNumero(1);
+        Conta conta = caixaEletronico.buscarContaPeloNumero(numeroConta);
         if(conta != null){
-            if(conta.getSenhaDaConta() == 1){
+            if(conta.getSenhaDaConta().equalsIgnoreCase(senha)){
                 Cliente cliente = conta.getCliente();
-                System.out.println("Acesso Liberado!\n");
                 // menuCliente(agencia,conta,banco);
             }else
                 System.out.println("Senha inválida");

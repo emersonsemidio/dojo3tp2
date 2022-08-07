@@ -33,9 +33,9 @@ public class CaixaEletronico {
     }
     
     public void gerarContaCorrente(){
-        ContaCorrente contaGerada1 = new ContaCorrente(10, 10000);
-        ContaCorrente contaGerada2 = new ContaCorrente(11, 1000);
-        ContaCorrente contaGerada3 = new ContaCorrente(12, 100);
+        ContaCorrente contaGerada1 = new ContaCorrente("10", "10000");
+        ContaCorrente contaGerada2 = new ContaCorrente("11", "1000");
+        ContaCorrente contaGerada3 = new ContaCorrente("12", "100");
         
         contas.add(contaGerada1);
         contas.add(contaGerada2);
@@ -43,9 +43,9 @@ public class CaixaEletronico {
     }
     
     public void gerarContaPoupanca(){
-        ContaPoupanca contaGerada1 = new ContaPoupanca(20, 10000);
-        ContaPoupanca contaGerada2 = new ContaPoupanca(21, 1000);
-        ContaPoupanca contaGerada3 = new ContaPoupanca(22, 100);
+        ContaPoupanca contaGerada1 = new ContaPoupanca("20", "10000");
+        ContaPoupanca contaGerada2 = new ContaPoupanca("21", "1000");
+        ContaPoupanca contaGerada3 = new ContaPoupanca("22", "100");
 
         contas.add(contaGerada1);
         contas.add(contaGerada2);
@@ -53,12 +53,12 @@ public class CaixaEletronico {
     }
     
     public void associarClienteNaConta(){
-        clientes.get(0).setContaCorrente((ContaCorrente) buscarContaPeloNumero(10));
-        clientes.get(0).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero(20));
-        clientes.get(1).setContaCorrente((ContaCorrente) buscarContaPeloNumero(11));
-        clientes.get(2).setContaCorrente((ContaCorrente) buscarContaPeloNumero(12));
-        clientes.get(3).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero(21));
-        clientes.get(4).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero(22));
+        clientes.get(0).setContaCorrente((ContaCorrente) buscarContaPeloNumero("10"));
+        clientes.get(0).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero("20"));
+        clientes.get(1).setContaCorrente((ContaCorrente) buscarContaPeloNumero("11"));
+        clientes.get(2).setContaCorrente((ContaCorrente) buscarContaPeloNumero("12"));
+        clientes.get(3).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero("21"));
+        clientes.get(4).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero("22"));
     }
     
     public void iniciarAbrirConta() {
@@ -141,14 +141,14 @@ public class CaixaEletronico {
     }
 
     private void abrirContaCorrente(int senhaConta, int numeroConta, Cliente clienteNovo) {
-        ContaCorrente contaCorrente = new ContaCorrente(numeroConta, senhaConta);
+        ContaCorrente contaCorrente = new ContaCorrente("numeroConta", "senhaConta");
         contas.add(contaCorrente);
         clienteNovo.setContaCorrente(contaCorrente);
         contaCorrente.setCliente(clienteNovo);
     }
 
     private void abrirContaPoupanca(int senhaConta, int numeroConta, Cliente clienteNovo) {
-        ContaPoupanca contaPoupanca = new ContaPoupanca(numeroConta, senhaConta);
+        ContaPoupanca contaPoupanca = new ContaPoupanca("numeroConta", "senhaConta");
         contas.add(contaPoupanca);
         clienteNovo.setContaPoupanca(contaPoupanca);
         contaPoupanca.setCliente(clienteNovo);
@@ -229,23 +229,22 @@ public class CaixaEletronico {
     }
 
     public Conta buscarContaPeloNumero() {
-        int numeroConta;
 
         System.out.println("Digite o número da conta");
-        numeroConta = scanner.nextInt();
+        String numeroConta = scanner.nextLine();
 
         for (int i = 0; i < contas.size(); i++) {
-            if (contas.get(i).getNumeroDaConta() == numeroConta) {
+            if (contas.get(i).getNumeroDaConta().equalsIgnoreCase(numeroConta)) {
                 return contas.get(i);
             }
         }
         return null;
     }
     
-    public Conta buscarContaPeloNumero(int numeroConta) {
+    public Conta buscarContaPeloNumero(String numeroConta) {
         
         for (int i = 0; i < contas.size(); i++) {
-            if (contas.get(i).getNumeroDaConta() == numeroConta) {
+            if (contas.get(i).getNumeroDaConta().equalsIgnoreCase(numeroConta)) {
                 return contas.get(i);
             }
         }
@@ -401,7 +400,7 @@ public class CaixaEletronico {
     }
     
     public void acessarConta() {
-        
+        Menu.acessarConta(this);
     }
 
     public Boleto pegarBoletoGerado(String codigoDeBarras) {

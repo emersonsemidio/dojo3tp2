@@ -5,16 +5,18 @@ import java.util.*;
 
 public class ContaPoupanca extends Conta {
 
-    public ContaPoupanca(int numeroConta, int senhaConta) {
+    public ContaPoupanca(String numeroConta, String senhaConta) {
         
         super(numeroConta, senhaConta);
     }
 
     public void verificaSaldoPoupanca() {
+        
         System.out.println(saldo);
     }
 
     public double getSaldoContaPoupanca() {
+        
         return saldo;
     }
 

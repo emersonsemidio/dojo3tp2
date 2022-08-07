@@ -9,8 +9,8 @@ public class Conta {
     protected List<Extrato> extrato = new ArrayList<>();
     protected List<Conta> contasPreCadastradas = new ArrayList<>();
 
-    protected int senhaDaConta;
-    protected int numeroDaConta;
+    protected String senhaDaConta;
+    protected String numeroDaConta;
     protected final String agencia = "0001"; 
     protected Cliente cliente;
     protected double saldo;
@@ -18,7 +18,7 @@ public class Conta {
     protected List<ContaPagamento> contasPagamento = new ArrayList<>();
 
 
-    public Conta(int numeroDaConta, int senhaDaConta) {
+    public Conta(String numeroDaConta, String senhaDaConta) {
         this.senhaDaConta = senhaDaConta;
         this.numeroDaConta = numeroDaConta;
         System.out.println(this);
@@ -32,19 +32,19 @@ public class Conta {
         this.cliente = cliente;
     }
 
-    public int getSenhaDaConta() {
+    public String getSenhaDaConta() {
         return senhaDaConta;
     }
 
-    public void setSenhaDaConta(int senhaDaConta) {
+    public void setSenhaDaConta(String senhaDaConta) {
         this.senhaDaConta = senhaDaConta;
     }
 
-    public int getNumeroDaConta() {
+    public String getNumeroDaConta() {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(int numeroDaConta) {
+    public void setNumeroDaConta(String numeroDaConta) {
         this.numeroDaConta = numeroDaConta;
     }
 

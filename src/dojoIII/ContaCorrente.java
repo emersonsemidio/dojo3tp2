@@ -6,27 +6,33 @@ import java.util.*;
 public class ContaCorrente extends Conta {
     private double chequeEspecial = 3000;
 
-    public ContaCorrente(int numeroConta, int senhaConta) {
+    public ContaCorrente(String numeroConta, String senhaConta) {
+        
         super(numeroConta, senhaConta);
     }
 
     public void verificaSaldoCorrente() {
+        
         System.out.println(this.saldo);
     }
 
     public double getSaldoCorrente() {
+        
         return this.saldo;
     }
 
     public void setSaldoCorrente(double saldoCorrente) {
+        
         this.saldo = saldoCorrente;
     }
 
     public double getChequeEspecial() {
+        
         return chequeEspecial;
     }
 
     public void setChequeEspecial(double chequeEspecial) {
+        
         this.chequeEspecial = chequeEspecial;
     }
 
