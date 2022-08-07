@@ -51,8 +51,8 @@ public class Conta{
         this.logSaldo();
     }
 
-    public void sacar(double valorSaque, int[] data){ // Verificar porque o saque zerou o saldo
-        Extrato extratoSaque = new Extrato(1, 1, 1, 1, "saque");
+    public void sacar(double valorSaque, LocalDate data){ // Verificar porque o saque zerou o saldo
+        Extrato extratoSaque = new Extrato(valorSaque, data, "saque");
         this.extrato.add(extratoSaque);
         this.log(extratoSaque);
         this.logSaldo();
@@ -81,7 +81,7 @@ public class Conta{
         this.saldo -= valorTransferencia;
     }
 
-    public void transferir(Conta contaDestino, double valorTransferencia, int[] data){
+    public void transferir(Conta contaDestino, double valorTransferencia, LocalDate data){
 
         if(getSaldoTotal() < valorTransferencia){
             System.out.println("Valor da transferência maior do que o saldo em conta");
@@ -92,10 +92,10 @@ public class Conta{
         contaDestino.incrementarSaldo(valorTransferencia);
         this.decrementarSaldo(valorTransferencia);
 
-        Extrato extratoTransferencia = new Extrato(-valorTransferencia, data[0], data[1], data[2], "Envio de transferência via PIX");
+        Extrato extratoTransferencia = new Extrato(-valorTransferencia, data, "Envio de transferência via PIX");
         this.extrato.add(extratoTransferencia);
 
-        Extrato extratoRecebimento = new Extrato(valorTransferencia, data[0], data[1], data[2], "transferência recebida");
+        Extrato extratoRecebimento = new Extrato(valorTransferencia, data, "transferência recebida");
         contaDestino.extrato.add(extratoRecebimento);
 
         this.log(extratoTransferencia);
@@ -129,7 +129,9 @@ public class Conta{
         boleto.associarContaAoBoleto(this);
         boleto.setPago(true);
 
-        Extrato extratoBoleto = new Extrato(-boleto.getPreco(), 1, 1, 1, "Boleto");
+        LocalDate data = LocalDate.now();
+
+        Extrato extratoBoleto = new Extrato(-boleto.getPreco(), data, "Boleto");
         this.extrato.add(extratoBoleto);
         this.log(extratoBoleto);
         this.logSaldo();

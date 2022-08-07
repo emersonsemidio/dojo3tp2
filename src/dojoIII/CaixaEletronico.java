@@ -224,7 +224,6 @@ public class CaixaEletronico {
         data[2] = dataAtual.getYear();
 
         return data;
-
     }
 
     public int lerValorDeposito() {
@@ -266,7 +265,7 @@ public class CaixaEletronico {
             System.out.println("Digite o valor do saque");
             valorSaque = scanner.nextInt();
 
-            int[] data = this.lerData();
+            LocalDate data = pegarDataAtual();
             conta.sacar(valorSaque, data);
         }
     }
@@ -370,7 +369,7 @@ public class CaixaEletronico {
     public void transferirPorCliente(Conta contaOrigem, Conta contaDestino) {
         System.out.println("Digite o valor a ser transferido");
         double valorTransferencia = scanner.nextDouble();
-        int[] data = lerData();
+        LocalDate data = pegarDataAtual();
         contaOrigem.transferir(contaDestino, valorTransferencia, data);
     }
 
@@ -429,7 +428,7 @@ public class CaixaEletronico {
             System.out.println("Digite o valor a ser transferido");
             double valorTransferencia = scanner.nextDouble();
 
-            int[] data = lerData();
+            LocalDate data = pegarDataAtual();
             contaOrigem.transferir(clientePorTelefone.getContaCorrente(), valorTransferencia, data);
         } else{
             if(!clientePorTelefone.isTemContaPoupanca()){
@@ -460,14 +459,13 @@ public class CaixaEletronico {
             System.out.println("Digite o valor a ser transferido");
             double valorTransferencia = scanner.nextDouble();
 
-            int[] data = lerData();
+            LocalDate data = pegarDataAtual();
             contaOrigem.transferir(clientePorEmail.getContaCorrente(), valorTransferencia, data);
         }
     }
 
 
     public void transferirPix() {
-        Pix pix = new Pix();
         Conta contaOrigem = buscarContaPeloNumero();
 
         if (contaOrigem == null) {
@@ -476,7 +474,6 @@ public class CaixaEletronico {
         }
 
         int tipoChave = 0;
-        int chaveDestino = 0;
 
         System.out.println("Para qual chave a transferencia sera feita");
         opcoesParaChavePix();

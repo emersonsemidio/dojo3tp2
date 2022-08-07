@@ -1,5 +1,6 @@
 package dojoIII;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class ContaCorrente extends Conta{
@@ -33,7 +34,7 @@ public class ContaCorrente extends Conta{
     }
 
     @Override
-    public void sacar(double valorSaque, int[]data){
+    public void sacar(double valorSaque, LocalDate data){
         double limite = this.getChequeEspecial() + this.getSaldoCorrente();
 
         if(valorSaque > limite){
@@ -50,7 +51,7 @@ public class ContaCorrente extends Conta{
                 System.out.println("Valor sacado com sucesso");
                 System.out.println("Saldo atualizado: " + saldo);
             }
-            Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data[0], data[1], data[2], "saque - conta corrente");
+            Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data, "saque - conta corrente");
             this.extrato.add(extratoSaquePoupanca);
             this.log(extratoSaquePoupanca);
             this.logSaldo();
