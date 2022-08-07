@@ -69,4 +69,10 @@ public class ContaCorrente extends Conta{
         return s;
     }
 
+    @Override
+    public void emitirExtrato(){
+        super.emitirExtrato();
+        System.out.println("O saldo total da conta concorrente é " + this.saldo + " + " + this.getChequeEspecial()  + " = " + this.getSaldoTotal());
+    }
+
 }

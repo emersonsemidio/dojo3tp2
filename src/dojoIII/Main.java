@@ -54,7 +54,7 @@ public class Main {
                 caixaEletronico.extrato();
                 break;
             case 5:
-                caixaEletronico.avancatempo();
+                caixaEletronico.avancartempo();
                 break;
             case 6:
                 caixaEletronico.vincularContaSalario();

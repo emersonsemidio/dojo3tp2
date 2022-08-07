@@ -1,6 +1,7 @@
 package dojoIII;
 
 import java.util.*;
+import java.time.LocalDate;
 
 
 
@@ -216,24 +217,11 @@ public class CaixaEletronico {
     public int[] lerData() {
         int[] data = new int[3];
 
-        do {
-            System.out.println("Dia");
-            data[0] = scanner.nextInt();
-            if (!estaNoIntervalo(1, data[0], 30)) {
-                System.out.println("Dia inválido");
-            }
-        } while (!estaNoIntervalo(1, data[0], 30));
+        LocalDate dataAtual = pegarDataAtual();
 
-        do {
-            System.out.println("mes");
-            data[1] = scanner.nextInt();
-            if (!estaNoIntervalo(1, data[1], 12)) {
-                System.out.println("Mês inválido");
-            }
-        } while (!estaNoIntervalo(1, data[1], 12));
-
-        System.out.println("ano");
-        data[2] = scanner.nextInt();
+        data[0] = dataAtual.getDayOfMonth();
+        data[1] = dataAtual.getMonthValue();
+        data[2] = dataAtual.getYear();
 
         return data;
 
@@ -263,7 +251,7 @@ public class CaixaEletronico {
             return;
         }
         int valorDeposito = this.lerValorDeposito();
-        int[] data = this.lerData();
+        int data[] = this.lerData();
         conta.depositar(valorDeposito, data);
     }
 
@@ -278,25 +266,25 @@ public class CaixaEletronico {
             System.out.println("Digite o valor do saque");
             valorSaque = scanner.nextInt();
 
-            int data[] = lerData();
+            int[] data = this.lerData();
             conta.sacar(valorSaque, data);
         }
     }
 
-    public void avancatempo() {
-        double novoSaldo = 0;
-        System.out.println("Quantos dias voce deseja avancar?");
-        tempo = scanner.nextInt() / 30;
-        int mes = listaExtratos.get(0).mes;
-        for (int i = 0; i < tempo; i++) {
-            mes++;
-            if (clienteA.isVinculoContaSalario() == true) {
-                contaCorrente.setSaldoCorrente(contaCorrente.getSaldoCorrente() + clienteA.getValorSalario());
-                Extrato extrato = new Extrato(clienteA.getValorSalario(), listaExtratos.get(0).dia, mes, listaExtratos.get(0).ano, "Conta salario para conta corrente");
-                listaExtratos.add(extrato);
-            }
-            novoSaldo = contaPoupanca.getSaldoContaPoupanca() + contaPoupanca.getSaldoContaPoupanca() * 0.03;
-        }
+    LocalDate localDate = LocalDate.now();
+
+    public void avancartempo() {
+        System.out.println(localDate);
+        System.out.println("Dia da semana: " + localDate.getDayOfWeek().name());
+        System.out.println("Dia da semana: " + localDate.getDayOfWeek().ordinal());
+        System.out.println("Mes: " + localDate.getMonthValue());
+        System.out.println("Mes: " + localDate.getMonth().name());
+        System.out.println("Ano: " + localDate.getYear());
+    }
+
+    public LocalDate pegarDataAtual(){
+        LocalDate dataAtual = LocalDate.now();
+        return dataAtual;
     }
 
     public void vincularContaSalario() {
@@ -353,7 +341,7 @@ public class CaixaEletronico {
         return null;
     }
 
-    public void criarTresBoletos(){ // Criar depois
+    public void criarTresBoletos(){ // Fazer alguma coisa aqui depois
         gerarBoleto(51);
         gerarBoleto(787);
         gerarBoleto(987);

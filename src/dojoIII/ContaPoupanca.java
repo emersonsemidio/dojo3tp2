@@ -31,13 +31,17 @@ public class ContaPoupanca extends Conta{
         this.extrato.add(extratoSaquePoupanca);
         this.log(extratoSaquePoupanca);
         this.logSaldo();
-
     }
-
 
     @Override
     public String toString() {
         String s = super.toString() + "(" + this.getClass().getName() + ")";
         return s;
+    }
+
+    @Override
+    public void emitirExtrato(){
+        super.emitirExtrato();
+        System.out.println("O saldo da conta poupança é " + this.saldo);
     }
 }
