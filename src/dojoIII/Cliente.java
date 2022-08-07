@@ -26,6 +26,7 @@ public class Cliente {
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.email = email;
+        System.out.println(this);
     }
     
 

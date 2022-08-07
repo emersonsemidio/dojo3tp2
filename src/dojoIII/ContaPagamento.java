@@ -9,5 +9,6 @@ public class ContaPagamento {
     public ContaPagamento(LocalDate dataPagamento, double valorPagamento) {
         this.dataPagamento = dataPagamento;
         this.valorPagamento = valorPagamento;
+        System.out.println(this);
     }
 }

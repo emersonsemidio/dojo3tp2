@@ -6,6 +6,7 @@ import java.util.*;
 public class ContaPoupanca extends Conta {
 
     public ContaPoupanca(int numeroConta, int senhaConta) {
+        
         super(numeroConta, senhaConta);
     }
 

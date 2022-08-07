@@ -14,10 +14,6 @@ public class ContaCorrente extends Conta {
         System.out.println(this.saldo);
     }
 
-    public ContaCorrente() {
-        this.saldo = saldo;
-    }
-
     public double getSaldoCorrente() {
         return this.saldo;
     }

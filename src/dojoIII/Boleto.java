@@ -37,6 +37,7 @@ public class Boleto {
     public Boleto(String codigo, double preco) {
         this.codigo = codigo;
         this.preco = preco;
+        System.out.println(this);
     }
 
     public void associarContaAoBoleto(Conta conta) {

@@ -5,10 +5,8 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-
         CaixaEletronico caixaEletronico = new CaixaEletronico();
         Fabrica fabrica = new Fabrica(caixaEletronico);
-        
         fabrica.fabicarClientes();
         fabrica.fabricarContasCorrente();
         fabrica.fabricarContasPoupanca();
@@ -24,12 +22,16 @@ public class Main {
         caixaEletronico.associarClienteNaConta();*/
         
 
-        int opcaoEscolhida = 1;
+        /*int opcaoEscolhida = 1;
+        
 
         while (1 <= opcaoEscolhida && opcaoEscolhida <= 8) {
             opcaoEscolhida = menuConta();
             escolhaOpcaoDoMenu(opcaoEscolhida, caixaEletronico);
-        }
+        }*/
+
+
+        Menu.menuInicial(caixaEletronico);
 
     }
 

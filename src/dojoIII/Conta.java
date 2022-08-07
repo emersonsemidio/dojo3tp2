@@ -17,19 +17,11 @@ public class Conta {
     protected LocalDate dataAtualConta = LocalDate.now();
     protected List<ContaPagamento> contasPagamento = new ArrayList<>();
 
-    public Conta() {
-        
-    }
-
-    public Conta(int senhaDaConta, int numeroDaConta, Cliente cliente) {
-        this.senhaDaConta = senhaDaConta;
-        this.numeroDaConta = numeroDaConta;
-        this.cliente = cliente;
-    }
 
     public Conta(int numeroDaConta, int senhaDaConta) {
         this.senhaDaConta = senhaDaConta;
         this.numeroDaConta = numeroDaConta;
+        System.out.println(this);
     }
 
     public Cliente getCliente() {

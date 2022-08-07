@@ -13,8 +13,6 @@ public class CaixaEletronico {
     List<Boleto> boletos = new ArrayList<>();
     LocalDate tempoAtualCaixaEletronico = LocalDate.now();
     
-    ContaCorrente contaCorrente = new ContaCorrente();
-    ContaPoupanca contaPoupanca = new ContaPoupanca(1, 1);
     Calendar c = Calendar.getInstance();
     int tempo = 0;
     int dia, mes, ano;
@@ -400,6 +398,10 @@ public class CaixaEletronico {
         boletos.add(boleto);
         System.out.println(boleto);
         return boleto;
+    }
+    
+    public void acessarConta() {
+        
     }
 
     public Boleto pegarBoletoGerado(String codigoDeBarras) {
