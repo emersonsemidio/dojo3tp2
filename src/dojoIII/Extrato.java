@@ -1,5 +1,6 @@
 package dojoIII;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.*;
@@ -9,6 +10,14 @@ public class Extrato implements TransacaoEmConta{
     public int dia, mes, ano;
     private String tipoPagamento;
     private double valor;
+    private LocalDate data;
+
+    public Extrato(double valor, LocalDate data, String tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+        this.data = data;
+        this.valor = valor;
+
+    }
 
     public Extrato(double valor, int dia, int mes, int ano, String tipoPagamento) {
         this.dia = dia;
@@ -59,6 +68,11 @@ public class Extrato implements TransacaoEmConta{
 
     @Override
     public String toString() {
+        int dia = 1, mes=1, ano=1;
+        dia = this.data != null ? this.data.getDayOfMonth() : this.dia;
+        mes = this.data != null ? this.data.getMonthValue() : this.mes;
+        ano = this.data != null ? this.data.getYear() : this.ano;
+
         String s = "";
         s += dia + "/" + mes + "/" + ano + " - ";
         s += tipoPagamento + " - ";

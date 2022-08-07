@@ -43,23 +43,23 @@ public class Conta{
         this.numeroDaConta = numeroDaConta;
     }
 
-    public void depositar(int valorDeposito, int[] data){
+    public void depositar(int valorDeposito, LocalDate data){
         this.saldo += valorDeposito;
-        Extrato extratoDeposito = new Extrato(valorDeposito, data[0], data[1], data[2], "depósito");
+        Extrato extratoDeposito = new Extrato(valorDeposito, data, "depósito");
         this.extrato.add(extratoDeposito);
         this.log(extratoDeposito);
         this.logSaldo();
     }
 
-    public double getSaldoTotal(){
-        return this.saldo;
-    }
-
-    public void sacar(double valorSaque, int[] data){
+    public void sacar(double valorSaque, int[] data){ // Verificar porque o saque zerou o saldo
         Extrato extratoSaque = new Extrato(1, 1, 1, 1, "saque");
         this.extrato.add(extratoSaque);
         this.log(extratoSaque);
         this.logSaldo();
+    }
+
+    public double getSaldoTotal(){
+        return this.saldo;
     }
 
     @Override

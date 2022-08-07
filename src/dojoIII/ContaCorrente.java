@@ -3,7 +3,6 @@ package dojoIII;
 import java.util.*;
 
 public class ContaCorrente extends Conta{
-    private double saldoCorrente = 0;
     private double chequeEspecial = 3000;
 
     public ContaCorrente(int numeroConta, int senhaConta){
@@ -11,18 +10,18 @@ public class ContaCorrente extends Conta{
     }
 
     public void verificaSaldoCorrente(){
-        System.out.println(saldoCorrente);
+        System.out.println(this.saldo);
     }
     public ContaCorrente() {
-        this.saldoCorrente = saldoCorrente;
+        this.saldo = saldo;
     }
 
     public double getSaldoCorrente() {
-        return saldoCorrente;
+        return this.saldo;
     }
 
     public void setSaldoCorrente(double saldoCorrente) {
-        this.saldoCorrente = saldoCorrente;
+        this.saldo = saldoCorrente;
     }
 
     public double getChequeEspecial() {
@@ -47,7 +46,7 @@ public class ContaCorrente extends Conta{
                 chequeEspecial -= valorSaque;
             }
             else{
-                saldoCorrente -= valorSaque;
+                saldo -= valorSaque;
                 System.out.println("Valor sacado com sucesso");
                 System.out.println("Saldo atualizado: " + saldo);
             }

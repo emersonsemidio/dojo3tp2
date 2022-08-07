@@ -251,7 +251,7 @@ public class CaixaEletronico {
             return;
         }
         int valorDeposito = this.lerValorDeposito();
-        int data[] = this.lerData();
+        LocalDate data = pegarDataAtual();
         conta.depositar(valorDeposito, data);
     }
 
