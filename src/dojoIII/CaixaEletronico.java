@@ -1,5 +1,6 @@
 package dojoIII;
 
+import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -217,11 +218,22 @@ public class CaixaEletronico {
     public int[] lerData() {
         int[] data = new int[3];
 
-        LocalDate dataAtual = pegarDataAtual();
-
-        data[0] = dataAtual.getDayOfMonth();
-        data[1] = dataAtual.getMonthValue();
-        data[2] = dataAtual.getYear();
+        do {
+            System.out.println("Dia");
+            data[0] = scanner.nextInt();
+            if (!estaNoIntervalo(1, data[0], 30)) {
+                System.out.println("Dia inválido");
+            }
+        } while (!estaNoIntervalo(1, data[0], 30));
+        do {
+            System.out.println("mes");
+            data[1] = scanner.nextInt();
+            if (!estaNoIntervalo(1, data[1], 12)) {
+                System.out.println("Mês inválido");
+            }
+        } while (!estaNoIntervalo(1, data[1], 12));
+        System.out.println("ano");
+        data[2] = scanner.nextInt();
 
         return data;
     }
@@ -287,17 +299,23 @@ public class CaixaEletronico {
     }
 
     public void vincularContaSalario() {
-        if (clienteA.isTemContaCorrente() == false) {
-            System.out.println("Voce nao tem conta corrente");
-        } else {
-            if (clienteA.isVinculoContaSalario() == true) {
-                System.out.println("Voce ja possui sua conta-salario vinculada");
-            } else {
-                System.out.println("Qual o valor do seu salario?");
-                clienteA.setValorSalario(scanner.nextInt());
-                clienteA.setVinculoContaSalario(true);
-            }
+
+        Conta conta = buscarContaPeloNumero();
+
+        if(conta == null){
+            System.out.println("Conta Inexistente");
+            return;
         }
+
+        System.out.println("Ler valor do salário");
+        double valorSalario = scanner.nextDouble();
+
+        int[] dataPagamentoEmArray = lerData();
+        LocalDate dataPagamentoLocalDate = LocalDate.of(dataPagamentoEmArray[2], dataPagamentoEmArray[1], dataPagamentoEmArray[0]);
+
+        ContaPagamento contaPagamento = new ContaPagamento(dataPagamentoLocalDate, valorSalario);
+
+        conta.adicionarContaPagamento(contaPagamento);
     }
 
     public String padLeftZeros(String inputString, int length) {

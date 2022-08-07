@@ -11,6 +11,7 @@ public class Conta{
     protected int numeroDaConta;
     protected Cliente cliente;
     protected double saldo;
+    protected List<ContaPagamento> contasPagamento = new ArrayList<>();
 
     public Conta() { }
 
@@ -135,6 +136,10 @@ public class Conta{
         this.extrato.add(extratoBoleto);
         this.log(extratoBoleto);
         this.logSaldo();
+    }
+
+    public void adicionarContaPagamento(ContaPagamento conta){
+        contasPagamento.add(conta);
     }
 
     protected void log(Extrato extrato) {
