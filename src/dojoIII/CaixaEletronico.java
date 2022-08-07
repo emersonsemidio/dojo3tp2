@@ -143,14 +143,14 @@ public class CaixaEletronico {
     }
 
     private void abrirContaCorrente(int senhaConta, int numeroConta, Cliente clienteNovo) {
-        ContaCorrente contaCorrente = new ContaCorrente(senhaConta, numeroConta);
+        ContaCorrente contaCorrente = new ContaCorrente(numeroConta, senhaConta);
         contas.add(contaCorrente);
         clienteNovo.setContaCorrente(contaCorrente);
         contaCorrente.setCliente(clienteNovo);
     }
 
     private void abrirContaPoupanca(int senhaConta, int numeroConta, Cliente clienteNovo) {
-        ContaPoupanca contaPoupanca = new ContaPoupanca(senhaConta, numeroConta);
+        ContaPoupanca contaPoupanca = new ContaPoupanca(numeroConta, senhaConta);
         contas.add(contaPoupanca);
         clienteNovo.setContaPoupanca(contaPoupanca);
         contaPoupanca.setCliente(clienteNovo);

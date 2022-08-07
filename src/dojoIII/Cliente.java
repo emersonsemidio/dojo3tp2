@@ -26,24 +26,7 @@ public class Cliente {
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.email = email;
-        System.out.println("Cliente criado" + cpf);
     }
-   
-
-    public Cliente(
-            String nome,
-            String cpf,
-            Date dataNascimento,
-            String email,
-            String telefone,
-            String senha) {
-        this.nome = this.nome;
-        this.cpf = this.cpf;
-        this.dataNascimento = this.dataNascimento;
-        this.email = this.email;
-        this.telefone = this.telefone;
-    }
-    
     
 
     public void mostrarDetalhesContaCorrente() {
