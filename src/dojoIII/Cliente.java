@@ -6,7 +6,7 @@ public class Cliente {
 
     private String nome;
     private String cpf;
-    private Date dataNascimento;
+    private String dataNascimento;
     private String email;
     private String telefone;
     private int valorSalario = 0;
@@ -18,7 +18,17 @@ public class Cliente {
     private ContaPoupanca contaPoupanca;
 
     public Cliente() {
+        
     }
+
+    public Cliente(String nome, String cpf, String dataNascimento, String email) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.email = email;
+        System.out.println("Cliente criado" + cpf);
+    }
+   
 
     public Cliente(
             String nome,
@@ -33,6 +43,8 @@ public class Cliente {
         this.email = this.email;
         this.telefone = this.telefone;
     }
+    
+    
 
     public void mostrarDetalhesContaCorrente() {
         System.out.println(this.contaCorrente);
@@ -75,7 +87,7 @@ public class Cliente {
         return cpf;
     }
 
-    public Date getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
@@ -111,7 +123,7 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

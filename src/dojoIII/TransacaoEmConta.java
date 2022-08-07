@@ -1,5 +1,7 @@
 package dojoIII;
 
+import java.time.LocalDate;
+
 public interface TransacaoEmConta {
 
     public double getValor();
@@ -8,6 +10,6 @@ public interface TransacaoEmConta {
 
     public String getTipoOperacao();
 
-    public int[] getData();
+    public LocalDate getData();
 
 }

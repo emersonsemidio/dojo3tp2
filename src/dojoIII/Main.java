@@ -9,6 +9,12 @@ public class Main {
         CaixaEletronico caixaEletronico = new CaixaEletronico();
         caixaEletronico.criarTresBoletos();
 
+        caixaEletronico.gerarCLiente();
+        caixaEletronico.gerarContaCorrente();
+        caixaEletronico.gerarContaPoupanca();
+        caixaEletronico.associarClienteNaConta();
+        
+
         int opcaoEscolhida = 1;
 
         while (1 <= opcaoEscolhida && opcaoEscolhida <= 8) {

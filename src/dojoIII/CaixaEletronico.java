@@ -1,6 +1,6 @@
 package dojoIII;
 
-import java.time.chrono.ChronoLocalDate;
+import java.sql.SQLSyntaxErrorException;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -11,18 +11,58 @@ public class CaixaEletronico {
     List<Cliente> clientes = new ArrayList<>();
     List<Conta> contas = new ArrayList<>();
     List<Boleto> boletos = new ArrayList<>();
-    LocalDate localDate = LocalDate.now();
-
-
-    Cliente clienteA = new Cliente();
-
+    LocalDate tempoAtualCaixaEletronico = LocalDate.now();
+    
     ContaCorrente contaCorrente = new ContaCorrente();
     ContaPoupanca contaPoupanca = new ContaPoupanca(1, 1);
     Calendar c = Calendar.getInstance();
     int tempo = 0;
     int dia, mes, ano;
     ArrayList<Extrato> listaExtratos = new ArrayList<>();
+    
+    public void gerarCLiente(){
+        Cliente clienteGerado1 = new Cliente("Ana", "123", "12 07 2001", "ana@gmail.com");
+        Cliente clienteGerado2 = new Cliente("Bruna", "1234", "12 07 2001", "bruna@gmail.com");
+        Cliente clienteGerado3 = new Cliente("Emerson", "12345", "12 07 2001", "emerson@gmail.com");
+        Cliente clienteGerado4 = new Cliente("Henrique", "123456", "12 07 2001", "henrique@gmail.com");
+        Cliente clienteGerado5 = new Cliente("Vitor", "1234567", "12 07 2001", "vitor@gmail.com");
+        
+        clientes.add(clienteGerado1);
+        clientes.add(clienteGerado2);
+        clientes.add(clienteGerado3);
+        clientes.add(clienteGerado4);
+        clientes.add(clienteGerado5);
+    }
+    
+    public void gerarContaCorrente(){
+        ContaCorrente contaGerada1 = new ContaCorrente(10, 10000);
+        ContaCorrente contaGerada2 = new ContaCorrente(11, 1000);
+        ContaCorrente contaGerada3 = new ContaCorrente(12, 100);
+        
+        contas.add(contaGerada1);
+        contas.add(contaGerada2);
+        contas.add(contaGerada3);
+    }
+    
+    public void gerarContaPoupanca(){
+        ContaPoupanca contaGerada1 = new ContaPoupanca(20, 10000);
+        ContaPoupanca contaGerada2 = new ContaPoupanca(21, 1000);
+        ContaPoupanca contaGerada3 = new ContaPoupanca(22, 100);
 
+        contas.add(contaGerada1);
+        contas.add(contaGerada2);
+        contas.add(contaGerada3);
+    }
+    
+    public void associarClienteNaConta(){
+        clientes.get(0).setContaCorrente((ContaCorrente) buscarContaPeloNumero(10));
+        clientes.get(0).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero(20));
+        clientes.get(1).setContaCorrente((ContaCorrente) buscarContaPeloNumero(11));
+        clientes.get(2).setContaCorrente((ContaCorrente) buscarContaPeloNumero(12));
+        clientes.get(3).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero(21));
+        clientes.get(4).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero(22));
+    }
+    
     public void iniciarAbrirConta() {
         int tipoConta = tipoDeConta("Qual tipo de conta você quer abrir");
         AbrirConta(tipoConta);
@@ -53,22 +93,17 @@ public class CaixaEletronico {
 
             System.out.println("Qual seu nome?");
             clienteNovo.setNome(scanner.nextLine());
-
-            /*
-             * System.out.
-             * println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)"
-             * );
-             * 
-             * c.set(Calendar.YEAR, dia = scanner.nextInt());
-             * c.set(Calendar.MONTH, mes = scanner.nextInt());
-             * c.set(Calendar.DAY_OF_MONTH, scanner.nextInt());
-             */
+            
+            System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
+            clienteNovo.setDataNascimento(scanner.nextLine());
 
             System.out.println("Qual seu e-mail?");
             clienteNovo.setEmail(scanner.nextLine());
 
             System.out.println("Qual seu telefone?");
             clienteNovo.setTelefone(scanner.nextLine());
+            
+            
 
         } else {
             if (!clienteExistente.podeAbrirConta()) {
@@ -208,6 +243,16 @@ public class CaixaEletronico {
         }
         return null;
     }
+    
+    public Conta buscarContaPeloNumero(int numeroConta) {
+        
+        for (int i = 0; i < contas.size(); i++) {
+            if (contas.get(i).getNumeroDaConta() == numeroConta) {
+                return contas.get(i);
+            }
+        }
+        return null;
+    }
 
     public boolean estaNoIntervalo(int valorMenor, int valor, int valorMaior) {
 
@@ -281,19 +326,27 @@ public class CaixaEletronico {
     }
     
     public void avancartempo() {
+        System.out.println("Quantos dias deseja avançar? ");
         int quantosDiasDesejaPassar = scanner.nextInt();
 
-        this.localDate = localDate.plusDays(quantosDiasDesejaPassar);
-        System.out.println(localDate);
-        System.out.println("Dia da semana: " + localDate.getDayOfWeek().ordinal());
-        System.out.println("Mes: " + localDate.getMonthValue());
-        System.out.println("Mes: " + localDate.getMonth().name());
-        System.out.println("Ano: " + localDate.getYear());
+        this.tempoAtualCaixaEletronico = tempoAtualCaixaEletronico.plusDays(quantosDiasDesejaPassar);
+        System.out.println(tempoAtualCaixaEletronico);
+        System.out.println("Dia da semana: " + tempoAtualCaixaEletronico.getDayOfWeek().ordinal());
+        System.out.println("Mes: " + tempoAtualCaixaEletronico.getMonthValue());
+        System.out.println("Mes: " + tempoAtualCaixaEletronico.getMonth().name());
+        System.out.println("Ano: " + tempoAtualCaixaEletronico.getYear());
+        
+        this.emitirAvancoTempoParaContas();
+    }
+    
+    public void emitirAvancoTempoParaContas(){
+        for(int i=0; i<contas.size(); i++){
+            contas.get(i).avancarTempo(tempoAtualCaixaEletronico);
+        }
     }
 
     public LocalDate pegarDataAtual() {
-        LocalDate dataAtual = LocalDate.now();
-        return dataAtual;
+        return this.tempoAtualCaixaEletronico;
     }
 
     public void vincularContaSalario() {

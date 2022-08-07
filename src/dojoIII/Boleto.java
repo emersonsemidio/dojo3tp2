@@ -45,6 +45,6 @@ public class Boleto {
 
     @Override
     public String toString() {
-        return "eme" + codigo;
+        return "Código de Barras: " + codigo;
     }
 }

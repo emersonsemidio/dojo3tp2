@@ -52,9 +52,9 @@ public class Extrato implements TransacaoEmConta {
         return null;
     }
 
-    @Override
-    public int[] getData() {
-        return new int[0];
+
+    public LocalDate getData() {
+        return data;
     }
 
     public void setValor(double valor) {

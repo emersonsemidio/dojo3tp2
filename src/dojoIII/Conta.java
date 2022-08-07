@@ -1,24 +1,35 @@
 package dojoIII;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Conta {
     protected List<Extrato> extrato = new ArrayList<>();
+    protected List<Conta> contasPreCadastradas = new ArrayList<>();
 
     protected int senhaDaConta;
     protected int numeroDaConta;
+    protected final String agencia = "0001"; 
     protected Cliente cliente;
     protected double saldo;
     protected List<ContaPagamento> contasPagamento = new ArrayList<>();
 
     public Conta() {
+        
     }
 
-    public Conta(int senhaDaConta, int numeroDaConta) {
+    public Conta(int senhaDaConta, int numeroDaConta, Cliente cliente) {
         this.senhaDaConta = senhaDaConta;
         this.numeroDaConta = numeroDaConta;
+        this.cliente = cliente;
+    }
+
+    public Conta(int numeroDaConta, int senhaDaConta) {
+        this.senhaDaConta = senhaDaConta;
+        this.numeroDaConta = numeroDaConta;
+        
     }
 
     public Cliente getCliente() {
@@ -58,6 +69,23 @@ public class Conta {
         this.extrato.add(extratoSaque);
         this.log(extratoSaque);
         this.logSaldo();
+    }
+    
+    public void avancarTempo(LocalDate tempoAtualCaixaEletronico){
+        for(int i=0; i<this.extrato.size(); i++){
+            if(this.extrato.get(i).getValor() < 0){
+                continue;
+            }
+            long dias = this.extrato.get(i).getData().until(tempoAtualCaixaEletronico, ChronoUnit.DAYS);
+            System.out.println("Dias mudados");
+            System.out.println(dias);
+            System.out.println(this.extrato.get(i));
+            separadorDeLinhas();
+        }
+    }
+    
+    public void separadorDeLinhas(){
+        System.out.println("---------------------------------\n");
     }
 
     public double getSaldoTotal() {
