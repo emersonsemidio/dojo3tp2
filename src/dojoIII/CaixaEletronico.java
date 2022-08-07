@@ -350,6 +350,42 @@ public class CaixaEletronico {
         contaOrigem.transferir(contaDestino, valorTransferencia, data);
     }
 
+    private void printSemContaCorrente() {
+        System.out.println("O cliente não possui conta corrente");
+    }
+
+    private void printSemContaPoupanca() {
+        System.out.println("O cliente não possui conta corrente");
+    }
+
+    public void transferirPorCpf(Conta contaOrigem) {
+        Cliente clientePorCpf = buscarcontaPorCpf();
+
+        if (clientePorCpf == null) {
+            System.out.println("Cliente não encontrado nesse cpf");
+            return;
+        }
+
+        int tipoConta = tipoDeConta("Digite o tipo de conta");
+
+        if (tipoConta == 1){
+            if(!clientePorCpf.isTemContaCorrente()){
+                this.printSemContaCorrente();
+                return;
+            }
+
+            this.transferirPorCliente(contaOrigem, clientePorCpf.getContaCorrente());
+
+        }else{
+            if(!clientePorCpf.isTemContaPoupanca()){
+                this.printSemContaPoupanca();
+                return;
+            }
+
+            this.transferirPorCliente(contaOrigem, clientePorCpf.getContaPoupanca());
+        }
+    }
+
 
     public void transferirPix() {
         Pix pix = new Pix();
@@ -370,32 +406,7 @@ public class CaixaEletronico {
         scanner.nextLine();
 
         if (tipoChave == 1) {
-            Cliente clientePorCpf = buscarcontaPorCpf();
-
-            if (clientePorCpf == null) {
-                System.out.println("Cliente não encontrado nesse cpf");
-                return;
-            }
-            int tipoConta = tipoDeConta("Digite o tipo de conta");
-
-            if(tipoConta == 1){
-                if(!clientePorCpf.isTemContaCorrente()){
-                    return;
-                }
-
-                System.out.println("Digite o valor a ser transferido");
-                double valorTransferencia = scanner.nextDouble();
-
-                int[] data = lerData();
-
-                contaOrigem.transferir(clientePorCpf.getContaCorrente(), valorTransferencia, data);
-
-            }else{
-                if(!clientePorCpf.isTemContaPoupanca()){
-                    return;
-                }
-            }
-
+            this.transferirPorCpf(contaOrigem);
 
         } else if (tipoChave == 2) {
             Cliente clientePorTelefone = buscarPorTelefone();
