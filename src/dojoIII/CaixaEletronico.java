@@ -417,6 +417,30 @@ public class CaixaEletronico {
         }
     }
 
+    public void transferirPorEmail(Conta contaOrigem) {
+        Cliente clientePorEmail = buscarPorEmail();
+
+        if (clientePorEmail == null) {
+            System.out.println("Cliente não encontrado nesse email");
+            return;
+        }
+
+        int tipoConta = tipoDeConta("Digite o tipo de conta");
+
+        if (tipoConta == 1) {
+            if (!clientePorEmail.isTemContaCorrente()) {
+                System.out.println("Cliente não possui Conta Corrente");
+                return;
+            }
+
+            System.out.println("Digite o valor a ser transferido");
+            double valorTransferencia = scanner.nextDouble();
+
+            int[] data = lerData();
+            contaOrigem.transferir(clientePorEmail.getContaCorrente(), valorTransferencia, data);
+        }
+    }
+
 
     public void transferirPix() {
         Pix pix = new Pix();
@@ -441,27 +465,7 @@ public class CaixaEletronico {
         } else if (tipoChave == 2) {
             this.transferirPorTelefone(contaOrigem);
         } else if(tipoChave == 3){
-            Cliente clientePorEmail = buscarPorEmail();
-
-            if (clientePorEmail == null) {
-                System.out.println("Cliente não encontrado nesse email");
-                return;
-            }
-
-            int tipoConta = tipoDeConta("Digite o tipo de conta");
-
-            if (tipoConta == 1) {
-                if (!clientePorEmail.isTemContaCorrente()) {
-                    System.out.println("Cliente não possui Conta Corrente");
-                    return;
-                }
-
-                System.out.println("Digite o valor a ser transferido");
-                double valorTransferencia = scanner.nextDouble();
-
-                int[] data = lerData();
-                contaOrigem.transferir(clientePorEmail.getContaCorrente(), valorTransferencia, data);
-            }
+            this.transferirPorEmail(contaOrigem);
         }
     }
 }
