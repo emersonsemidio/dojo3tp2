@@ -111,16 +111,23 @@ public class Conta{
         }
     }
 
-
-
     /**
      * O sistema deve permitir pagar boletos (digitando o código de barras de 48 dígitos, valor e data de vencimento);
      * * Caso esteja em atraso, o sistema deve aplicar multa de 0,1% ao dia;
      * */
-    private void pagarBoleto() {
+    public void pagarBoleto(Boleto boleto) {
+        if(this.getSaldoTotal() < boleto.getPreco()){
+            System.out.println("Impossível pagar esse boleto" + " Saldo: " + this.getSaldoTotal() + " Valor boleto: " + boleto.getPreco());
+            return;
+        }
+        this.decrementarSaldo(boleto.getPreco());
+        boleto.associarContaAoBoleto(this);
 
+        Extrato extratoBoleto = new Extrato(-boleto.getPreco(), 1, 1, 1, "Boleto");
+        this.extrato.add(extratoBoleto);
+        this.log(extratoBoleto);
+        this.logSaldo();
     }
-
 
     protected void log(Extrato extrato) {
         System.out.println(extrato);

@@ -10,6 +10,7 @@ public class CaixaEletronico {
 
     List<Cliente> clientes = new ArrayList<>();
     List<Conta> contas = new ArrayList<>();
+    List<Boleto> boletos = new ArrayList<>();
 
 
     Cliente clienteA = new Cliente();
@@ -312,17 +313,41 @@ public class CaixaEletronico {
         }
     }
 
-    public Boleto gerarBoleto(int valor){
+    public Boleto gerarBoleto(double valor){
         String codigoBarras = rand.nextInt(10000) + "";
-        return new Boleto(codigoBarras, valor);
+
+        Boleto boleto = new Boleto(codigoBarras, valor);
+        boletos.add(boleto);
+        System.out.println(boleto);
+        return boleto;
     }
 
-    public void pegarBoletoGerado(String codigoDeBarras){
+    public Boleto pegarBoletoGerado(String codigoDeBarras){
+        for(int i=0; i<boletos.size(); i++){
+            if(boletos.get(i).getCodigo().equalsIgnoreCase(codigoDeBarras)){
+                return boletos.get(i);
+            }
+        }
+        return null;
+    }
 
+    public void criarTresBoletos(){
+        gerarBoleto(51);
+        gerarBoleto(787);
+        gerarBoleto(987);
     }
 
     public void pagarBoleto() {
-        
+        Conta conta = buscarContaPeloNumero();
+
+        System.out.println("Digite o código de barras do boleto");
+        scanner.nextLine();
+
+        String codigoDeBarrasBoleto = scanner.nextLine();
+        Boleto boleto = pegarBoletoGerado(codigoDeBarrasBoleto);
+
+        conta.pagarBoleto(boleto);
+
     }
 
     public void opcoesParaChavePix() {

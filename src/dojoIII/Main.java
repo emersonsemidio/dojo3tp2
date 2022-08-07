@@ -5,12 +5,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        CaixaEletronico conta = new CaixaEletronico();
+        CaixaEletronico caixaEletronico = new CaixaEletronico();
+        caixaEletronico.criarTresBoletos();
+
         int opcaoEscolhida = 1;
 
         while (1 <= opcaoEscolhida && opcaoEscolhida <= 8) {
             opcaoEscolhida = menuConta();
-            escolhaOpcaoDoMenu(opcaoEscolhida, conta);
+            escolhaOpcaoDoMenu(opcaoEscolhida, caixaEletronico);
         }
 
     }
@@ -37,31 +39,31 @@ public class Main {
         return valor;
     }
 
-    public static void escolhaOpcaoDoMenu(int valor, CaixaEletronico conta){
+    public static void escolhaOpcaoDoMenu(int valor, CaixaEletronico caixaEletronico){
         switch (valor) {
             case 1:
-                conta.iniciarAbrirConta();
+                caixaEletronico.iniciarAbrirConta();
                 break;
             case 2:
-                conta.sacar();
+                caixaEletronico.sacar();
                 break;
             case 3:
-                conta.depositar();
+                caixaEletronico.depositar();
                 break;
             case 4:
-                conta.extrato();
+                caixaEletronico.extrato();
                 break;
             case 5:
-                conta.avancatempo();
+                caixaEletronico.avancatempo();
                 break;
             case 6:
-                conta.vincularContaSalario();
+                caixaEletronico.vincularContaSalario();
                 break;
             case 7:
-                conta.pagarBoleto();
+                caixaEletronico.pagarBoleto();
                 break;
             case 8:
-                conta.transferirPix();
+                caixaEletronico.transferirPix();
                 break;
             default:
                 break;
