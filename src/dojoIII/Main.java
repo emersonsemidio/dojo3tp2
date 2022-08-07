@@ -7,12 +7,21 @@ public class Main {
     public static void main(String[] args) {
 
         CaixaEletronico caixaEletronico = new CaixaEletronico();
-        caixaEletronico.criarTresBoletos();
+        Fabrica fabrica = new Fabrica(caixaEletronico);
+        
+        fabrica.fabicarClientes();
+        fabrica.fabricarContasCorrente();
+        fabrica.fabricarContasPoupanca();
+        fabrica.fabricarBoleto();
+        fabrica.fabricarRelacaoClienteContaPoupanca();
+        fabrica.fabricarRelacaoClienteContaCorrente();
+        
+        /*caixaEletronico.criarTresBoletos();
 
         caixaEletronico.gerarCLiente();
         caixaEletronico.gerarContaCorrente();
         caixaEletronico.gerarContaPoupanca();
-        caixaEletronico.associarClienteNaConta();
+        caixaEletronico.associarClienteNaConta();*/
         
 
         int opcaoEscolhida = 1;
