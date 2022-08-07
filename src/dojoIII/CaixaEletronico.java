@@ -386,6 +386,37 @@ public class CaixaEletronico {
         }
     }
 
+    public void transferirPorTelefone(Conta contaOrigem) {
+        Cliente clientePorTelefone = buscarPorTelefone();
+
+        if (clientePorTelefone == null) {
+            System.out.println("Cliente não encontrado nesse telefone");
+            return;
+        }
+
+        int tipoConta = tipoDeConta("Digite o tipo de conta");
+
+        if (tipoConta == 1) {
+            if (!clientePorTelefone.isTemContaCorrente()) {
+                System.out.println("Cliente não possui Conta Corrente");
+                return;
+            }
+
+            System.out.println("Digite o valor a ser transferido");
+            double valorTransferencia = scanner.nextDouble();
+
+            int[] data = lerData();
+            contaOrigem.transferir(clientePorTelefone.getContaCorrente(), valorTransferencia, data);
+        } else{
+            if(!clientePorTelefone.isTemContaPoupanca()){
+                this.printSemContaPoupanca();
+                return;
+            }
+
+            this.transferirPorCliente(contaOrigem, clientePorTelefone.getContaPoupanca());
+        }
+    }
+
 
     public void transferirPix() {
         Pix pix = new Pix();
@@ -407,29 +438,8 @@ public class CaixaEletronico {
 
         if (tipoChave == 1) {
             this.transferirPorCpf(contaOrigem);
-
         } else if (tipoChave == 2) {
-            Cliente clientePorTelefone = buscarPorTelefone();
-
-            if (clientePorTelefone == null) {
-                System.out.println("Cliente não encontrado nesse telefone");
-                return;
-            }
-
-            int tipoConta = tipoDeConta("Digite o tipo de conta");
-
-            if (tipoConta == 1) {
-                if (!clientePorTelefone.isTemContaCorrente()) {
-                    System.out.println("Cliente não possui Conta Corrente");
-                    return;
-                }
-
-                System.out.println("Digite o valor a ser transferido");
-                double valorTransferencia = scanner.nextDouble();
-
-                int[] data = lerData();
-                contaOrigem.transferir(clientePorTelefone.getContaCorrente(), valorTransferencia, data);
-            }
+            this.transferirPorTelefone(contaOrigem);
         } else if(tipoChave == 3){
             Cliente clientePorEmail = buscarPorEmail();
 
