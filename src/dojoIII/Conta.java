@@ -116,12 +116,17 @@ public class Conta{
      * * Caso esteja em atraso, o sistema deve aplicar multa de 0,1% ao dia;
      * */
     public void pagarBoleto(Boleto boleto) {
+        if(boleto.isPago()){
+            System.out.println("Boleto já está pago");
+            return;
+        }
         if(this.getSaldoTotal() < boleto.getPreco()){
             System.out.println("Impossível pagar esse boleto" + " Saldo: " + this.getSaldoTotal() + " Valor boleto: " + boleto.getPreco());
             return;
         }
         this.decrementarSaldo(boleto.getPreco());
         boleto.associarContaAoBoleto(this);
+        boleto.setPago(true);
 
         Extrato extratoBoleto = new Extrato(-boleto.getPreco(), 1, 1, 1, "Boleto");
         this.extrato.add(extratoBoleto);
