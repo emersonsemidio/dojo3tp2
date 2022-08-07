@@ -4,7 +4,6 @@ import java.util.*;
 
 public class Cliente {
 
-
     private String nome;
     private String cpf;
     private Date dataNascimento;
@@ -19,10 +18,15 @@ public class Cliente {
     private ContaPoupanca contaPoupanca;
 
     public Cliente() {
-
     }
 
-    public Cliente(String nome, String cpf, Date dataNascimento, String email, String telefone, String senha){
+    public Cliente(
+            String nome,
+            String cpf,
+            Date dataNascimento,
+            String email,
+            String telefone,
+            String senha) {
         this.nome = this.nome;
         this.cpf = this.cpf;
         this.dataNascimento = this.dataNascimento;
@@ -43,7 +47,6 @@ public class Cliente {
     }
 
     public void vincularContaSalario() {
-
     }
 
     public ContaCorrente getContaCorrente() {
@@ -68,19 +71,19 @@ public class Cliente {
         return nome;
     }
 
-    public String getCpf(){
+    public String getCpf() {
         return cpf;
     }
 
-    public Date getDataNascimento(){
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
-    public String getTelefone(){
+    public String getTelefone() {
         return telefone;
     }
 
@@ -91,6 +94,7 @@ public class Cliente {
     public void setTemContaCorrente(boolean temContaCorrente) {
         this.temContaCorrente = temContaCorrente;
     }
+
     public boolean isTemContaPoupanca() {
         return temContaPoupanca;
     }
@@ -98,6 +102,7 @@ public class Cliente {
     public void setTemContaPoupanca(boolean temContaPoupanca) {
         this.temContaPoupanca = temContaPoupanca;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -133,6 +138,4 @@ public class Cliente {
     public void setValorSalario(int valorSalario) {
         this.valorSalario = valorSalario;
     }
-
-
 }

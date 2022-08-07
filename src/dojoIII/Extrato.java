@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.text.*;
 
-public class Extrato implements TransacaoEmConta{
+public class Extrato implements TransacaoEmConta {
 
-    //public int dia, mes, ano;
+    // public int dia, mes, ano;
     private String tipoPagamento;
     private double valor;
     private LocalDate data;
@@ -19,15 +19,16 @@ public class Extrato implements TransacaoEmConta{
 
     }
 
-    /*public Extrato(double valor, int dia, int mes, int ano, String tipoPagamento) {
-        this.dia = dia;
-        this.mes = mes;
-        this.ano = ano;
-        this.tipoPagamento = tipoPagamento;
-        this.valor = valor;
-    }*/
-
-
+    /*
+     * public Extrato(double valor, int dia, int mes, int ano, String tipoPagamento)
+     * {
+     * this.dia = dia;
+     * this.mes = mes;
+     * this.ano = ano;
+     * this.tipoPagamento = tipoPagamento;
+     * this.valor = valor;
+     * }
+     */
 
     public String getTipoPagamento() {
         return tipoPagamento;
@@ -65,7 +66,6 @@ public class Extrato implements TransacaoEmConta{
         int dia = this.data.getDayOfMonth();
         int mes = this.data.getMonthValue();
         int ano = this.data.getYear();
-
 
         String s = "";
         s += dia + "/" + mes + "/" + ano + " - ";

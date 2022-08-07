@@ -1,6 +1,6 @@
 package dojoIII;
 
-public class Pix{
+public class Pix {
     protected String email;
     protected String telefone;
     protected String cpf;
@@ -13,6 +13,7 @@ public class Pix{
         this.cpf = cpf;
         this.random = random;
     }
+
     public Pix() {
         this.email = email;
         this.telefone = telefone;
@@ -52,7 +53,6 @@ public class Pix{
     public void setRandom(int random) {
         this.random = random;
     }
-
 
     public int getValorPix() {
         return valorPix;

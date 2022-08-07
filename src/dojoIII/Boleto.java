@@ -32,20 +32,19 @@ public class Boleto {
     }
 
     public Boleto() {
-
     }
+
     public Boleto(String codigo, double preco) {
         this.codigo = codigo;
         this.preco = preco;
     }
 
-    public void associarContaAoBoleto(Conta conta){
+    public void associarContaAoBoleto(Conta conta) {
         this.conta = conta;
     }
 
     @Override
-    public String toString(){
-
-        return  "eme" + codigo;
+    public String toString() {
+        return "eme" + codigo;
     }
 }

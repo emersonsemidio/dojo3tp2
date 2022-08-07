@@ -1,4 +1,5 @@
 package dojoIII;
+
 import java.util.*;
 
 public class Main {
@@ -20,7 +21,7 @@ public class Main {
     public static int menuConta() {
         int valor;
         Scanner scanner = new Scanner(System.in);
-        do{
+        do {
             System.out.println("[1] abrir conta");
             System.out.println("[2] sacar");
             System.out.println("[3] depositar");
@@ -31,15 +32,15 @@ public class Main {
             System.out.println("[8] pix");
             System.out.println("[9] sair");
             valor = scanner.nextInt();
-            if(valor > 9 || valor < 1){
+            if (valor > 9 || valor < 1) {
                 System.out.println("Opção Inválida");
             }
-        }while(valor > 9 || valor < 1);
+        } while (valor > 9 || valor < 1);
 
         return valor;
     }
 
-    public static void escolhaOpcaoDoMenu(int valor, CaixaEletronico caixaEletronico){
+    public static void escolhaOpcaoDoMenu(int valor, CaixaEletronico caixaEletronico) {
         switch (valor) {
             case 1:
                 caixaEletronico.iniciarAbrirConta();

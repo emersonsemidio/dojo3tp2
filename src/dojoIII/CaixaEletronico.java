@@ -4,8 +4,6 @@ import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.time.LocalDate;
 
-
-
 public class CaixaEletronico {
     Scanner scanner = new Scanner(System.in);
     Random rand = new Random();
@@ -13,7 +11,6 @@ public class CaixaEletronico {
     List<Cliente> clientes = new ArrayList<>();
     List<Conta> contas = new ArrayList<>();
     List<Boleto> boletos = new ArrayList<>();
-
 
     Cliente clienteA = new Cliente();
 
@@ -23,7 +20,6 @@ public class CaixaEletronico {
     int tempo = 0;
     int dia, mes, ano;
     ArrayList<Extrato> listaExtratos = new ArrayList<>();
-
 
     public void iniciarAbrirConta() {
         int tipoConta = tipoDeConta("Qual tipo de conta você quer abrir");
@@ -43,12 +39,11 @@ public class CaixaEletronico {
         return true;
     }
 
-
     public void AbrirConta(int tipoConta) {
         Cliente clienteNovo = new Cliente();
         Cliente clienteExistente = buscarcontaPorCpf();
         // int senhaConta = 0;
-        //int numeroConta = 0;
+        // int numeroConta = 0;
 
         if (clienteExistente == null) {
             System.out.println("Qual seu CPF?");
@@ -57,12 +52,15 @@ public class CaixaEletronico {
             System.out.println("Qual seu nome?");
             clienteNovo.setNome(scanner.nextLine());
 
-
-            /*System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
-
-            c.set(Calendar.YEAR, dia = scanner.nextInt());
-            c.set(Calendar.MONTH, mes = scanner.nextInt());
-            c.set(Calendar.DAY_OF_MONTH, scanner.nextInt());*/
+            /*
+             * System.out.
+             * println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)"
+             * );
+             * 
+             * c.set(Calendar.YEAR, dia = scanner.nextInt());
+             * c.set(Calendar.MONTH, mes = scanner.nextInt());
+             * c.set(Calendar.DAY_OF_MONTH, scanner.nextInt());
+             */
 
             System.out.println("Qual seu e-mail?");
             clienteNovo.setEmail(scanner.nextLine());
@@ -72,7 +70,8 @@ public class CaixaEletronico {
 
         } else {
             if (!clienteExistente.podeAbrirConta()) {
-                System.out.println("Cliente já cadastrado com o CPF e possui contas Corrente e Poupança. Veja abaixo os dados da suas contas");
+                System.out.println(
+                        "Cliente já cadastrado com o CPF e possui contas Corrente e Poupança. Veja abaixo os dados da suas contas");
                 clienteExistente.mostrarDetalhesContaCorrente();
                 clienteExistente.mostrarDetalhesContaPoupanca();
                 return;
@@ -144,7 +143,6 @@ public class CaixaEletronico {
         System.out.println("Digite seu cpf");
         cpf = scanner.nextLine();
 
-
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getCpf().equalsIgnoreCase(cpf)) {
                 return true;
@@ -169,7 +167,6 @@ public class CaixaEletronico {
 
     public Cliente buscarPorTelefone() {
         String telefone;
-
 
         System.out.println("Digite o telefone");
         telefone = scanner.nextLine();
@@ -251,7 +248,6 @@ public class CaixaEletronico {
             }
         } while (!estaNoIntervalo(minimo, valor, maximo));
 
-
         return valor;
     }
 
@@ -293,7 +289,7 @@ public class CaixaEletronico {
         System.out.println("Ano: " + localDate.getYear());
     }
 
-    public LocalDate pegarDataAtual(){
+    public LocalDate pegarDataAtual() {
         LocalDate dataAtual = LocalDate.now();
         return dataAtual;
     }
@@ -302,7 +298,7 @@ public class CaixaEletronico {
 
         Conta conta = buscarContaPeloNumero();
 
-        if(conta == null){
+        if (conta == null) {
             System.out.println("Conta Inexistente");
             return;
         }
@@ -311,7 +307,8 @@ public class CaixaEletronico {
         double valorSalario = scanner.nextDouble();
 
         int[] dataPagamentoEmArray = lerData();
-        LocalDate dataPagamentoLocalDate = LocalDate.of(dataPagamentoEmArray[2], dataPagamentoEmArray[1], dataPagamentoEmArray[0]);
+        LocalDate dataPagamentoLocalDate = LocalDate.of(dataPagamentoEmArray[2], dataPagamentoEmArray[1],
+                dataPagamentoEmArray[0]);
 
         ContaPagamento contaPagamento = new ContaPagamento(dataPagamentoLocalDate, valorSalario);
 
@@ -331,7 +328,7 @@ public class CaixaEletronico {
         return sb.toString();
     }
 
-    public Boleto gerarBoleto(double valor){
+    public Boleto gerarBoleto(double valor) {
         int maximo = 99999999;
 
         String codigoBarras = padLeftZeros(rand.nextInt(maximo) + "", 8);
@@ -341,7 +338,8 @@ public class CaixaEletronico {
         String codigoBarras5 = padLeftZeros(rand.nextInt(maximo) + "", 8);
         String codigoBarras6 = padLeftZeros(rand.nextInt(maximo) + "", 8);
 
-        String codigoBarrasCompleto = codigoBarras + codigoBarras2 + codigoBarras3 + codigoBarras4 + codigoBarras5 + codigoBarras6;
+        String codigoBarrasCompleto = codigoBarras + codigoBarras2 + codigoBarras3 + codigoBarras4 + codigoBarras5
+                + codigoBarras6;
 
         Boleto boleto = new Boleto(codigoBarrasCompleto, valor);
         boletos.add(boleto);
@@ -349,16 +347,16 @@ public class CaixaEletronico {
         return boleto;
     }
 
-    public Boleto pegarBoletoGerado(String codigoDeBarras){
-        for(int i=0; i<boletos.size(); i++){
-            if(boletos.get(i).getCodigo().equalsIgnoreCase(codigoDeBarras)){
+    public Boleto pegarBoletoGerado(String codigoDeBarras) {
+        for (int i = 0; i < boletos.size(); i++) {
+            if (boletos.get(i).getCodigo().equalsIgnoreCase(codigoDeBarras)) {
                 return boletos.get(i);
             }
         }
         return null;
     }
 
-    public void criarTresBoletos(){ // Fazer alguma coisa aqui depois
+    public void criarTresBoletos() { // Fazer alguma coisa aqui depois
         gerarBoleto(51);
         gerarBoleto(787);
         gerarBoleto(987);
@@ -409,16 +407,16 @@ public class CaixaEletronico {
 
         int tipoConta = tipoDeConta("Digite o tipo de conta");
 
-        if (tipoConta == 1){
-            if(!clientePorCpf.isTemContaCorrente()){
+        if (tipoConta == 1) {
+            if (!clientePorCpf.isTemContaCorrente()) {
                 this.printSemContaCorrente();
                 return;
             }
 
             this.transferirPorCliente(contaOrigem, clientePorCpf.getContaCorrente());
 
-        }else{
-            if(!clientePorCpf.isTemContaPoupanca()){
+        } else {
+            if (!clientePorCpf.isTemContaPoupanca()) {
                 this.printSemContaPoupanca();
                 return;
             }
@@ -448,8 +446,8 @@ public class CaixaEletronico {
 
             LocalDate data = pegarDataAtual();
             contaOrigem.transferir(clientePorTelefone.getContaCorrente(), valorTransferencia, data);
-        } else{
-            if(!clientePorTelefone.isTemContaPoupanca()){
+        } else {
+            if (!clientePorTelefone.isTemContaPoupanca()) {
                 this.printSemContaPoupanca();
                 return;
             }
@@ -482,7 +480,6 @@ public class CaixaEletronico {
         }
     }
 
-
     public void transferirPix() {
         Conta contaOrigem = buscarContaPeloNumero();
 
@@ -503,12 +500,8 @@ public class CaixaEletronico {
             this.transferirPorCpf(contaOrigem);
         } else if (tipoChave == 2) {
             this.transferirPorTelefone(contaOrigem);
-        } else if(tipoChave == 3){
+        } else if (tipoChave == 3) {
             this.transferirPorEmail(contaOrigem);
         }
     }
 }
-
-
-
-

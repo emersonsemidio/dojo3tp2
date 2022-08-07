@@ -3,16 +3,17 @@ package dojoIII;
 import java.time.LocalDate;
 import java.util.*;
 
-public class ContaCorrente extends Conta{
+public class ContaCorrente extends Conta {
     private double chequeEspecial = 3000;
 
-    public ContaCorrente(int numeroConta, int senhaConta){
+    public ContaCorrente(int numeroConta, int senhaConta) {
         super(numeroConta, senhaConta);
     }
 
-    public void verificaSaldoCorrente(){
+    public void verificaSaldoCorrente() {
         System.out.println(this.saldo);
     }
+
     public ContaCorrente() {
         this.saldo = saldo;
     }
@@ -34,19 +35,17 @@ public class ContaCorrente extends Conta{
     }
 
     @Override
-    public void sacar(double valorSaque, LocalDate data){
+    public void sacar(double valorSaque, LocalDate data) {
         double limite = this.getChequeEspecial() + this.getSaldoCorrente();
 
-        if(valorSaque > limite){
+        if (valorSaque > limite) {
             System.out.println("O valor eh maior do que o saque possivel");
-        }
-        else{
-            if(valorSaque >= this.getSaldoCorrente()){
+        } else {
+            if (valorSaque >= this.getSaldoCorrente()) {
                 valorSaque -= saldo;
                 saldo = 0;
                 chequeEspecial -= valorSaque;
-            }
-            else{
+            } else {
                 saldo -= valorSaque;
                 System.out.println("Valor sacado com sucesso");
                 System.out.println("Saldo atualizado: " + saldo);
@@ -59,7 +58,7 @@ public class ContaCorrente extends Conta{
     }
 
     @Override
-    public double getSaldoTotal(){
+    public double getSaldoTotal() {
         return this.saldo + chequeEspecial;
     }
 
@@ -70,9 +69,10 @@ public class ContaCorrente extends Conta{
     }
 
     @Override
-    public void emitirExtrato(){
+    public void emitirExtrato() {
         super.emitirExtrato();
-        System.out.println("O saldo total da conta concorrente é " + this.saldo + " + " + this.getChequeEspecial()  + " = " + this.getSaldoTotal());
+        System.out.println("O saldo total da conta concorrente é " + this.saldo + " + " + this.getChequeEspecial()
+                + " = " + this.getSaldoTotal());
     }
 
 }

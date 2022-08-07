@@ -3,14 +3,13 @@ package dojoIII;
 import java.time.LocalDate;
 import java.util.*;
 
-public class ContaPoupanca extends Conta{
+public class ContaPoupanca extends Conta {
 
-    public ContaPoupanca(int numeroConta, int senhaConta){
+    public ContaPoupanca(int numeroConta, int senhaConta) {
         super(numeroConta, senhaConta);
     }
 
-
-    public void verificaSaldoPoupanca(){
+    public void verificaSaldoPoupanca() {
         System.out.println(saldo);
     }
 
@@ -18,10 +17,9 @@ public class ContaPoupanca extends Conta{
         return saldo;
     }
 
-
     @Override
-    public void sacar(double valorSaque, LocalDate data){
-        if(valorSaque > saldo){
+    public void sacar(double valorSaque, LocalDate data) {
+        if (valorSaque > saldo) {
             System.out.println("Valor maior que o saque possivel");
             return;
         }
@@ -41,7 +39,7 @@ public class ContaPoupanca extends Conta{
     }
 
     @Override
-    public void emitirExtrato(){
+    public void emitirExtrato() {
         super.emitirExtrato();
         System.out.println("O saldo da conta poupança é " + this.saldo);
     }
