@@ -80,7 +80,7 @@ public class Conta{
         this.saldo -= valorTransferencia;
     }
 
-    public void transferir(Conta contaDestino, double valorTransferencia){
+    public void transferir(Conta contaDestino, double valorTransferencia, int[] data){
 
         if(getSaldoTotal() < valorTransferencia){
             System.out.println("Valor da transferência maior do que o saldo em conta");
@@ -91,7 +91,7 @@ public class Conta{
         contaDestino.incrementarSaldo(valorTransferencia);
         this.decrementarSaldo(valorTransferencia);
 
-        Extrato extratoTransferencia = new Extrato(1, 1, 1, 1, "transferência");
+        Extrato extratoTransferencia = new Extrato(valorTransferencia, data[0], data[1], data[2], "transferência");
         this.extrato.add(extratoTransferencia);
         this.log(extratoTransferencia);
         this.logSaldo();

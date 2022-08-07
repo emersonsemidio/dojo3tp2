@@ -8,7 +8,7 @@ public class CaixaEletronico {
     Scanner scanner = new Scanner(System.in);
     Random rand = new Random();
 
-    HashMap<String, Cliente> clientes = new HashMap<>();
+    List<Cliente> clientes = new ArrayList<>();
     List<Conta> contas = new ArrayList<>();
 
 
@@ -65,8 +65,6 @@ public class CaixaEletronico {
             System.out.println("Qual seu e-mail?");
             clienteNovo.setEmail(scanner.nextLine());
 
-            clienteNovo.setEmail(scanner.nextLine());
-
             System.out.println("Qual seu telefone?");
             clienteNovo.setTelefone(scanner.nextLine());
 
@@ -96,7 +94,7 @@ public class CaixaEletronico {
         int senhaConta = scanner.nextInt();
         int numeroConta = rand.nextInt(10000);
 
-        clientes.put(clienteNovo.getCpf(), clienteNovo);
+        clientes.add( clienteNovo);
 
         if(tipoConta == 1){
             this.abrirContaCorrente(senhaConta, numeroConta, clienteNovo);
@@ -122,7 +120,7 @@ public class CaixaEletronico {
 
     public int tipoDeConta(){
         int tipoConta;
-        System.out.println("Qual conta voce deseja criar?");
+        System.out.println("Qual tipo de conta");
         System.out.println("[1] Criar conta corrente");
         System.out.println("[2] Criar conta poupanca");
 
@@ -144,13 +142,19 @@ public class CaixaEletronico {
       System.out.println("Digite seu cpf");
       cpf = scanner.nextLine();
 
-      return clientes.containsKey(cpf);
+
+        for(int i=0; i<clientes.size(); i++){
+            if(clientes.get(i).getCpf().equalsIgnoreCase(cpf)){
+                return true;
+            }
+        }
+      return false;
     }
 
     public Cliente buscarcontaPorCpf(){
         String cpf;
 
-        System.out.println("Digite seu cpf");
+        System.out.println("Digite o cpf");
         cpf = scanner.nextLine();
 
         for(int i=0; i<clientes.size(); i++){
@@ -195,7 +199,13 @@ public class CaixaEletronico {
 
         System.out.println("Digite o número da conta");
         numeroConta = scanner.nextInt();
-        return contas.get(numeroConta);
+
+        for(int i=0; i < contas.size(); i++){
+            if(contas.get(i).getNumeroDaConta() == numeroConta){
+                return contas.get(i);
+            }
+        }
+        return null;
     }
 
     public boolean estaNoIntervalo(int valorMenor, int valor, int valorMaior){
@@ -339,15 +349,12 @@ public class CaixaEletronico {
 
     public void transferirPix(){
         Pix pix = new Pix();
-        if(buscarContaPeloNumero() == null){
+        Conta contaOrigem = buscarContaPeloNumero();
+
+        if(contaOrigem == null){
             System.out.println("Voce ainda nao possui conta corrente");
             return;
         }
-
-        Conta contaOrigem = buscarContaPeloNumero();
-
-        System.out.println("Escolha por qual chave voce quer fazer a transferencia: ");
-        opcoesParaChavePix();
 
         int tipoChave = 0;
         int chaveDestino = 0;
@@ -356,6 +363,7 @@ public class CaixaEletronico {
         opcoesParaChavePix();
 
         tipoChave = scanner.nextInt();
+        scanner.nextLine();
 
         if (tipoChave == 1) {
             Cliente clientePorCpf = buscarcontaPorCpf();
@@ -371,10 +379,12 @@ public class CaixaEletronico {
                     return;
                 }
 
-                double valorTransferencia = scanner.nextDouble();
                 System.out.println("Digite o valor a ser transferido");
+                double valorTransferencia = scanner.nextDouble();
 
-                contaOrigem.transferir(clientePorCpf.getContaCorrente(), valorTransferencia);
+                int[] data = lerData();
+
+                contaOrigem.transferir(clientePorCpf.getContaCorrente(), valorTransferencia, data);
 
             }else{
                 if(!clientePorCpf.isTemContaPoupanca()){
