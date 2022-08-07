@@ -145,6 +145,9 @@ public class Conta {
     }
 
     public void adicionarContaPagamento(ContaPagamento conta) {
+        incrementarSaldo(conta.valorPagamento);
+        Extrato extratoSalario = new Extrato(conta.valorPagamento, conta.dataPagamento, "Recebimento salário");
+        this.extrato.add(extratoSalario);
         contasPagamento.add(conta);
     }
 
