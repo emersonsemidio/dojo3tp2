@@ -56,15 +56,30 @@ public class CaixaEletronico {
         clientes.get(4).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero("22"));
     }
     
+    /**
+     * Deve ser possível abrir uma conta corrente ou poupança. As informações para abertura são nome, CPF, data de
+     * nascimento, e-mail, telefone e senha;
+     * * Caso você tenha uma conta corrente, o sistema não deve requerer novamente os dados pessoais para abrir uma conta
+     * * poupança (e vice-versa);
+     * * A agência será sempre 0001 e o número da conta deve ser gerado pelo sistema;
+     * * Tanto conta corrente quanto poupança podem ser conta-salário (o valor do salário e data de pagamento devem ser definidos
+     * * neste caso);
+     * */    
     public void iniciarAbrirConta() {
         int tipoConta = tipoDeConta("Qual tipo de conta você quer abrir");
         AbrirConta(tipoConta);
     }
 
-    public void emitirExtrato(Conta conta) {
-        conta.emitirExtrato();
+    public void configurarContaSalario(Conta conta) {
+        System.out.println("Informe somente o dia do pagamento");
+        int diaPagamento = scanner.nextInt();
+
+        System.out.println("Informe o valor do pagamento");
+        double valorPagamento = scanner.nextDouble();
+
+        conta.setContaSalario(new ContaSalario(diaPagamento, valorPagamento));
+        System.out.println("Conta salário cadastrada com sucesso na conta " + conta.getNumeroDaConta() + ". Cliente: " + conta.getCliente().getNome());
     }
-    
 
     public void AbrirConta(int tipoConta) {
         Cliente clienteNovo;
@@ -174,6 +189,8 @@ public class CaixaEletronico {
         return tipoConta;
     }
 
+
+
     public boolean verificarExistenciaConta() {
         String cpf;
 
@@ -263,50 +280,26 @@ public class CaixaEletronico {
         return null;
     }
 
+    /**
+     * O sistema deve permitir emitir extratos das contas;
+     * * Para cada linha do extrato a data, o tipo de operação, descrição e o valor devem ser exibidos;
+     * * O sistema deve permitir selecionar um item do extrato para mostrar todos os detalhes. Exemplo: caso o item do extrato seja
+     * * * um pagamento de boleto, sistema deve mostrar todas as suas informações (código de barras, valor, data e multa);
+     * */
+    public void emitirExtrato(Conta conta) {
+        conta.emitirExtrato();
+    }
+
     public boolean estaNoIntervalo(int valorMenor, int valor, int valorMaior) {
 
         return (valorMenor <= valor) && (valor <= valorMaior);
     }
 
-    public int[] lerData() {
-        int[] data = new int[3];
-
-        do {
-            System.out.println("Dia");
-            data[0] = scanner.nextInt();
-            if (!estaNoIntervalo(1, data[0], 30)) {
-                System.out.println("Dia inválido");
-            }
-        } while (!estaNoIntervalo(1, data[0], 30));
-        do {
-            System.out.println("mes");
-            data[1] = scanner.nextInt();
-            if (!estaNoIntervalo(1, data[1], 12)) {
-                System.out.println("Mês inválido");
-            }
-        } while (!estaNoIntervalo(1, data[1], 12));
-        System.out.println("ano");
-        data[2] = scanner.nextInt();
-
-        return data;
-    }
-
-    public int lerValorDeposito() {
-        int valor;
-        int minimo = 1;
-        int maximo = 100000000;
-
-        do {
-            System.out.println("Valor do deposótio");
-            valor = scanner.nextInt();
-            if (!estaNoIntervalo(minimo, valor, maximo)) {
-                System.out.println("Valora fora do intervalo 1 e 100.000.000");
-            }
-        } while (!estaNoIntervalo(minimo, valor, maximo));
-
-        return valor;
-    }
-
+    
+    /**
+     * O sistema deve permitir fazer depósitos e saques em contas;
+     * * A conta corrente terá um limite de cheque especial no valor de R$3000,00;
+     * */
     public void depositar() {
         Conta conta = buscarContaPeloNumero();
         if (conta == null) {
@@ -323,16 +316,6 @@ public class CaixaEletronico {
         LocalDate data = pegarDataAtual();
         String descricao = this.lerLinha("Digite uma descrição para o depósito");
         conta.depositar(valorDeposito, data, descricao);
-    }
-    
-    private double lerValorPositivo(String msg) {
-        System.out.println(msg);
-        double valor = scanner.nextDouble();
-        while (valor < 0.0) {
-            System.out.println("O valor deve ser maior que zero");
-            valor = scanner.nextDouble();
-        }
-        return valor;
     }
 
     public void sacar() {
@@ -492,6 +475,12 @@ public class CaixaEletronico {
         }
     }
 
+    // Transferencia PIX
+    /**
+     * O sistema deve permitir configurar o PIX, definindo qual informação será
+     * utilizada para transferência (cpf, e-mail e
+     * telefone ou criando uma chave nova);
+     */
     public void opcoesParaChavePix() {
         System.out.println("[1] - CPF");
         System.out.println("[2] - Telefone");
@@ -506,13 +495,6 @@ public class CaixaEletronico {
         contaOrigem.transferir(contaDestino, valorTransferencia, data);
     }
 
-    private void printSemContaCorrente() {
-        System.out.println("O cliente não possui conta corrente");
-    }
-
-    private void printSemContaPoupanca() {
-        System.out.println("O cliente não possui conta corrente");
-    }
 
     public void transferirPorCpf(Conta contaOrigem) {
         Cliente clientePorCpf = buscarcontaPorCpf();
@@ -623,19 +605,14 @@ public class CaixaEletronico {
             
         }
     }
-    
 
-    public void configurarContaSalario(Conta conta) {
-        System.out.println("Informe somente o dia do pagamento");
-        int diaPagamento = scanner.nextInt();
-        
-        System.out.println("Informe o valor do pagamento");
-        double valorPagamento = scanner.nextDouble();
-        
-        conta.setContaSalario(new ContaSalario(diaPagamento, valorPagamento));
-        System.out.println("Conta salário cadastrada com sucesso na conta " + conta.getNumeroDaConta() + ". Cliente: " + conta.getCliente().getNome());
+    private void printSemContaCorrente() {
+        System.out.println("O cliente não possui conta corrente");
     }
 
+    private void printSemContaPoupanca() {
+        System.out.println("O cliente não possui conta corrente");
+    }
 
     public void transferirPix(Conta contaOrigem) {
         int tipoChave = 0;
@@ -653,5 +630,55 @@ public class CaixaEletronico {
         } else {
             System.out.println("Opção " + tipoChave + "Inválida");
         }
+    }
+    
+    // Métodos de Leitura
+    public int[] lerData() {
+        int[] data = new int[3];
+
+        do {
+            System.out.println("Dia");
+            data[0] = scanner.nextInt();
+            if (!estaNoIntervalo(1, data[0], 30)) {
+                System.out.println("Dia inválido");
+            }
+        } while (!estaNoIntervalo(1, data[0], 30));
+        do {
+            System.out.println("mes");
+            data[1] = scanner.nextInt();
+            if (!estaNoIntervalo(1, data[1], 12)) {
+                System.out.println("Mês inválido");
+            }
+        } while (!estaNoIntervalo(1, data[1], 12));
+        System.out.println("ano");
+        data[2] = scanner.nextInt();
+
+        return data;
+    }
+
+    public int lerValorDeposito() {
+        int valor;
+        int minimo = 1;
+        int maximo = 100000000;
+
+        do {
+            System.out.println("Valor do deposótio");
+            valor = scanner.nextInt();
+            if (!estaNoIntervalo(minimo, valor, maximo)) {
+                System.out.println("Valora fora do intervalo 1 e 100.000.000");
+            }
+        } while (!estaNoIntervalo(minimo, valor, maximo));
+
+        return valor;
+    }
+
+    private double lerValorPositivo(String msg) {
+        System.out.println(msg);
+        double valor = scanner.nextDouble();
+        while (valor < 0.0) {
+            System.out.println("O valor deve ser maior que zero");
+            valor = scanner.nextDouble();
+        }
+        return valor;
     }
 }

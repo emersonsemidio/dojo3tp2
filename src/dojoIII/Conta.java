@@ -7,17 +7,14 @@ import java.util.List;
 
 public class Conta {
     protected List<Extrato> extrato = new ArrayList<>();
-    protected List<Conta> contasPreCadastradas = new ArrayList<>();
 
     protected String senhaDaConta;
     protected String numeroDaConta;
-    protected final String agencia = "0001"; 
     protected Cliente cliente;
     protected double saldo;
     protected LocalDate dataAtualConta = LocalDate.now();
-    protected List<ContaPagamento> contasPagamento = new ArrayList<>();
-    public int diaPagamento = 15;
-    public double valorPagamento = 1000;
+    protected List<ContaPagamento> depositoPagamentoList = new ArrayList<>();
+    private static final String AGENCIA = "0001";
     protected ContaSalario contaSalario = null;
 
 
@@ -97,8 +94,6 @@ public class Conta {
             double rendimento = this.saldo * (0.3/100);
             this.depositar(rendimento, this.dataAtualConta.plusDays(j*30), "Rendimento poupança");
         }
-        System.out.println("Dias mudados");
-        System.out.println(dias_passados);
         separadorDeLinhas();
     }
     
@@ -118,16 +113,9 @@ public class Conta {
     }
     
     private boolean recebeuEsteMes(LocalDate esteMes) {
-        if (this.contasPagamento.size() == 0) return false;
-        ContaPagamento ultimoPagamento = this.contasPagamento.get(this.contasPagamento.size() - 1);
+        if (this.depositoPagamentoList.size() == 0) return false;
+        ContaPagamento ultimoPagamento = this.depositoPagamentoList.get(this.depositoPagamentoList.size() - 1);
         return ultimoPagamento.dataPagamento.isAfter(esteMes);
-    }
-    
-    public long mesesPassados(LocalDate tempoAtualCaixaEletronico){
-        long meses;
-        meses = this.dataAtualConta.until(tempoAtualCaixaEletronico, ChronoUnit.MONTHS);
-        
-        return meses;
     }
     
     public void separadorDeLinhas(){
@@ -144,11 +132,6 @@ public class Conta {
         return s;
     }
 
-    /**
-     * O sistema deve permitir configurar o PIX, definindo qual informação será
-     * utilizada para transferência (cpf, e-mail e
-     * telefone ou criando uma chave nova);
-     */
 
     protected void incrementarSaldo(double valorTransferencia) {
         this.saldo += valorTransferencia;
@@ -225,7 +208,7 @@ public class Conta {
         incrementarSaldo(conta.valorPagamento);
         Extrato extratoSalario = new Extrato(conta.valorPagamento, conta.dataPagamento, "Recebimento salário");
         this.extrato.add(extratoSalario);
-        contasPagamento.add(conta);
+        depositoPagamentoList.add(conta);
     }
 
     protected void log(Extrato extrato) {

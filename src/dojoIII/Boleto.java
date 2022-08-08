@@ -21,32 +21,6 @@ public class Boleto {
         System.out.println(this);
     }
     
-    
-
-    public boolean isPago() {
-        return isPago;
-    }
-
-    public void setPago(boolean pago) {
-        isPago = pago;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-    
     public double getTotalAPagar(LocalDate dataPagamento) {
         int dias_passados = (int) ChronoUnit.DAYS.between(this.dataVencimento,dataPagamento);
         if (dias_passados < 0) {
@@ -72,8 +46,6 @@ public class Boleto {
         s += "Nome cliente pagador: " + this.conta.getCliente().getNome();
         return s;
     }
-    
-    
 
     @Override
     public String toString() {
@@ -82,5 +54,29 @@ public class Boleto {
         s += "Preço: " + this.valorPago + " || ";
         s += this.detalheContaPagadora();
         return s;
+    }
+
+    public boolean isPago() {
+        return isPago;
+    }
+
+    public void setPago(boolean pago) {
+        isPago = pago;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 }
