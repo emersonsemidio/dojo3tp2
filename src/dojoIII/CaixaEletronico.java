@@ -1,6 +1,7 @@
 package dojoIII;
 
 import java.sql.SQLSyntaxErrorException;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -460,22 +461,40 @@ public class CaixaEletronico {
         gerarBoleto(787);
         gerarBoleto(987);
     }
-
-
-    public void pagarBoleto(Conta conta) {
-        System.out.println("Digite o código de barras do boleto");
-        String codigoDeBarrasBoleto = scanner.nextLine();
-        Boleto boleto = pegarBoletoGerado(codigoDeBarrasBoleto);
-        conta.pagarBoleto(boleto);
+    
+    private String lerCodigoBarras() {
+        String codigoBarras = this.lerLinha("Digite os 48 dígitos do código de barras do boleto");
+        while(codigoBarras.length() != 48) {
+            System.out.println("Código de barras inválido. Digite novamente");
+            codigoBarras = this.lerLinha("Digite os 48 dígitos do código de barras do boleto");
+        }
+        return codigoBarras;
+    }
+    
+    private LocalDate lerDataVencimento() {
+        System.out.println("Digite a data no formato DD/MM/AAAA");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataPag = LocalDate.parse(scanner.nextLine(), dtf);
+        return dataPag;
+    }
+    
+    private double lerValorBoleto() {
+        System.out.println("Digite o valor do boleto");
+        double valor = scanner.nextDouble();
+        scanner.nextLine();
+        return valor;
     }
 
-    public void pagarBoleto() {
-        Conta conta = buscarContaPeloNumero();
-        System.out.println("Digite o código de barras do boleto");
-        scanner.nextLine();
-        String codigoDeBarrasBoleto = scanner.nextLine();
-        Boleto boleto = pegarBoletoGerado(codigoDeBarrasBoleto);
-        conta.pagarBoleto(boleto);
+    public void pagarBoleto(Conta conta) {
+        String codigoDeBarrasBoleto = this.lerCodigoBarras();
+        LocalDate dataVencimento = this.lerDataVencimento();
+        double valorBoleto = this.lerValorBoleto();
+        Boleto boletoAPaga = new Boleto(codigoDeBarrasBoleto, valorBoleto, dataVencimento);
+        
+        boolean pagoComSucesso = conta.pagarBoleto(boletoAPaga, this.tempoAtualCaixaEletronico);
+        if (pagoComSucesso) {
+            this.boletos.add(boletoAPaga);
+        }
     }
 
     public void opcoesParaChavePix() {

@@ -78,7 +78,7 @@ public class Main {
                 caixaEletronico.vincularContaSalario();
                 break;
             case 7:
-                caixaEletronico.pagarBoleto();
+                //caixaEletronico.pagarBoleto();
                 break;
             case 8:
                 caixaEletronico.transferirPix();

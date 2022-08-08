@@ -196,26 +196,29 @@ public class Conta {
      * dígitos, valor e data de vencimento);
      * * Caso esteja em atraso, o sistema deve aplicar multa de 0,1% ao dia;
      */
-    public void pagarBoleto(Boleto boleto) {
+    public boolean pagarBoleto(Boleto boleto, LocalDate dataPagamento) {
         if (boleto.isPago()) {
-            System.out.println("Boleto já está pago");
-            return;
+            System.out.println("Operação cancelada. Boleto já está pago");
+            return false;
         }
-        if (this.getSaldoTotal() < boleto.getPreco()) {
-            System.out.println("Impossível pagar esse boleto" + " Saldo: " + this.getSaldoTotal() + " Valor boleto: "
-                    + boleto.getPreco());
-            return;
+        double totalAPagar = boleto.getTotalAPagar(dataPagamento);
+        if (this.getSaldoTotal() < totalAPagar) {
+            System.out.println("Operação cancelada. Saldo insuficiente");
+            System.out.println("Saldo atual: " + this.getSaldoTotal());
+            System.out.println("Valor do boleto: " + totalAPagar);
+            return false;
         }
         this.decrementarSaldo(boleto.getPreco());
         boleto.associarContaAoBoleto(this);
         boleto.setPago(true);
+        
+        String descricao = "Descrição pagamento boleto:\n" + boleto.toString();
 
-        LocalDate data = LocalDate.now();
-
-        Extrato extratoBoleto = new Extrato(-boleto.getPreco(), data, "Boleto");
+        Extrato extratoBoleto = new Extrato(-totalAPagar, dataPagamento, "Boleto", descricao);
         this.extrato.add(extratoBoleto);
         this.log(extratoBoleto);
         this.logSaldo();
+        return true;
     }
 
     public void adicionarContaPagamento(ContaPagamento conta) {
