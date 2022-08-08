@@ -1,53 +1,44 @@
 package dojoIII;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.text.*;
 
 public class Extrato implements TransacaoEmConta {
 
-    // public int dia, mes, ano;
     private String tipoPagamento;
     private double valor;
     private LocalDate data;
+    private String descricao;
 
     public Extrato(double valor, LocalDate data, String tipoPagamento) {
         this.tipoPagamento = tipoPagamento;
         this.data = data;
         this.valor = valor;
-
     }
 
-    /*
-     * public Extrato(double valor, int dia, int mes, int ano, String tipoPagamento)
-     * {
-     * this.dia = dia;
-     * this.mes = mes;
-     * this.ano = ano;
-     * this.tipoPagamento = tipoPagamento;
-     * this.valor = valor;
-     * }
-     */
+    public Extrato(double valor, LocalDate data, String tipoPagamento, String descricao) {
+        this.tipoPagamento = tipoPagamento;
+        this.data = data;
+        this.valor = valor;
+        this.descricao = descricao;
+    }
+
 
     public String getTipoPagamento() {
         return tipoPagamento;
-    }
-
-    public void setTipoPagamento(String tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
     }
 
     public double getValor() {
         return valor;
     }
 
-    @Override
     public String getDescricao() {
-        return null;
+        return this.descricao;
     }
 
-    @Override
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public String getTipoOperacao() {
         return null;
     }
@@ -60,6 +51,10 @@ public class Extrato implements TransacaoEmConta {
     public void setValor(double valor) {
         this.valor = valor;
     }
+    
+    public void setTipoPagamento(String tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
 
     @Override
     public String toString() {
@@ -68,9 +63,10 @@ public class Extrato implements TransacaoEmConta {
         int ano = this.data.getYear();
 
         String s = "";
-        s += dia + "/" + mes + "/" + ano + " - ";
-        s += tipoPagamento + " - ";
-        s += "R$ " + valor;
+        s += dia + "/" + mes + "/" + ano + " || ";
+        s += tipoPagamento + " || ";
+        s += "R$ " + valor + " || ";
+        s += "Descrição " + this.descricao;
         return s;
     }
 }

@@ -58,6 +58,14 @@ public class Conta {
         this.log(extratoDeposito);
         this.logSaldo();
     }
+    
+    public void depositar(double valorDeposito, LocalDate data, String descricao) {
+        this.saldo += valorDeposito;
+        Extrato extratoDeposito = new Extrato(valorDeposito, data, "depósito", descricao);
+        this.extrato.add(extratoDeposito);
+        this.log(extratoDeposito);
+        this.logSaldo();
+    }
 
     public void sacar(double valorSaque, LocalDate data) {
         Extrato extratoSaque = new Extrato(valorSaque, data, "saque");
@@ -71,36 +79,26 @@ public class Conta {
     }
     
     public void avancarTempo(LocalDate tempoAtualCaixaEletronico){
-        //if (this.extrato.isEmpty()) return;
-        
-        long meses = mesesPassados(tempoAtualCaixaEletronico);
         if (this.contaSalario != null) {
             this.depositarPagamento(tempoAtualCaixaEletronico);
         }
         
-        for(int i=0; i<this.extrato.size(); i++){
-            /*if (this instanceof ContaPoupanca) {
-                if (this.extrato.get(i).getValor() > 0){
-                    this.renderPoupanca(this.extrato.get(i), tempoAtualCaixaEletronico);
-                }
-            }*/
-            
+        if (this instanceof ContaPoupanca) {
+            this.renderPoupanca(tempoAtualCaixaEletronico);
         }
+
         this.dataAtualConta = tempoAtualCaixaEletronico;
     }
     
-    public void renderPoupanca(Extrato extratoDeposito, LocalDate tempoAtualCaixaEletronico) {
-        System.out.println("Número conta: " + this.numeroDaConta);
+    public void renderPoupanca(LocalDate tempoAtualCaixaEletronico) {
         int dias_passados = (int) ChronoUnit.DAYS.between(this.dataAtualConta,tempoAtualCaixaEletronico);
-        // long dias = (int) extratoDeposito.getData().until(tempoAtualCaixaEletronico, ChronoUnit.DAYS);
-        int quantiadeDeDepositos = ((int) dias_passados)/30;
+        int quantiadeDeDepositos = dias_passados/30;
         for(int j=1; j <= quantiadeDeDepositos; j++) {
-            double rendimento = extratoDeposito.getValor() * (0.3/100);
-            this.depositar(rendimento, extratoDeposito.getData().plusDays(j*30));
+            double rendimento = this.saldo * (0.3/100);
+            this.depositar(rendimento, this.dataAtualConta.plusDays(j*30), "Rendimento poupança");
         }
         System.out.println("Dias mudados");
         System.out.println(dias_passados);
-        System.out.println(extratoDeposito);
         separadorDeLinhas();
     }
     

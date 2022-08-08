@@ -12,6 +12,7 @@ public class Menu {
             System.out.println("[3] Avançar dias");
             System.out.println("[4] Encerrar");
             int op = sc.nextInt();
+            sc.nextLine();
             try {
                 switch (op){
                     case 1: Menu.acessarConta(caixaEletronico);

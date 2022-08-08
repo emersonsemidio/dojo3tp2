@@ -85,24 +85,16 @@ public class CaixaEletronico {
 
     public void AbrirConta(int tipoConta) {
         Cliente clienteNovo;
-        System.out.println("Digite o cpf");
-        String cpf = scanner.next();
+        
+        String cpf = this.lerLinha("Digite o cpf");
         
         Cliente clienteExistente = buscarcontaPorCpf(cpf);
 
         if (clienteExistente == null) {
-            System.out.println("Qual seu nome?");
-            String nome = scanner.nextLine();
-            while (nome.length() == 0) {
-                System.out.println("Ops! Parece que não consegui ler seu nome. Por favor, digite novamente");
-                nome = scanner.nextLine();
-            }
-            System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
-            String dataNascimento = scanner.nextLine();
-            System.out.println("Qual seu e-mail?");
-            String email = scanner.nextLine();
-            System.out.println("Qual seu telefone?");
-            String telefone = scanner.nextLine();
+            String nome = this.lerLinha("Qual seu nome?");
+            String dataNascimento = this.lerLinha("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
+            String email = this.lerLinha("Qual seu e-mail?");
+            String telefone = this.lerLinha("Qual seu telefone?");
             clienteNovo = new Cliente(nome, cpf, dataNascimento, email, telefone);
         } else {
             if (!clienteExistente.podeAbrirConta()) {
@@ -127,9 +119,7 @@ public class CaixaEletronico {
             clienteNovo = clienteExistente;
         }
 
-
-        System.out.println("Qual sua senha?");
-        String senhaConta = scanner.nextLine();
+        String senhaConta = this.lerLinha("Qual sua senha?");
         String numeroConta = this.gerarNumeroConta();
 
         clientes.add(clienteNovo);
@@ -149,6 +139,17 @@ public class CaixaEletronico {
         if (contaSalarioOpcao.equalsIgnoreCase("1")) {
             this.configurarContaSalario(conta);
         }
+    }
+    
+    private int ops = 0;
+    private String lerLinha(String msg) {
+        System.out.println(msg);
+        String linha = scanner.nextLine();
+        while(linha.length() == 0) {
+            System.out.println("Ops: " + ++this.ops);
+            linha = scanner.nextLine();
+        }
+        return linha;
     }
 
     private String gerarNumeroConta() {
