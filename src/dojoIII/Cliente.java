@@ -135,4 +135,15 @@ public class Cliente {
     public void setValorSalario(int valorSalario) {
         this.valorSalario = valorSalario;
     }
+    
+    @Override
+    public String toString() {
+        String s = "";
+        s += "Nome: " + this.getNome() + " || ";
+        s += "Cpf: " + this.getCpf() + " || ";
+        s += "Email: " + this.getEmail() + " || ";
+        s += "Telefone: " + this.getTelefone() + " || ";
+        s += "Data Nascimento: " + this.getDataNascimento();
+        return s;
+    }
 }

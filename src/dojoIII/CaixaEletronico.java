@@ -86,13 +86,17 @@ public class CaixaEletronico {
     public void AbrirConta(int tipoConta) {
         Cliente clienteNovo;
         System.out.println("Digite o cpf");
-        String cpf = scanner.nextLine();
+        String cpf = scanner.next();
         
         Cliente clienteExistente = buscarcontaPorCpf(cpf);
 
         if (clienteExistente == null) {
             System.out.println("Qual seu nome?");
             String nome = scanner.nextLine();
+            while (nome.length() == 0) {
+                System.out.println("Ops! Parece que não consegui ler seu nome. Por favor, digite novamente");
+                nome = scanner.nextLine();
+            }
             System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
             String dataNascimento = scanner.nextLine();
             System.out.println("Qual seu e-mail?");
@@ -123,36 +127,48 @@ public class CaixaEletronico {
             clienteNovo = clienteExistente;
         }
 
+
         System.out.println("Qual sua senha?");
         String senhaConta = scanner.nextLine();
         String numeroConta = this.gerarNumeroConta();
 
         clientes.add(clienteNovo);
+        Conta conta;
 
         if (tipoConta == 1) {
-            this.abrirContaCorrente(senhaConta, numeroConta, clienteNovo);
+            conta = this.abrirContaCorrente(senhaConta, numeroConta, clienteNovo);
         } else {
-            this.abrirContaPoupanca(senhaConta, numeroConta, clienteNovo);
+            conta = this.abrirContaPoupanca(senhaConta, numeroConta, clienteNovo);
         }
         System.out.println("Conta criada com sucesso " + numeroConta);
+
+        System.out.println("Deseja configurar conta salário?");
+        System.out.println("[1] - Sim");
+        System.out.println("[2] - Não");
+        String contaSalarioOpcao = scanner.nextLine();
+        if (contaSalarioOpcao.equalsIgnoreCase("1")) {
+            this.configurarContaSalario(conta);
+        }
     }
 
     private String gerarNumeroConta() {
         return rand.nextInt(10000) + "";
     }
 
-    private void abrirContaCorrente(String senhaConta, String numeroConta, Cliente clienteNovo) {
+    private Conta abrirContaCorrente(String senhaConta, String numeroConta, Cliente clienteNovo) {
         ContaCorrente contaCorrente = new ContaCorrente(numeroConta, senhaConta);
         contas.add(contaCorrente);
         clienteNovo.setContaCorrente(contaCorrente);
         contaCorrente.setCliente(clienteNovo);
+        return contaCorrente;
     }
 
-    private void abrirContaPoupanca(String senhaConta, String numeroConta, Cliente clienteNovo) {
+    private Conta abrirContaPoupanca(String senhaConta, String numeroConta, Cliente clienteNovo) {
         ContaPoupanca contaPoupanca = new ContaPoupanca(numeroConta, senhaConta);
         contas.add(contaPoupanca);
         clienteNovo.setContaPoupanca(contaPoupanca);
         contaPoupanca.setCliente(clienteNovo);
+        return contaPoupanca;
     }
 
     public int tipoDeConta(String texto) {
@@ -199,9 +215,9 @@ public class CaixaEletronico {
 
     public Cliente buscarcontaPorCpf() {
         String cpf;
-
+        
         System.out.println("Digite o cpf");
-        cpf = scanner.nextLine();
+        cpf = scanner.next();
 
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getCpf().equalsIgnoreCase(cpf)) {
@@ -215,7 +231,7 @@ public class CaixaEletronico {
         String telefone;
 
         System.out.println("Digite o telefone");
-        telefone = scanner.nextLine();
+        telefone = scanner.next();
 
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getTelefone().equalsIgnoreCase(telefone)) {
@@ -229,7 +245,7 @@ public class CaixaEletronico {
         String email;
 
         System.out.println("Digite o email");
-        email = scanner.nextLine();
+        email = scanner.next();
 
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getEmail().equalsIgnoreCase(email)) {
@@ -588,6 +604,8 @@ public class CaixaEletronico {
             this.transferirPorTelefone(contaOrigem);
         } else if (tipoChave == 3) {
             this.transferirPorEmail(contaOrigem);
+        }else{
+            
         }
     }
     
@@ -598,6 +616,18 @@ public class CaixaEletronico {
             lido = scanner.nextLine();
         }
         return lido;
+    }
+    
+
+    public void configurarContaSalario(Conta conta) {
+        System.out.println("Informe somente o dia do pagamento");
+        int diaPagamento = scanner.nextInt();
+        
+        System.out.println("Informe o valor do pagamento");
+        double valorPagamento = scanner.nextDouble();
+        
+        conta.setContaSalario(new ContaSalario(diaPagamento, valorPagamento));
+        System.out.println("Conta salário cadastrada com sucesso na conta " + conta.getNumeroDaConta() + ". Cliente: " + conta.getCliente().getNome());
     }
 
 

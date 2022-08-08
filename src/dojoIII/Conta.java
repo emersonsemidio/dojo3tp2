@@ -18,6 +18,7 @@ public class Conta {
     protected List<ContaPagamento> contasPagamento = new ArrayList<>();
     public int diaPagamento = 15;
     public double valorPagamento = 1000;
+    protected ContaSalario contaSalario = null;
 
 
     public Conta(String numeroDaConta, String senhaDaConta) {
@@ -65,11 +66,15 @@ public class Conta {
         this.logSaldo();
     }
     
+    public void setContaSalario(ContaSalario contaSalario) {
+        this.contaSalario = contaSalario;
+    }
+    
     public void avancarTempo(LocalDate tempoAtualCaixaEletronico){
         //if (this.extrato.isEmpty()) return;
         
         long meses = mesesPassados(tempoAtualCaixaEletronico);
-        if (this instanceof ContaCorrente) {
+        if (this.contaSalario != null) {
             this.depositarPagamento(tempoAtualCaixaEletronico);
         }
         
@@ -105,10 +110,10 @@ public class Conta {
             for (int i = 1; i <= mesesAvancados; i++){
                 int ano = dataAtualConta.getYear();
                 int mes = dataAtualConta.getMonthValue();
-                int dia = this.diaPagamento;
+                int dia = this.contaSalario.getDiaPagamento();
                 LocalDate dataPagamento = LocalDate.of(ano, mes, dia).plusMonths(i);
                 if (!this.recebeuEsteMes(dataPagamento)) {
-                    this.adicionarContaPagamento(new ContaPagamento(dataPagamento, this.valorPagamento));
+                    this.adicionarContaPagamento(new ContaPagamento(dataPagamento, this.contaSalario.getValorPagamento()));
                 }
             }
 
