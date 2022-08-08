@@ -340,30 +340,35 @@ public class CaixaEletronico {
         LocalDate data = pegarDataAtual();
         conta.depositar(valorDeposito, data);
     }
+    
+    private double lerValorPositivo(String msg) {
+        System.out.println(msg);
+        double valor = scanner.nextDouble();
+        while (valor < 0.0) {
+            System.out.println("O valor deve ser maior que zero");
+            valor = scanner.nextDouble();
+        }
+        return valor;
+    }
 
     public void sacar() {
-
         Conta conta = buscarContaPeloNumero();
-
-        double valorSaque = 0;
         if (conta == null) {
-            System.out.println("Voce ainda nao possui conta");
-        } else {
-            System.out.println("Digite o valor do saque");
-            valorSaque = scanner.nextInt();
-
-            LocalDate data = pegarDataAtual();
-            conta.sacar(valorSaque, data);
+            System.out.println("Conta não encontrada");
+            return;
         }
+        double valorSaque = this.lerValorPositivo("Digite o valor do saque");
+        String descricao = this.lerLinha("Digite uma descrição para o saque");
+        LocalDate data = pegarDataAtual();
+        conta.sacar(valorSaque, data, descricao);
     }
 
     public void sacar(Conta conta) {
-        double valorSaque = 0;
-        System.out.println("Digite o valor do saque");
-        valorSaque = scanner.nextInt();
-
+        double valorSaque = this.lerValorPositivo("Digite o valor do saque");
+        String descricao = this.lerLinha("Informe uma descrição para o saque");
         LocalDate data = pegarDataAtual();
-        conta.sacar(valorSaque, data);
+
+        conta.sacar(valorSaque, data, descricao);
     }
     
     public void avancartempo() {

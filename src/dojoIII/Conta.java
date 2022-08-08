@@ -67,8 +67,8 @@ public class Conta {
         this.logSaldo();
     }
 
-    public void sacar(double valorSaque, LocalDate data) {
-        Extrato extratoSaque = new Extrato(valorSaque, data, "saque");
+    public void sacar(double valorSaque, LocalDate data, String descricao) {
+        Extrato extratoSaque = new Extrato(valorSaque, data, "saque", descricao);
         this.extrato.add(extratoSaque);
         this.log(extratoSaque);
         this.logSaldo();

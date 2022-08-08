@@ -21,7 +21,7 @@ public class ContaPoupanca extends Conta {
     }
 
     @Override
-    public void sacar(double valorSaque, LocalDate data) {
+    public void sacar(double valorSaque, LocalDate data, String descricao) {
         if (valorSaque > saldo) {
             System.out.println("Valor maior que o saque possivel");
             return;
@@ -29,7 +29,7 @@ public class ContaPoupanca extends Conta {
         System.out.println("Valor sacado com sucesso");
         System.out.println("Saldo atualizado: " + this.getSaldoContaPoupanca());
         this.saldo -= valorSaque;
-        Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data, "saque - poupança");
+        Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data, "saque - poupança", descricao);
         this.extrato.add(extratoSaquePoupanca);
         this.log(extratoSaquePoupanca);
         this.logSaldo();
