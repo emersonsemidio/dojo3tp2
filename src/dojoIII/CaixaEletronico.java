@@ -590,4 +590,32 @@ public class CaixaEletronico {
             this.transferirPorEmail(contaOrigem);
         }
     }
+    
+    public String scannerStringSafe() {
+        String lido = scanner.nextLine();
+        while(lido.length() == 0) {
+            System.out.println("Caiu no while");
+            lido = scanner.nextLine();
+        }
+        return lido;
+    }
+
+
+    public void transferirPix(Conta contaOrigem) {
+        int tipoChave = 0;
+        System.out.println("Para qual chave a transferencia sera feita");
+        opcoesParaChavePix();
+
+        tipoChave = Integer.parseInt(scannerStringSafe());
+
+        if (tipoChave == 1) {
+            this.transferirPorCpf(contaOrigem);
+        } else if (tipoChave == 2) {
+            this.transferirPorTelefone(contaOrigem);
+        } else if (tipoChave == 3) {
+            this.transferirPorEmail(contaOrigem);
+        } else {
+            System.out.println("Opção " + tipoChave + "Inválida");
+        }
+    }
 }

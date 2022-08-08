@@ -47,12 +47,12 @@ public class Menu {
     public static void menuContaAutenticada(CaixaEletronico caixaEletronico, Conta conta) {
         Scanner sc = new Scanner(System.in);
         System.out.println("---- Menu Conta Autenticada -----");
-        System.out.println("[1] sacar");
-        System.out.println("[2] depositar");
-        System.out.println("[3] emitir extrato");
-        System.out.println("[4] pagar boleto");
-        System.out.println("[5] pix");
-        System.out.println("[6] sair");
+        System.out.println("[1] Sacar");
+        System.out.println("[2] Depositar");
+        System.out.println("[3] Emitir extrato");
+        System.out.println("[4] Pagar boleto");
+        System.out.println("[5] Pix");
+        System.out.println("[6] Sair");
 
         String opcao = sc.nextLine();
         switch (Integer.parseInt(opcao)){
@@ -63,6 +63,8 @@ public class Menu {
             case 3: caixaEletronico.emitirExtrato(conta);
                 break;
             case 4: caixaEletronico.pagarBoleto(conta);
+                break;
+            case 5: caixaEletronico.transferirPix(conta);
                 break;
             default: return;
         }
