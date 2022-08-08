@@ -66,6 +66,10 @@ public class CaixaEletronico {
         AbrirConta(tipoConta);
     }
 
+    public void emitirExtrato(Conta conta) {
+        conta.emitirExtrato();
+    }
+
     public void extrato() {
         Conta conta = buscarContaPeloNumero();
         if (conta == null) {
@@ -313,6 +317,12 @@ public class CaixaEletronico {
         conta.depositar(valorDeposito, data);
     }
 
+    public void depositar(Conta conta) {
+        int valorDeposito = this.lerValorDeposito();
+        LocalDate data = pegarDataAtual();
+        conta.depositar(valorDeposito, data);
+    }
+
     public void sacar() {
 
         Conta conta = buscarContaPeloNumero();
@@ -327,6 +337,15 @@ public class CaixaEletronico {
             LocalDate data = pegarDataAtual();
             conta.sacar(valorSaque, data);
         }
+    }
+
+    public void sacar(Conta conta) {
+        double valorSaque = 0;
+        System.out.println("Digite o valor do saque");
+        valorSaque = scanner.nextInt();
+
+        LocalDate data = pegarDataAtual();
+        conta.sacar(valorSaque, data);
     }
     
     public void avancartempo() {
@@ -425,17 +444,21 @@ public class CaixaEletronico {
         gerarBoleto(987);
     }
 
-    public void pagarBoleto() {
-        Conta conta = buscarContaPeloNumero();
 
+    public void pagarBoleto(Conta conta) {
         System.out.println("Digite o código de barras do boleto");
-        scanner.nextLine();
-
         String codigoDeBarrasBoleto = scanner.nextLine();
         Boleto boleto = pegarBoletoGerado(codigoDeBarrasBoleto);
-
         conta.pagarBoleto(boleto);
+    }
 
+    public void pagarBoleto() {
+        Conta conta = buscarContaPeloNumero();
+        System.out.println("Digite o código de barras do boleto");
+        scanner.nextLine();
+        String codigoDeBarrasBoleto = scanner.nextLine();
+        Boleto boleto = pegarBoletoGerado(codigoDeBarrasBoleto);
+        conta.pagarBoleto(boleto);
     }
 
     public void opcoesParaChavePix() {

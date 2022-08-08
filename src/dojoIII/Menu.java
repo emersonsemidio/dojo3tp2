@@ -36,12 +36,35 @@ public class Menu {
         Conta conta = caixaEletronico.buscarContaPeloNumero(numeroConta);
         if(conta != null){
             if(conta.getSenhaDaConta().equalsIgnoreCase(senha)){
-                Cliente cliente = conta.getCliente();
-                // menuCliente(agencia,conta,banco);
+                menuContaAutenticada(caixaEletronico,conta);
             }else
                 System.out.println("Senha inválida");
         }else {
             System.out.println("Conta não encontrada");
+        }
+    }
+    
+    public static void menuContaAutenticada(CaixaEletronico caixaEletronico, Conta conta) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("---- Menu Conta Autenticada -----");
+        System.out.println("[1] sacar");
+        System.out.println("[2] depositar");
+        System.out.println("[3] emitir extrato");
+        System.out.println("[4] pagar boleto");
+        System.out.println("[5] pix");
+        System.out.println("[6] sair");
+
+        String opcao = sc.nextLine();
+        switch (Integer.parseInt(opcao)){
+            case 1: caixaEletronico.sacar(conta);
+                break;
+            case 2: caixaEletronico.depositar(conta);
+                break;
+            case 3: caixaEletronico.emitirExtrato(conta);
+                break;
+            case 4: caixaEletronico.pagarBoleto(conta);
+                break;
+            default: return;
         }
     }
 }
