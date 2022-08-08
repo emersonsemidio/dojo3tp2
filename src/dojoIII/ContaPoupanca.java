@@ -1,6 +1,7 @@
 package dojoIII;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class ContaPoupanca extends Conta {
@@ -18,6 +19,17 @@ public class ContaPoupanca extends Conta {
     public double getSaldoContaPoupanca() {
         
         return saldo;
+    }
+
+
+    public void renderPoupanca(LocalDate tempoAtualCaixaEletronico) {
+        int dias_passados = (int) ChronoUnit.DAYS.between(this.dataAtualConta,tempoAtualCaixaEletronico);
+        int quantiadeDeDepositos = dias_passados/30;
+        for(int j=1; j <= quantiadeDeDepositos; j++) {
+            double rendimento = this.saldo * (0.3/100);
+            this.depositar(rendimento, this.dataAtualConta.plusDays(j*30), "Rendimento poupança");
+        }
+        separadorDeLinhas();
     }
 
     @Override

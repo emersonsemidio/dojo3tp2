@@ -137,6 +137,7 @@ public class CaixaEletronico {
         if (contaSalarioOpcao.equalsIgnoreCase("1")) {
             this.configurarContaSalario(conta);
         }
+        conta.avancarTempo(this.pegarDataAtual());
     }
     
     // Método auxiliar para evitar os casos de nextAlgumTipo antes de um nextLine.
@@ -334,7 +335,6 @@ public class CaixaEletronico {
         double valorSaque = this.lerValorPositivo("Digite o valor do saque");
         String descricao = this.lerLinha("Digite uma descrição para o saque");
         LocalDate data = pegarDataAtual();
-
         conta.sacar(valorSaque, data, descricao);
     }
     
@@ -353,8 +353,13 @@ public class CaixaEletronico {
     }
     
     public void emitirAvancoTempoParaContas(){
-        for(int i=0; i<contas.size(); i++){
-            contas.get(i).avancarTempo(tempoAtualCaixaEletronico);
+        for(Conta conta : contas){
+            conta.depositarPagamento(tempoAtualCaixaEletronico);
+            if (conta instanceof ContaPoupanca) {
+                ContaPoupanca contaPoupanca = (ContaPoupanca) conta;
+                contaPoupanca.renderPoupanca(tempoAtualCaixaEletronico);
+            }
+            conta.avancarTempo(this.pegarDataAtual());
         }
     }
 

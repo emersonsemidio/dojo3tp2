@@ -76,40 +76,22 @@ public class Conta {
     }
     
     public void avancarTempo(LocalDate tempoAtualCaixaEletronico){
-        if (this.contaSalario != null) {
-            this.depositarPagamento(tempoAtualCaixaEletronico);
-        }
-        
-        if (this instanceof ContaPoupanca) {
-            this.renderPoupanca(tempoAtualCaixaEletronico);
-        }
-
         this.dataAtualConta = tempoAtualCaixaEletronico;
     }
     
-    public void renderPoupanca(LocalDate tempoAtualCaixaEletronico) {
-        int dias_passados = (int) ChronoUnit.DAYS.between(this.dataAtualConta,tempoAtualCaixaEletronico);
-        int quantiadeDeDepositos = dias_passados/30;
-        for(int j=1; j <= quantiadeDeDepositos; j++) {
-            double rendimento = this.saldo * (0.3/100);
-            this.depositar(rendimento, this.dataAtualConta.plusDays(j*30), "Rendimento poupança");
-        }
-        separadorDeLinhas();
-    }
-    
     public void depositarPagamento(LocalDate tempoAtualCaixaEletronico) {
-            int dias_passados = (int) ChronoUnit.DAYS.between(this.dataAtualConta, tempoAtualCaixaEletronico);
-            int mesesAvancados = (dias_passados / 30);
-            for (int i = 1; i <= mesesAvancados; i++){
-                int ano = dataAtualConta.getYear();
-                int mes = dataAtualConta.getMonthValue();
-                int dia = this.contaSalario.getDiaPagamento();
-                LocalDate dataPagamento = LocalDate.of(ano, mes, dia).plusMonths(i);
-                if (!this.recebeuEsteMes(dataPagamento)) {
-                    this.adicionarContaPagamento(new ContaPagamento(dataPagamento, this.contaSalario.getValorPagamento()));
-                }
+        if (this.contaSalario == null) return;
+        int dias_passados = (int) ChronoUnit.DAYS.between(this.dataAtualConta, tempoAtualCaixaEletronico);
+        int mesesAvancados = (dias_passados / 30);
+        for (int i = 1; i <= mesesAvancados; i++){
+            int ano = dataAtualConta.getYear();
+            int mes = dataAtualConta.getMonthValue();
+            int dia = this.contaSalario.getDiaPagamento();
+            LocalDate dataPagamento = LocalDate.of(ano, mes, dia).plusMonths(i);
+            if (!this.recebeuEsteMes(dataPagamento)) {
+                this.adicionarContaPagamento(new ContaPagamento(dataPagamento, this.contaSalario.getValorPagamento()));
             }
-
+        }
     }
     
     private boolean recebeuEsteMes(LocalDate esteMes) {
