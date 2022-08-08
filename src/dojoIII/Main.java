@@ -69,7 +69,7 @@ public class Main {
                 caixaEletronico.depositar();
                 break;
             case 4:
-                caixaEletronico.extrato();
+                // caixaEletronico.extrato();
                 break;
             case 5:
                 caixaEletronico.avancartempo();

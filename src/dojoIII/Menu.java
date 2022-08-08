@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class Menu {
     public static void menuInicial(CaixaEletronico caixaEletronico) {
         while (true){
-            Scanner sc = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             System.out.println("---- Menu Principal -----");
             System.out.println("[1] Acessar Conta");
             System.out.println("[2] Abrir Conta");
             System.out.println("[3] Avançar dias");
             System.out.println("[4] Encerrar");
-            int op = sc.nextInt();
-            sc.nextLine();
+            int op = scanner.nextInt();
+            scanner.nextLine();
             try {
                 switch (op){
                     case 1: Menu.acessarConta(caixaEletronico);
@@ -30,12 +30,12 @@ public class Menu {
     }
 
     public static void acessarConta(CaixaEletronico caixaEletronico) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("---- Acessar Conta ----");
         System.out.println("Digite o número da conta:");
-        String numeroConta = sc.nextLine();
+        String numeroConta = scanner.nextLine();
         System.out.println("Digite sua senha de 4 digítos:");
-        String senha = sc.nextLine();
+        String senha = scanner.nextLine();
 
         Conta conta = caixaEletronico.buscarContaPeloNumero(numeroConta);
         if(conta != null){
@@ -49,7 +49,7 @@ public class Menu {
     }
     
     public static void menuContaAutenticada(CaixaEletronico caixaEletronico, Conta conta) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("---- Menu Conta Autenticada -----");
         System.out.println("[1] Sacar");
         System.out.println("[2] Depositar");
@@ -59,7 +59,7 @@ public class Menu {
         System.out.println("[6] Conta salario");
         System.out.println("[7] Sair");
 
-        String opcao = sc.nextLine();
+        String opcao = scanner.nextLine();
         switch (Integer.parseInt(opcao)){
             case 1: caixaEletronico.sacar(conta);
                 break;

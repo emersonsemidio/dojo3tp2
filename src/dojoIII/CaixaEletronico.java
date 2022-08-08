@@ -1,6 +1,5 @@
 package dojoIII;
 
-import java.sql.SQLSyntaxErrorException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDate;
@@ -13,11 +12,6 @@ public class CaixaEletronico {
     List<Conta> contas = new ArrayList<>();
     List<Boleto> boletos = new ArrayList<>();
     LocalDate tempoAtualCaixaEletronico = LocalDate.now();
-    
-    Calendar c = Calendar.getInstance();
-    int tempo = 0;
-    int dia, mes, ano;
-    ArrayList<Extrato> listaExtratos = new ArrayList<>();
     
     public void gerarCLiente(){
         Cliente clienteGerado1 = new Cliente("Ana", "123", "12 07 2001", "ana@gmail.com", "1");
@@ -70,19 +64,7 @@ public class CaixaEletronico {
     public void emitirExtrato(Conta conta) {
         conta.emitirExtrato();
     }
-
-    public void extrato() {
-        Conta conta = buscarContaPeloNumero();
-        if (conta == null) {
-            System.out.println("Conta não encontrada");
-            return;
-        }
-        conta.emitirExtrato();
-    }
-
-    public boolean isClienteNovo() {
-        return true;
-    }
+    
 
     public void AbrirConta(int tipoConta) {
         Cliente clienteNovo;
@@ -93,7 +75,7 @@ public class CaixaEletronico {
 
         if (clienteExistente == null) {
             String nome = this.lerLinha("Qual seu nome?");
-            String dataNascimento = this.lerLinha("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
+            String dataNascimento = this.lerLinha("Qual sua data de nascimento? (digite separado por espacos DD/MM/AAAA)");
             String email = this.lerLinha("Qual seu e-mail?");
             String telefone = this.lerLinha("Qual seu telefone?");
             clienteNovo = new Cliente(nome, cpf, dataNascimento, email, telefone);
@@ -120,7 +102,7 @@ public class CaixaEletronico {
             clienteNovo = clienteExistente;
         }
 
-        String senhaConta = this.lerLinha("Qual sua senha?");
+        String senhaConta = this.lerLinha("Digite qual senha deseja utilizar para sua conta senha?");
         String numeroConta = this.gerarNumeroConta();
 
         clientes.add(clienteNovo);
@@ -142,6 +124,7 @@ public class CaixaEletronico {
         }
     }
     
+    // Método auxiliar para evitar os casos de nextAlgumTipo antes de um nextLine.
     private int ops = 0;
     private String lerLinha(String msg) {
         System.out.println(msg);
@@ -338,7 +321,8 @@ public class CaixaEletronico {
     public void depositar(Conta conta) {
         int valorDeposito = this.lerValorDeposito();
         LocalDate data = pegarDataAtual();
-        conta.depositar(valorDeposito, data);
+        String descricao = this.lerLinha("Digite uma descrição para o depósito");
+        conta.depositar(valorDeposito, data, descricao);
     }
     
     private double lerValorPositivo(String msg) {
@@ -365,7 +349,7 @@ public class CaixaEletronico {
 
     public void sacar(Conta conta) {
         double valorSaque = this.lerValorPositivo("Digite o valor do saque");
-        String descricao = this.lerLinha("Informe uma descrição para o saque");
+        String descricao = this.lerLinha("Digite uma descrição para o saque");
         LocalDate data = pegarDataAtual();
 
         conta.sacar(valorSaque, data, descricao);
@@ -467,6 +451,12 @@ public class CaixaEletronico {
         gerarBoleto(987);
     }
     
+    
+    // Boleto
+    /**
+     * O sistema deve permitir pagar boletos (digitando o código de barras de 48 dígitos, valor e data de vencimento);
+     * Caso esteja em atraso, o sistema deve aplicar multa de 0,1% ao dia;
+     * */
     private String lerCodigoBarras() {
         String codigoBarras = this.lerLinha("Digite os 48 dígitos do código de barras do boleto");
         while(codigoBarras.length() != 48) {
@@ -478,9 +468,9 @@ public class CaixaEletronico {
     
     private LocalDate lerDataVencimento() {
         System.out.println("Digite a data no formato DD/MM/AAAA");
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataPag = LocalDate.parse(scanner.nextLine(), dtf);
-        return dataPag;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataPagamento = LocalDate.parse(scanner.nextLine(), dateTimeFormatter);
+        return dataPagamento;
     }
     
     private double lerValorBoleto() {
@@ -632,15 +622,6 @@ public class CaixaEletronico {
         }else{
             
         }
-    }
-    
-    public String scannerStringSafe() {
-        String lido = scanner.nextLine();
-        while(lido.length() == 0) {
-            System.out.println("Caiu no while");
-            lido = scanner.nextLine();
-        }
-        return lido;
     }
     
 
