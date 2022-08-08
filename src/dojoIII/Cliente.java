@@ -21,11 +21,12 @@ public class Cliente {
         
     }
 
-    public Cliente(String nome, String cpf, String dataNascimento, String email) {
+    public Cliente(String nome, String cpf, String dataNascimento, String email, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.email = email;
+        this.telefone = telefone;
         System.out.println(this);
     }
     

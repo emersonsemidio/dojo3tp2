@@ -19,11 +19,11 @@ public class CaixaEletronico {
     ArrayList<Extrato> listaExtratos = new ArrayList<>();
     
     public void gerarCLiente(){
-        Cliente clienteGerado1 = new Cliente("Ana", "123", "12 07 2001", "ana@gmail.com");
-        Cliente clienteGerado2 = new Cliente("Bruna", "1234", "12 07 2001", "bruna@gmail.com");
-        Cliente clienteGerado3 = new Cliente("Emerson", "12345", "12 07 2001", "emerson@gmail.com");
-        Cliente clienteGerado4 = new Cliente("Henrique", "123456", "12 07 2001", "henrique@gmail.com");
-        Cliente clienteGerado5 = new Cliente("Vitor", "1234567", "12 07 2001", "vitor@gmail.com");
+        Cliente clienteGerado1 = new Cliente("Ana", "123", "12 07 2001", "ana@gmail.com", "1");
+        Cliente clienteGerado2 = new Cliente("Bruna", "1234", "12 07 2001", "bruna@gmail.com", "2");
+        Cliente clienteGerado3 = new Cliente("Emerson", "12345", "12 07 2001", "emerson@gmail.com", "3");
+        Cliente clienteGerado4 = new Cliente("Henrique", "123456", "12 07 2001", "henrique@gmail.com", "4");
+        Cliente clienteGerado5 = new Cliente("Vitor", "1234567", "12 07 2001", "vitor@gmail.com", "5");
         
         clientes.add(clienteGerado1);
         clientes.add(clienteGerado2);
@@ -80,29 +80,22 @@ public class CaixaEletronico {
     }
 
     public void AbrirConta(int tipoConta) {
-        Cliente clienteNovo = new Cliente();
-        Cliente clienteExistente = buscarcontaPorCpf();
-        // int senhaConta = 0;
-        // int numeroConta = 0;
+        Cliente clienteNovo;
+        System.out.println("Digite o cpf");
+        String cpf = scanner.nextLine();
+        
+        Cliente clienteExistente = buscarcontaPorCpf(cpf);
 
         if (clienteExistente == null) {
-            System.out.println("Qual seu CPF?");
-            clienteNovo.setCpf(scanner.nextLine());
-
             System.out.println("Qual seu nome?");
-            clienteNovo.setNome(scanner.nextLine());
-            
+            String nome = scanner.nextLine();
             System.out.println("Qual sua data de nascimento? (digite separado por espacos DD MM AAAA)");
-            clienteNovo.setDataNascimento(scanner.nextLine());
-
+            String dataNascimento = scanner.nextLine();
             System.out.println("Qual seu e-mail?");
-            clienteNovo.setEmail(scanner.nextLine());
-
+            String email = scanner.nextLine();
             System.out.println("Qual seu telefone?");
-            clienteNovo.setTelefone(scanner.nextLine());
-            
-            
-
+            String telefone = scanner.nextLine();
+            clienteNovo = new Cliente(nome, cpf, dataNascimento, email, telefone);
         } else {
             if (!clienteExistente.podeAbrirConta()) {
                 System.out.println(
@@ -127,8 +120,8 @@ public class CaixaEletronico {
         }
 
         System.out.println("Qual sua senha?");
-        int senhaConta = scanner.nextInt();
-        int numeroConta = rand.nextInt(10000);
+        String senhaConta = scanner.nextLine();
+        String numeroConta = this.gerarNumeroConta();
 
         clientes.add(clienteNovo);
 
@@ -140,15 +133,19 @@ public class CaixaEletronico {
         System.out.println("Conta criada com sucesso " + numeroConta);
     }
 
-    private void abrirContaCorrente(int senhaConta, int numeroConta, Cliente clienteNovo) {
-        ContaCorrente contaCorrente = new ContaCorrente("numeroConta", "senhaConta");
+    private String gerarNumeroConta() {
+        return rand.nextInt(10000) + "";
+    }
+
+    private void abrirContaCorrente(String senhaConta, String numeroConta, Cliente clienteNovo) {
+        ContaCorrente contaCorrente = new ContaCorrente(numeroConta, senhaConta);
         contas.add(contaCorrente);
         clienteNovo.setContaCorrente(contaCorrente);
         contaCorrente.setCliente(clienteNovo);
     }
 
-    private void abrirContaPoupanca(int senhaConta, int numeroConta, Cliente clienteNovo) {
-        ContaPoupanca contaPoupanca = new ContaPoupanca("numeroConta", "senhaConta");
+    private void abrirContaPoupanca(String senhaConta, String numeroConta, Cliente clienteNovo) {
+        ContaPoupanca contaPoupanca = new ContaPoupanca(numeroConta, senhaConta);
         contas.add(contaPoupanca);
         clienteNovo.setContaPoupanca(contaPoupanca);
         contaPoupanca.setCliente(clienteNovo);
@@ -184,6 +181,16 @@ public class CaixaEletronico {
             }
         }
         return false;
+    }
+
+
+    public Cliente buscarcontaPorCpf(String cpf) {
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getCpf().equalsIgnoreCase(cpf)) {
+                return clientes.get(i);
+            }
+        }
+        return null;
     }
 
     public Cliente buscarcontaPorCpf() {

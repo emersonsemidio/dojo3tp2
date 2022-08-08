@@ -9,11 +9,11 @@ public class Fabrica {
     }
     
     public void fabicarClientes() {
-        this.caixaEletronico.clientes.add(new Cliente("a", "0001", "12 07 2001", "a@unirio.com"));
-        this.caixaEletronico.clientes.add(new Cliente("b", "0002", "12 07 2001", "b@gmail.com"));
-        this.caixaEletronico.clientes.add(new Cliente("c", "0003", "12 07 2001", "c@unirio.com"));
-        this.caixaEletronico.clientes.add(new Cliente("d", "0004", "12 07 2001", "d@unirio.com"));
-        this.caixaEletronico.clientes.add(new Cliente("e", "0005", "12 07 2001", "e@unirio.com"));
+        this.caixaEletronico.clientes.add(new Cliente("a", "0001", "12 07 2001", "a@unirio.com", "9999-0001"));
+        this.caixaEletronico.clientes.add(new Cliente("b", "0002", "12 07 2001", "b@unirio.com", "9999-0002"));
+        this.caixaEletronico.clientes.add(new Cliente("c", "0003", "12 07 2001", "c@unirio.com", "9999-0003"));
+        this.caixaEletronico.clientes.add(new Cliente("d", "0004", "12 07 2001", "d@unirio.com", "9999-0004"));
+        this.caixaEletronico.clientes.add(new Cliente("e", "0005", "12 07 2001", "e@unirio.com", "9999-0005"));
     }
 
     public void fabricarContasCorrente() {
