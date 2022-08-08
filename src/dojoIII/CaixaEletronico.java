@@ -426,7 +426,7 @@ public class CaixaEletronico {
         String codigoBarrasCompleto = codigoBarras + codigoBarras2 + codigoBarras3 + codigoBarras4 + codigoBarras5
                 + codigoBarras6;
 
-        Boleto boleto = new Boleto(codigoBarrasCompleto, valor);
+        Boleto boleto = new Boleto(codigoBarrasCompleto, valor, this.pegarDataAtual());
         boletos.add(boleto);
         System.out.println(boleto);
         return boleto;

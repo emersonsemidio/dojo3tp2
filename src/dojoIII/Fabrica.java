@@ -31,13 +31,14 @@ public class Fabrica {
     
     
     public void fabricarBoleto() {
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(1), 1000));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(2), 2000));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(3), 3000));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(4), 4000));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(5), 5000));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(6), 6000));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(7), 7000));
+        LocalDate agora = LocalDate.now();
+        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(1), 1000, agora.plusDays(1)));
+        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(2), 2000, agora.plusDays(2)));
+        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(3), 3000, agora.plusDays(3)));
+        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(4), 4000, agora.plusDays(4)));
+        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(5), 5000, agora.plusDays(5)));
+        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(6), 6000, agora.plusDays(6)));
+        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(7), 7000, agora.plusDays(7)));
     }
     
     public void fabricarRelacaoClienteContaCorrente() {

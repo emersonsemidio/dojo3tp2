@@ -14,12 +14,6 @@ public class Boleto {
     private final double taxaJuros = 0.1/100;
 
 
-    public Boleto(String codigo, double preco) {
-        this.codigo = codigo;
-        this.preco = preco;
-        System.out.println(this);
-    }
-
     public Boleto(String codigo, double preco, LocalDate dataVencimento) {
         this.codigo = codigo;
         this.preco = preco;
