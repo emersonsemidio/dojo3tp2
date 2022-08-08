@@ -16,6 +16,8 @@ public class Conta {
     protected double saldo;
     protected LocalDate dataAtualConta = LocalDate.now();
     protected List<ContaPagamento> contasPagamento = new ArrayList<>();
+    public int diaPagamento = 15;
+    public double valorPagamento = 1000;
 
 
     public Conta(String numeroDaConta, String senhaDaConta) {
@@ -56,7 +58,7 @@ public class Conta {
         this.logSaldo();
     }
 
-    public void sacar(double valorSaque, LocalDate data) { // Verificar porque o saque zerou o saldo
+    public void sacar(double valorSaque, LocalDate data) {
         Extrato extratoSaque = new Extrato(valorSaque, data, "saque");
         this.extrato.add(extratoSaque);
         this.log(extratoSaque);
@@ -64,38 +66,58 @@ public class Conta {
     }
     
     public void avancarTempo(LocalDate tempoAtualCaixaEletronico){
-        if (this.extrato.isEmpty()) return;
+        //if (this.extrato.isEmpty()) return;
         
         long meses = mesesPassados(tempoAtualCaixaEletronico);
-        
-        this.dataAtualConta = tempoAtualCaixaEletronico;
+        if (this instanceof ContaCorrente) {
+            this.depositarPagamento(tempoAtualCaixaEletronico);
+        }
         
         for(int i=0; i<this.extrato.size(); i++){
-            if(this.extrato.get(i).getValor() < 0){
-                continue;
-            }
-            if (this instanceof  ContaPoupanca) {
-                this.renderPoupanca(this.extrato.get(i), tempoAtualCaixaEletronico);   
-            }
+            /*if (this instanceof ContaPoupanca) {
+                if (this.extrato.get(i).getValor() > 0){
+                    this.renderPoupanca(this.extrato.get(i), tempoAtualCaixaEletronico);
+                }
+            }*/
+            
         }
+        this.dataAtualConta = tempoAtualCaixaEletronico;
     }
     
     public void renderPoupanca(Extrato extratoDeposito, LocalDate tempoAtualCaixaEletronico) {
         System.out.println("Número conta: " + this.numeroDaConta);
-        long dias = (int) extratoDeposito.getData().until(tempoAtualCaixaEletronico, ChronoUnit.DAYS);
-        int quantiadeDeDepositos = ((int) dias)/30;
+        int dias_passados = (int) ChronoUnit.DAYS.between(this.dataAtualConta,tempoAtualCaixaEletronico);
+        // long dias = (int) extratoDeposito.getData().until(tempoAtualCaixaEletronico, ChronoUnit.DAYS);
+        int quantiadeDeDepositos = ((int) dias_passados)/30;
         for(int j=1; j <= quantiadeDeDepositos; j++) {
             double rendimento = extratoDeposito.getValor() * (0.3/100);
             this.depositar(rendimento, extratoDeposito.getData().plusDays(j*30));
         }
         System.out.println("Dias mudados");
-        System.out.println(dias);
+        System.out.println(dias_passados);
         System.out.println(extratoDeposito);
         separadorDeLinhas();
     }
     
-    public void depositarPagamento() {
-        
+    public void depositarPagamento(LocalDate tempoAtualCaixaEletronico) {
+            int dias_passados = (int) ChronoUnit.DAYS.between(this.dataAtualConta, tempoAtualCaixaEletronico);
+            int mesesAvancados = (dias_passados / 30);
+            for (int i = 1; i <= mesesAvancados; i++){
+                int ano = dataAtualConta.getYear();
+                int mes = dataAtualConta.getMonthValue();
+                int dia = this.diaPagamento;
+                LocalDate dataPagamento = LocalDate.of(ano, mes, dia).plusMonths(i);
+                if (!this.recebeuEsteMes(dataPagamento)) {
+                    this.adicionarContaPagamento(new ContaPagamento(dataPagamento, this.valorPagamento));
+                }
+            }
+
+    }
+    
+    private boolean recebeuEsteMes(LocalDate esteMes) {
+        if (this.contasPagamento.size() == 0) return false;
+        ContaPagamento ultimoPagamento = this.contasPagamento.get(this.contasPagamento.size() - 1);
+        return ultimoPagamento.dataPagamento.isAfter(esteMes);
     }
     
     public long mesesPassados(LocalDate tempoAtualCaixaEletronico){

@@ -1,5 +1,6 @@
 package dojoIII;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 public class Fabrica {

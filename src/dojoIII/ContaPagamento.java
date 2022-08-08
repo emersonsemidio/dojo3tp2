@@ -1,6 +1,7 @@
 package dojoIII;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ContaPagamento {
     LocalDate dataPagamento;
@@ -11,4 +12,9 @@ public class ContaPagamento {
         this.valorPagamento = valorPagamento;
         System.out.println(this);
     }
+    
+    @Override
+    public String toString() {
+        return "R$" + this.valorPagamento + " || " + "Data: " + this.dataPagamento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    } 
 }

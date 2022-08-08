@@ -606,7 +606,7 @@ public class CaixaEletronico {
         System.out.println("Para qual chave a transferencia sera feita");
         opcoesParaChavePix();
 
-        tipoChave = Integer.parseInt(scannerStringSafe());
+        tipoChave = scanner.nextInt();
 
         if (tipoChave == 1) {
             this.transferirPorCpf(contaOrigem);
