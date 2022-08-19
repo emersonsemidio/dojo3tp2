@@ -13,58 +13,6 @@ public class CaixaEletronico {
     List<Boleto> boletos = new ArrayList<>();
     LocalDate tempoAtualCaixaEletronico = LocalDate.now();
     
-    public void gerarCLiente(){
-        Cliente clienteGerado1 = new Cliente("Ana", "123", "12 07 2001", "ana@gmail.com", "1");
-        Cliente clienteGerado2 = new Cliente("Bruna", "1234", "12 07 2001", "bruna@gmail.com", "2");
-        Cliente clienteGerado3 = new Cliente("Emerson", "12345", "12 07 2001", "emerson@gmail.com", "3");
-        Cliente clienteGerado4 = new Cliente("Henrique", "123456", "12 07 2001", "henrique@gmail.com", "4");
-        Cliente clienteGerado5 = new Cliente("Vitor", "1234567", "12 07 2001", "vitor@gmail.com", "5");
-        
-        clientes.add(clienteGerado1);
-        clientes.add(clienteGerado2);
-        clientes.add(clienteGerado3);
-        clientes.add(clienteGerado4);
-        clientes.add(clienteGerado5);
-    }
-    
-    public void gerarContaCorrente(){
-        ContaCorrente contaGerada1 = new ContaCorrente("10", "10000");
-        ContaCorrente contaGerada2 = new ContaCorrente("11", "1000");
-        ContaCorrente contaGerada3 = new ContaCorrente("12", "100");
-        
-        contas.add(contaGerada1);
-        contas.add(contaGerada2);
-        contas.add(contaGerada3);
-    }
-    
-    public void gerarContaPoupanca(){
-        ContaPoupanca contaGerada1 = new ContaPoupanca("20", "10000");
-        ContaPoupanca contaGerada2 = new ContaPoupanca("21", "1000");
-        ContaPoupanca contaGerada3 = new ContaPoupanca("22", "100");
-
-        contas.add(contaGerada1);
-        contas.add(contaGerada2);
-        contas.add(contaGerada3);
-    }
-    
-    public void associarClienteNaConta(){
-        clientes.get(0).setContaCorrente((ContaCorrente) buscarContaPeloNumero("10"));
-        clientes.get(0).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero("20"));
-        clientes.get(1).setContaCorrente((ContaCorrente) buscarContaPeloNumero("11"));
-        clientes.get(2).setContaCorrente((ContaCorrente) buscarContaPeloNumero("12"));
-        clientes.get(3).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero("21"));
-        clientes.get(4).setContaPoupanca((ContaPoupanca) buscarContaPeloNumero("22"));
-    }
-    
-    /**
-     * Deve ser possível abrir uma conta corrente ou poupança. As informações para abertura são nome, CPF, data de
-     * nascimento, e-mail, telefone e senha;
-     * * Caso você tenha uma conta corrente, o sistema não deve requerer novamente os dados pessoais para abrir uma conta
-     * * poupança (e vice-versa);
-     * * A agência será sempre 0001 e o número da conta deve ser gerado pelo sistema;
-     * * Tanto conta corrente quanto poupança podem ser conta-salário (o valor do salário e data de pagamento devem ser definidos
-     * * neste caso);
-     * */    
     public void iniciarAbrirConta() {
         int tipoConta = tipoDeConta("Qual tipo de conta você quer abrir");
         AbrirConta(tipoConta);
@@ -86,7 +34,7 @@ public class CaixaEletronico {
         
         String cpf = this.lerLinha("Digite o cpf");
         
-        Cliente clienteExistente = buscarcontaPorCpf(cpf);
+        Cliente clienteExistente = verificarExistenciaDoCpf(cpf);
 
         if (clienteExistente == null) {
             String nome = this.lerLinha("Qual seu nome?");
@@ -141,12 +89,10 @@ public class CaixaEletronico {
     }
     
     // Método auxiliar para evitar os casos de nextAlgumTipo antes de um nextLine.
-    private int ops = 0;
     private String lerLinha(String msg) {
         System.out.println(msg);
         String linha = scanner.nextLine();
         while(linha.length() == 0) {
-            System.out.println("Ops: " + ++this.ops);
             linha = scanner.nextLine();
         }
         return linha;
@@ -190,24 +136,7 @@ public class CaixaEletronico {
         return tipoConta;
     }
 
-
-
-    public boolean verificarExistenciaConta() {
-        String cpf;
-
-        System.out.println("Digite seu cpf");
-        cpf = scanner.nextLine();
-
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getCpf().equalsIgnoreCase(cpf)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public Cliente buscarcontaPorCpf(String cpf) {
+    public Cliente verificarExistenciaDoCpf(String cpf) {
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getCpf().equalsIgnoreCase(cpf)) {
                 return clientes.get(i);
@@ -216,7 +145,7 @@ public class CaixaEletronico {
         return null;
     }
 
-    public Cliente buscarcontaPorCpf() {
+    public Cliente buscarContaPorCpfLido() {
         String cpf;
         
         System.out.println("Digite o cpf");
@@ -257,19 +186,6 @@ public class CaixaEletronico {
         }
         return null;
     }
-
-    public Conta buscarContaPeloNumero() {
-
-        System.out.println("Digite o número da conta");
-        String numeroConta = scanner.nextLine();
-
-        for (int i = 0; i < contas.size(); i++) {
-            if (contas.get(i).getNumeroDaConta().equalsIgnoreCase(numeroConta)) {
-                return contas.get(i);
-            }
-        }
-        return null;
-    }
     
     public Conta buscarContaPeloNumero(String numeroConta) {
         
@@ -281,54 +197,20 @@ public class CaixaEletronico {
         return null;
     }
 
-    /**
-     * O sistema deve permitir emitir extratos das contas;
-     * * Para cada linha do extrato a data, o tipo de operação, descrição e o valor devem ser exibidos;
-     * * O sistema deve permitir selecionar um item do extrato para mostrar todos os detalhes. Exemplo: caso o item do extrato seja
-     * * * um pagamento de boleto, sistema deve mostrar todas as suas informações (código de barras, valor, data e multa);
-     * */
     public void emitirExtrato(Conta conta) {
         conta.emitirExtrato();
     }
 
     public boolean estaNoIntervalo(int valorMenor, int valor, int valorMaior) {
-
         return (valorMenor <= valor) && (valor <= valorMaior);
     }
 
-    
-    /**
-     * O sistema deve permitir fazer depósitos e saques em contas;
-     * * A conta corrente terá um limite de cheque especial no valor de R$3000,00;
-     * */
-    public void depositar() {
-        Conta conta = buscarContaPeloNumero();
-        if (conta == null) {
-            System.out.println("Voce ainda nao possui conta");
-            return;
-        }
-        int valorDeposito = this.lerValorDeposito();
-        LocalDate data = pegarDataAtual();
-        conta.depositar(valorDeposito, data);
-    }
 
     public void depositar(Conta conta) {
         int valorDeposito = this.lerValorDeposito();
         LocalDate data = pegarDataAtual();
         String descricao = this.lerLinha("Digite uma descrição para o depósito");
         conta.depositar(valorDeposito, data, descricao);
-    }
-
-    public void sacar() {
-        Conta conta = buscarContaPeloNumero();
-        if (conta == null) {
-            System.out.println("Conta não encontrada");
-            return;
-        }
-        double valorSaque = this.lerValorPositivo("Digite o valor do saque");
-        String descricao = this.lerLinha("Digite uma descrição para o saque");
-        LocalDate data = pegarDataAtual();
-        conta.sacar(valorSaque, data, descricao);
     }
 
     public void sacar(Conta conta) {
@@ -364,87 +246,12 @@ public class CaixaEletronico {
     }
 
     public LocalDate pegarDataAtual() {
+        
         return this.tempoAtualCaixaEletronico;
     }
-
-    public void vincularContaSalario() {
-
-        Conta conta = buscarContaPeloNumero();
-
-        if (conta == null) {
-            System.out.println("Conta Inexistente");
-            return;
-        }
-
-        System.out.println("Ler valor do salário");
-        double valorSalario = scanner.nextDouble();
-
-        int[] dataPagamentoEmArray = lerData();
-        LocalDate dataPagamentoLocalDate = LocalDate.of(dataPagamentoEmArray[2], dataPagamentoEmArray[1],
-                dataPagamentoEmArray[0]);
-
-        ContaPagamento contaPagamento = new ContaPagamento(dataPagamentoLocalDate, valorSalario);
-
-        conta.adicionarContaPagamento(contaPagamento);
-    }
-
-    public String padLeftZeros(String inputString, int length) {
-        if (inputString.length() >= length) {
-            return inputString;
-        }
-        StringBuilder sb = new StringBuilder();
-        while (sb.length() < length - inputString.length()) {
-            sb.append('0');
-        }
-        sb.append(inputString);
-
-        return sb.toString();
-    }
-
-    public Boleto gerarBoleto(double valor) {
-        int maximo = 99999999;
-
-        String codigoBarras = padLeftZeros(rand.nextInt(maximo) + "", 8);
-        String codigoBarras2 = padLeftZeros(rand.nextInt(maximo) + "", 8);
-        String codigoBarras3 = padLeftZeros(rand.nextInt(maximo) + "", 8);
-        String codigoBarras4 = padLeftZeros(rand.nextInt(maximo) + "", 8);
-        String codigoBarras5 = padLeftZeros(rand.nextInt(maximo) + "", 8);
-        String codigoBarras6 = padLeftZeros(rand.nextInt(maximo) + "", 8);
-
-        String codigoBarrasCompleto = codigoBarras + codigoBarras2 + codigoBarras3 + codigoBarras4 + codigoBarras5
-                + codigoBarras6;
-
-        Boleto boleto = new Boleto(codigoBarrasCompleto, valor, this.pegarDataAtual());
-        boletos.add(boleto);
-        System.out.println(boleto);
-        return boleto;
-    }
-    
-    public void acessarConta() {
-        Menu.acessarConta(this);
-    }
-
-    public Boleto pegarBoletoGerado(String codigoDeBarras) {
-        for (int i = 0; i < boletos.size(); i++) {
-            if (boletos.get(i).getCodigo().equalsIgnoreCase(codigoDeBarras)) {
-                return boletos.get(i);
-            }
-        }
-        return null;
-    }
-
-    public void criarTresBoletos() { // Fazer alguma coisa aqui depois
-        gerarBoleto(51);
-        gerarBoleto(787);
-        gerarBoleto(987);
-    }
-    
     
     // Boleto
-    /**
-     * O sistema deve permitir pagar boletos (digitando o código de barras de 48 dígitos, valor e data de vencimento);
-     * Caso esteja em atraso, o sistema deve aplicar multa de 0,1% ao dia;
-     * */
+    
     private String lerCodigoBarras() {
         String codigoBarras = this.lerLinha("Digite os 48 dígitos do código de barras do boleto");
         while(codigoBarras.length() != 48) {
@@ -481,11 +288,7 @@ public class CaixaEletronico {
     }
 
     // Transferencia PIX
-    /**
-     * O sistema deve permitir configurar o PIX, definindo qual informação será
-     * utilizada para transferência (cpf, e-mail e
-     * telefone ou criando uma chave nova);
-     */
+    
     public void opcoesParaChavePix() {
         System.out.println("[1] - CPF");
         System.out.println("[2] - Telefone");
@@ -497,12 +300,13 @@ public class CaixaEletronico {
         System.out.println("Digite o valor a ser transferido");
         double valorTransferencia = scanner.nextDouble();
         LocalDate data = pegarDataAtual();
-        contaOrigem.transferir(contaDestino, valorTransferencia, data);
+        String descricao = this.lerLinha("Informe uma descrição para a transferência");
+        contaOrigem.transferir(contaDestino, valorTransferencia, data, descricao);
     }
 
 
     public void transferirPorCpf(Conta contaOrigem) {
-        Cliente clientePorCpf = buscarcontaPorCpf();
+        Cliente clientePorCpf = buscarContaPorCpfLido();
 
         if (clientePorCpf == null) {
             System.out.println("Cliente não encontrado nesse cpf");
@@ -549,7 +353,8 @@ public class CaixaEletronico {
             double valorTransferencia = scanner.nextDouble();
 
             LocalDate data = pegarDataAtual();
-            contaOrigem.transferir(clientePorTelefone.getContaCorrente(), valorTransferencia, data);
+            String descricao = this.lerLinha("Informe uma descrição para a transferência por telefone");
+            contaOrigem.transferir(clientePorTelefone.getContaCorrente(), valorTransferencia, data, descricao);
         } else {
             if (!clientePorTelefone.isTemContaPoupanca()) {
                 this.printSemContaPoupanca();
@@ -580,34 +385,8 @@ public class CaixaEletronico {
             double valorTransferencia = scanner.nextDouble();
 
             LocalDate data = pegarDataAtual();
-            contaOrigem.transferir(clientePorEmail.getContaCorrente(), valorTransferencia, data);
-        }
-    }
-
-    public void transferirPix() {
-        Conta contaOrigem = buscarContaPeloNumero();
-
-        if (contaOrigem == null) {
-            System.out.println("Voce ainda nao possui conta corrente");
-            return;
-        }
-
-        int tipoChave = 0;
-
-        System.out.println("Para qual chave a transferencia sera feita");
-        opcoesParaChavePix();
-
-        tipoChave = scanner.nextInt();
-        scanner.nextLine();
-
-        if (tipoChave == 1) {
-            this.transferirPorCpf(contaOrigem);
-        } else if (tipoChave == 2) {
-            this.transferirPorTelefone(contaOrigem);
-        } else if (tipoChave == 3) {
-            this.transferirPorEmail(contaOrigem);
-        }else{
-            
+            String descricao = this.lerLinha("Informe uma descrição para a transferência por e-mail");
+            contaOrigem.transferir(clientePorEmail.getContaCorrente(), valorTransferencia, data, descricao);
         }
     }
 

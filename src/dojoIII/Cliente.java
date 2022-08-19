@@ -27,7 +27,6 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
         this.email = email;
         this.telefone = telefone;
-        System.out.println(this);
     }
     
 

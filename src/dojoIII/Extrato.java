@@ -8,14 +8,11 @@ public class Extrato implements TransacaoEmConta {
     private double valor;
     private LocalDate data;
     private String descricao;
-
-    public Extrato(double valor, LocalDate data, String tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
-        this.data = data;
-        this.valor = valor;
-    }
+    private int id;
+    private static int contador=0;
 
     public Extrato(double valor, LocalDate data, String tipoPagamento, String descricao) {
+        this.id = ++Extrato.contador;
         this.tipoPagamento = tipoPagamento;
         this.data = data;
         this.valor = valor;
@@ -26,7 +23,7 @@ public class Extrato implements TransacaoEmConta {
     public String getTipoPagamento() {
         return tipoPagamento;
     }
-
+    
     public double getValor() {
         return valor;
     }
@@ -61,12 +58,15 @@ public class Extrato implements TransacaoEmConta {
         int dia = this.data.getDayOfMonth();
         int mes = this.data.getMonthValue();
         int ano = this.data.getYear();
+        
 
         String s = "";
-        s += dia + "/" + mes + "/" + ano + " || ";
-        s += tipoPagamento + " || ";
-        s += "R$ " + valor + " || ";
-        s += "Descrição " + this.descricao;
+        s += "Data: " + dia + "/" + mes + "/" + ano + "\n";
+        s += "Id: " + this.id + "\n";
+        s += "Tipo de Operação " + tipoPagamento + "\n";
+        s += "Valor: R$ " + valor + "\n";
+        s += "Descrição: " + this.descricao;
+        s += "\n";
         return s;
     }
 }

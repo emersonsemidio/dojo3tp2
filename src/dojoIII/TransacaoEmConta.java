@@ -11,5 +11,4 @@ public interface TransacaoEmConta {
     public String getTipoOperacao();
 
     public LocalDate getData();
-
 }

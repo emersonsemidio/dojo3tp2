@@ -7,12 +7,10 @@ public class ContaCorrente extends Conta {
     private double chequeEspecial = 3000;
 
     public ContaCorrente(String numeroConta, String senhaConta) {
-        
         super(numeroConta, senhaConta);
     }
 
     public void verificaSaldoCorrente() {
-        
         System.out.println(this.saldo);
     }
 
@@ -54,8 +52,6 @@ public class ContaCorrente extends Conta {
             }
             Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data, "saque - conta corrente", descricao);
             this.extrato.add(extratoSaquePoupanca);
-            this.log(extratoSaquePoupanca);
-            this.logSaldo();
         }
     }
 
@@ -66,7 +62,7 @@ public class ContaCorrente extends Conta {
 
     @Override
     public String toString() {
-        String s = super.toString() + "(" + this.getClass().getName() + ")";
+        String s = super.toString() + "(Conta Corrente)";
         return s;
     }
 
@@ -76,5 +72,4 @@ public class ContaCorrente extends Conta {
         System.out.println("O saldo total da conta concorrente é " + this.saldo + " + " + this.getChequeEspecial()
                 + " = " + this.getSaldoTotal());
     }
-
 }

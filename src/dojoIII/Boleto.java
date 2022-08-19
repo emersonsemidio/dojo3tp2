@@ -18,19 +18,16 @@ public class Boleto {
         this.codigo = codigo;
         this.preco = preco;
         this.dataVencimento = dataVencimento;
-        System.out.println(this);
     }
     
-    public double getTotalAPagar(LocalDate dataPagamento) {
+    public double totalParaPagarBoleto(LocalDate dataPagamento) {
         int dias_passados = (int) ChronoUnit.DAYS.between(this.dataVencimento,dataPagamento);
         if (dias_passados < 0) {
             return this.preco;
         }
-        // Juros Simples
-        /*double juros = 1 + this.taxaJuros * dias_passados;
-        this.valorPago = this.preco * juros;*/
-        // Juros Compostos
-        this.valorPago = this.preco * Math.pow((1 + this.taxaJuros), dias_passados);
+        double juros = 1 + this.taxaJuros * dias_passados;
+        this.valorPago = this.preco * juros;
+     
         return this.valorPago;
     }
 
@@ -38,21 +35,12 @@ public class Boleto {
     public void associarContaAoBoleto(Conta conta) {
         this.conta = conta;
     }
-    
-    private String detalheContaPagadora() {
-        if (this.conta == null) return "";
-        String s = "";
-        s += "Conta pagadora: " + this.conta.getNumeroDaConta() + " || ";
-        s += "Nome cliente pagador: " + this.conta.getCliente().getNome();
-        return s;
-    }
 
     @Override
     public String toString() {
         String s = "";
         s += "Código de Barras: " + this.codigo + " || ";
         s += "Preço: " + this.valorPago + " || ";
-        s += this.detalheContaPagadora();
         return s;
     }
 

@@ -3,11 +3,11 @@ package dojoIII;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class ContaPagamento {
+public class DepositoPagamento {
     LocalDate dataPagamento;
     double valorPagamento;
 
-    public ContaPagamento(LocalDate dataPagamento, double valorPagamento) {
+    public DepositoPagamento(LocalDate dataPagamento, double valorPagamento) {
         this.dataPagamento = dataPagamento;
         this.valorPagamento = valorPagamento;
         System.out.println(this);

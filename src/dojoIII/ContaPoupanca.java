@@ -7,12 +7,10 @@ import java.util.*;
 public class ContaPoupanca extends Conta {
 
     public ContaPoupanca(String numeroConta, String senhaConta) {
-        
         super(numeroConta, senhaConta);
     }
 
     public void verificaSaldoPoupanca() {
-        
         System.out.println(saldo);
     }
 
@@ -29,7 +27,6 @@ public class ContaPoupanca extends Conta {
             double rendimento = this.saldo * (0.3/100);
             this.depositar(rendimento, this.dataAtualConta.plusDays(j*30), "Rendimento poupança");
         }
-        separadorDeLinhas();
     }
 
     @Override
@@ -43,13 +40,11 @@ public class ContaPoupanca extends Conta {
         this.saldo -= valorSaque;
         Extrato extratoSaquePoupanca = new Extrato(-valorSaque, data, "saque - poupança", descricao);
         this.extrato.add(extratoSaquePoupanca);
-        this.log(extratoSaquePoupanca);
-        this.logSaldo();
     }
 
     @Override
     public String toString() {
-        String s = super.toString() + "(" + this.getClass().getName() + ")";
+        String s = super.toString() + "(Conta Poupança)" ;
         return s;
     }
 

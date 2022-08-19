@@ -1,8 +1,5 @@
 package dojoIII;
 
-import java.time.LocalDate;
-import java.util.Random;
-
 public class Fabrica {
     private CaixaEletronico caixaEletronico = null;
     public Fabrica(CaixaEletronico caixaEletronico) {
@@ -29,19 +26,7 @@ public class Fabrica {
         this.caixaEletronico.contas.add(new ContaPoupanca("202", "1234"));
     }
     
-    
-    public void fabricarBoleto() {
-        LocalDate agora = LocalDate.now();
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(1), 1000, agora.plusDays(1)));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(2), 2000, agora.plusDays(2)));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(3), 3000, agora.plusDays(3)));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(4), 4000, agora.plusDays(4)));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(5), 5000, agora.plusDays(5)));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(6), 6000, agora.plusDays(6)));
-        this.caixaEletronico.boletos.add(new Boleto(this.gerarCodigoBoleto(7), 7000, agora.plusDays(7)));
-    }
-    
-    public void fabricarRelacaoClienteContaCorrente() {
+    public void fabricarRelacaoClienteContas() {
         // Cliente 0
         ContaCorrente cc0 = this.getContaCorrenteSemCliente();
         ContaPoupanca cp0 = this.getContaPoupancaSemCliente();
@@ -76,10 +61,7 @@ public class Fabrica {
         cp4.setCliente(c2);
         c2.setContaPoupanca(cp4);
     }
-    
-    public void fabricarRelacaoClienteContaPoupanca() {
-        
-    }
+
     
     private ContaCorrente getContaCorrenteSemCliente() {
         for (Conta cc : this.caixaEletronico.contas) {
@@ -99,36 +81,4 @@ public class Fabrica {
         return null;
     }
 
-
-
-    public String padLeftZeros(String inputString, int length) {
-        if (inputString.length() >= length) {
-            return inputString;
-        }
-        StringBuilder sb = new StringBuilder();
-        while (sb.length() < length - inputString.length()) {
-            sb.append('0');
-        }
-        sb.append(inputString);
-
-        return sb.toString();
-    }
-    
-    public String gerarPedacoCodigoBoleto(int valor) {
-        return padLeftZeros((valor) + "", 8);
-    }
-    
-    public String gerarCodigoBoleto(int valor) {
-        Random rand = new Random();
-        int maximo = 99999999;
-        rand.nextInt(maximo);
-        String cp1 = this.gerarPedacoCodigoBoleto(0);
-        String cp2 = this.gerarPedacoCodigoBoleto(0);
-        String cp3 = this.gerarPedacoCodigoBoleto(0);
-        String cp4 = this.gerarPedacoCodigoBoleto(0);
-        String cp5 = this.gerarPedacoCodigoBoleto(0);
-        String cp6 = this.gerarPedacoCodigoBoleto(valor);
-
-        return cp1 + cp2 + cp3 + cp4 + cp5 + cp6;
-    }
 }
